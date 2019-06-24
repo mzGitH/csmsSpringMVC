@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-validator.Checked=WebRoot/js/vue.js
+validator.Checked=WebRoot/layui,WebRoot/js/vue.js
 validator.Unchecked=

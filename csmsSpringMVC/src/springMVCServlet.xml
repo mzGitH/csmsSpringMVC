@@ -6,9 +6,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-<!-- springmvc 注解驱动 -->
+
+	<!-- springmvc 注解驱动 -->
     <mvc:annotation-driven/>
-<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    
+    
+     <!-- 扫描器  扫描control包中的类，出现@Controller注解时，将类注册成bean-->
+     <context:component-scan base-package="controller">
+     </context:component-scan>
+     
+     <context:component-scan base-package="globecontroller">
+     </context:component-scan>
+     
+     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
 				<ref bean="mappingJackson2HttpMessageConverter" />
@@ -25,24 +35,18 @@
 			</list>
 		</property>
 	</bean>
-
-	  <!-- 配置资源文件,防止被拦截 -->
-    <mvc:resources location="/image/" mapping="/image/**"/>  
+     
+     
+      <!-- 配置资源文件,防止被拦截 -->
+    <mvc:resources location="image" mapping="/image/**"/>  
     <mvc:resources location="/js/" mapping="/js/**"/>  
     <mvc:resources location="/css/" mapping="/css/**"/>
-    <mvc:resources location="/font/" mapping="/font/**"/>
-    <mvc:resources location="/html/" mapping="/html/**"/>
-    <mvc:resources location="/json/" mapping="/json/**"/>
+    <mvc:resources location="/html/" mapping="/html/**"/>  
+    <mvc:resources location="/font/" mapping="/font/**"/>  
     <mvc:resources location="/layui/" mapping="/layui/**"/>
+    <mvc:resources location="/json/" mapping="/json/**"/>
     <mvc:resources location="/lib/" mapping="/lib/**"/>
-
-<!-- 扫描器  扫描control包中的类，出现@Controller注解时，将类注册成bean-->
-     <context:component-scan base-package="controller">
-     </context:component-scan>
-
-     
-     
-      
+    
      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
             id="internalResourceViewResolver">
         <!-- 前缀 -->
@@ -50,5 +54,4 @@
         <!-- 后缀 -->
         <property name="suffix" value=".jsp" />
     </bean>
-
 </beans>

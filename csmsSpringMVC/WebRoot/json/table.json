@@ -1,0 +1,70 @@
+﻿{
+    "code":0,
+    "msg":"查询成功！",
+    "count":7,
+    "data":[
+        {
+            "birthday":"2010-01-04",
+            "createtime":"2019-01-13 15:53",
+            "phone":"15025057737",
+            "pwd":"000000",
+            "realname":"王灿",
+            "sex":"男",
+            "username":"wangcan"
+        },
+        {
+            "birthday":"1997-9-7",
+            "createtime":"2019-01-13 15:53",
+            "phone":"18787488597",
+            "pwd":"123456",
+            "realname":"张飞",
+            "sex":"男",
+            "username":"zhangfei"
+        },
+        {
+            "birthday":"1997-9-8",
+            "createtime":"2019-01-13 15:53",
+            "phone":"18287569189",
+            "pwd":"123456",
+            "realname":"路明非",
+            "sex":"男",
+            "username":"lumingfei"
+        },
+        {
+            "birthday":"1997-9-9",
+            "createtime":"2019-01-13 15:53",
+            "phone":"18287569188",
+            "pwd":"123456",
+            "realname":"楚子航",
+            "sex":"男",
+            "username":"chuzihang"
+        },
+        {
+            "birthday":"1997-9-10",
+            "createtime":"2019-01-13 15:53",
+            "phone":"18287569187",
+            "pwd":"123456",
+            "realname":"绘梨衣",
+            "sex":"女",
+            "username":"绘梨衣"
+        },
+        {
+            "birthday":"1997-9-11",
+            "createtime":"2019-01-13 15:53",
+            "phone":"18287569186",
+            "pwd":"123456",
+            "realname":"夏弥",
+            "sex":"女",
+            "username":"xiami"
+        },
+        {
+            "birthday":"1997-9-12",
+            "createtime":"2019-01-13 15:53",
+            "phone":"18287569185",
+            "pwd":"123456",
+            "realname":"陈墨瞳",
+            "sex":"女",
+            "username":"chengmotong"
+        }
+    ]
+}

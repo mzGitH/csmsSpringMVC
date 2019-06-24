@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>普通用户管理</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	<style>
+		.normalUser-con .layui-table-view {
+			border: none;
+		}
+		
+		.normalUser-con .layui-table-box {
+			margin-top: 10px;
+		}
+		
+		.normalUser-con {
+			padding: 10px 15px 15px 15px;
+			margin-bottom:50px;
+		}
+		.normalUser-con  .layui-table-tool-self{
+			display:none;
+		}
+		.normalUser-con .not_border_left {
+			border-left: none !important;
+		}
+		
+		.normalUser-con .normalUser dl dd.layui-this {
+			background-color: #1E9FFF !important;
+		}
+		
+		.normalUser-con .hide {
+			display: none;
+		}
+		
+		.normalUser-con .show {
+			display: block;
+		}
+		
+		.normalUser-con .btn_size {
+			height: 28px !important;
+			line-height: 28px !important;
+		}
+		
+		.normalUser-con .layui-table-body table tbody .layui-table-hover {
+			background: #fffdd3 !important;
+		}
+		
+		.normalUser-con .layui-table-body table tbody .layui-table-click {
+			background: #fdef9b !important;
+		}
+		
+		.normalUser-con .layui-table, .layui-table-view {
+			border: none;
+			margin-top: 0;
+		}
+		
+		#add-normalUser {
+			display: none;
+			z-index: 999 !important;
+		}
+		
+		#add-normalUser .artTypeLayer {
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			padding-top: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="normalUser-con">
+		<script type="text/html" id="toolbarDemo">
+			<form class="layui-form" action="">
+			  	<div class="layui-input-inline">
+					<input type="text" name="userName" id="userName" placeholder="请输入用户名" class="layui-input" autocomplete="off">
+			    </div>
+				<div class="layui-input-inline">
+					<input type="text" name="selnickName" id="selnickName" placeholder="请输入昵称" class="layui-input" autocomplete="off">
+			    </div>
+			   <div class="layui-inline">
+	     	   		<button id="btnselfrontinfo" type="button" class="layui-btn layui-bg-blue" lay-event="seleBtn">查询</button>
+			   </div>
+				<button type="button" class="layui-btn layui-bg-blue" id="addartType" lay-event="addartType" lay-filter="addartType" style="margin-left: 10px;">新增普通用户</button>
+			</form>
+		</script>
+
+		<table class="layui-hide" name="normalUser" id="normalUser" lay-filter="normalUser"></table>
+
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+
+		<div id="add-normalUser">
+			<div class="artTypeLayer">
+				<form class="layui-form" action="">
+					<div class="layui-form-item">
+						<label class="layui-form-label">用户名:</label>
+						<div class="layui-input-block">
+							<input type="text" name="addUserName" id="addUserName"
+								lay-verify="addUserName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">昵称:</label>
+						<div class="layui-input-block">
+							<input type="text" name="nickName" id="nickName"
+								lay-verify="nickName" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">密码:</label>
+						<div class="layui-input-block">
+							<input type="text" name="pwd" id="pwd"
+								lay-verify="pwd" autocomplete="off" placeholder="请输入密码" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+				      <label class="layui-form-label">创建时间:</label>
+				      <div class="layui-input-block">
+				        <input type="text" name="addDate" id="addDate" lay-verify="addDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
+	<script src="../layui/layui.js" charset="utf-8"></script>
+	<script>
+		layui.use([ 'table', 'form', 'layer', 'laydate', 'laytpl', 'element' ], function() {
+			var table = layui.table, 
+				form = layui.form, 
+				layer = layui.layer, 
+				$ = layui.jquery,
+				laydate = layui.laydate, 
+				laytpl = layui.laytpl,
+				element = layui.element;
+				
+			//日期
+			laydate.render({
+			    elem: '#addDate'
+			});
+		
+			/*加载表格*/
+			table.render({
+				elem : '#normalUser',
+				id:'normalUserid',
+				url : '../json/normalUserInfo.json',
+				toolbar : '#toolbarDemo',
+				title : '普通用户数据表',
+				height: "full-75",
+				skin : 'line',
+				even : true,
+				cols : [ 
+				     [ {
+						type : 'numbers',
+						title : '序号',
+						align : 'center',
+						width : 80
+					}, {
+						field : 'userName',
+						title : '用户名',
+						align : 'center'
+					}, {
+						field : 'nickName',
+						align : 'center',
+						title : '昵称',
+					}, {
+						field : 'pwd',
+						align : 'center',
+						title : '密码'
+					},{
+						field : 'time',
+						align : 'center',
+						title : '创建时间'
+					},{
+						field : 'status',
+						align : 'center',
+						title : '用户状态'
+					},{
+						title : '操作',
+						toolbar : '#barDemo',
+						align : 'center'
+					} ] 
+				 ],
+				 page: {
+						layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+						groups: 5,
+						limit: 10,
+						limits: [10, 20, 30, 40, 50],
+						theme: '#1E9FFF',						
+				 },
+			});
+		
+			//添加信息类型管理
+			table.on('toolbar(normalUser)', function(obj) {
+				switch (obj.event) {
+					case 'addartType':
+						$("#addUserName").val("");
+						$("#nickName").val("");
+						$("#pwd").val("");
+						$("#addDate").val("");
+						layer.open({
+							type : 1,
+							title : '信息类型添加',
+							area : [ '460px', '335px' ],
+							shade : 0.4,
+							content : $('#add-normalUser'),
+							btn : [ '保存', '返回' ],
+							yes : function() {
+								var addUserName = $("#addUserName").val();
+								var nickName = $("#nickName").val();
+								var pwd = $("#pwd").val();
+								var addDate = $("#addDate").val();
+			
+								if(addUserName == "") {
+									layer.tips('不能为空', '#addUserName');
+									return;
+								} 
+								else if(pwd == "") {
+									layer.tips('不能为空', '#pwd');
+									return;
+								}	
+								$.ajax({
+									type : 'get',
+									url : '../informationmanagement/addinfotype?addUserName=' + addUserName + '&describe=' + description,
+									datatype : 'json',
+									success : function(data) {
+										if (data.code == "10001") {
+											layer.confirm(data.msg, {
+											  btn: ['确定']
+											}, function(){
+												table.reload("normalUserid", { //此处是上文提到的 初始化标识id
+									                where: {
+									                	keyword:data.code=='10001'
+									                }
+									            });	
+												layer.closeAll();
+											});
+										}else{
+											layer.confirm(data.msg, {
+											  btn: ['确定']
+											});
+											layer.setTop(layero);
+										}
+									},
+									error : function() {
+										layer.confirm('出现错误，添加失败，请重试！', {
+											  btn: ['确定']
+										});
+									}
+								});						
+							},
+							btn2 : function() {
+								layer.closeAll();
+							},
+						});
+					break;
+				};
+			});
+		
+			//表格工具栏事件 
+			table.on('tool(normalUser)', function(obj) {
+				var data = obj.data;
+				switch (obj.event) {
+					case 'edit':
+						$("#addUserName").val(data.userName);
+						$("#nickName").val(data.nickName);
+						$("#pwd").val(data.pwd);
+						$("#addDate").val(data.time);
+						layer.open({
+							type : 1,
+							title : '轶事类型修改',
+							area : [ '460px', '335px' ],
+							shade : 0.4,
+							content : $('#add-normalUser'),
+							btn : [ '保存', '返回' ],
+							yes : function() {
+								var typeid = data.typeid;
+								var addUserName = $("#addUserName").val();
+								var nickName = $("#nickName").val();
+								var pwd = $("#pwd").val();
+								var addDate = $("#addDate").val();
+			
+								if(addUserName == "") {
+									layer.tips('不能为空', '#addUserName');
+									return;
+								} 
+								else if(pwd == "") {
+									layer.tips('不能为空', '#pwd');
+									return;
+								}	
+								$.ajax({
+									type : 'get',
+									url : '../informationmanagement/updateinfotype?addUserName=' + addUserName + '&describe=' + description + '&typeid=' + typeid,
+									datatype : 'json',
+									success : function(data) {
+										if (data.code == "10001") {
+											layer.confirm(data.msg, {
+											  btn: ['确定']
+											}, function(){
+												table.reload("normalUserid", { //此处是上文提到的 初始化标识id
+									                where: {
+									                	keyword:data.code=='10001'
+									                }
+									            });	
+												layer.closeAll();
+											});
+										}else{
+											layer.confirm(data.msg, {
+											  btn: ['确定']
+											});
+											layer.setTop(layero);
+										}
+									},
+									error : function() {
+										layer.confirm('出现错误，修改失败，请重试！', {
+											  btn: ['确定']
+										});
+									}
+								});		
+							},
+							btn2 : function() {
+								layer.closeAll();
+							},
+						});
+					break;
+					
+					//删除按钮操作
+					case 'del':
+						//询问框
+						layer.confirm('确定要删除么？', {
+						  btn: ['确定','取消'] //按钮
+						}, function(){
+							$.ajax({
+				        		type: 'get',
+				        		url: "../informationmanagement/deleteinfotype?typeid=" + data.typeid,
+				        		dataType: 'json',
+				        		success:function(data){
+				        			if(data.code == 10001){
+				        				layer.confirm(data.msg, {
+										  btn: ['确定']
+										}, function(){
+											table.reload("normalUserid", { //此处是上文提到的 初始化标识id
+								                where: {
+								                	keyword:data.code=='10001'
+								                }
+								            });	
+											layer.closeAll();
+										});          				 
+				        			}
+				        			else{
+				        				layer.confirm(data.msg, {
+											  btn: ['确定']
+										});
+				        			}
+				        		},
+				        		error:function(){
+				        			layer.confirm('出现错误，删除失败，请重试！', {
+										  btn: ['确定']
+									});
+				        		},
+				        	});   
+						}, function(){ 
+							layer.closeAll();
+						});
+					break;
+					
+				}
+				;
+			});
+		
+		});
+	</script>
+</body>
+</html>
