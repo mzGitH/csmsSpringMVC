@@ -33,9 +33,9 @@
 			<button id ="login-button" type="button" class="layui-btn layui-block" lay-filter="login">登录</button>
 		</div>
 	</form>
-<script type="text/javascript" src="../layui/layui.all.js" charset="utf-8"></script>
-		<script type="text/javascript" src="../js/jquery-3.3.1.js" ></script>
-		<script type="text/javascript" src="../lib/md5.js" ></script>
+	<script type="text/javascript" src="../layui/layui.all.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/jquery-3.3.1.js" ></script>
+	<script type="text/javascript" src="../lib/md5.js" ></script>
 	
 	<script>
 		layui.use(['form','layer'], function(){
