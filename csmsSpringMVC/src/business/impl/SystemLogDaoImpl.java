@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.TSystemLog;
+import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.SystemLogDAO;
@@ -17,6 +18,7 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 		this.hdao = new iHibBaseDAOImpl();
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List getAllOperType() {
 		List list = new ArrayList();
@@ -26,6 +28,7 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 		return list;
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<TSystemLog> getaAllSystemList(String wherecondition, int page,
 			int pageSize) {
@@ -37,6 +40,7 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 		return list;
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public int getSystemLogAmount(String wherecondition) {
 		String hql = "select count(id) from TSystemLog";
@@ -46,6 +50,35 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 		return hdao.selectValue(hql);
 	}
 
+	@Log(isSaveLog = false)
+	@Override
+	public List<TSystemLog> getSystemLogList(String wherecondition,
+			int currentPage, int pageSize) {
+		String hql = "from TSystemLog ";
+		if (wherecondition != null && !wherecondition.equals("")) {
+			hql += wherecondition;
+		}
+		List list = hdao.selectByPage(hql, currentPage, pageSize);
+		return list;
+	}
+
+	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "根据日志id删除日志")
+	@Override
+	public boolean deleteLogById(String id) {
+		return hdao.delete(TSystemLog.class, id);
+	}
+
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "添加一条日志")
+	@Override
+	public Integer addLog(TSystemLog record) {
+		return (Integer) hdao.insert(record);
+	}
+
+	@Log(isSaveLog = false)
+	@Override
+	public TSystemLog getLogById(String id) {
+		return (TSystemLog) hdao.findById(TSystemLog.class, id);
+	}
 	// public static void main(String[] args) {
 	// SystemLogDaoImpl sDaoImpl = new SystemLogDaoImpl();
 	//

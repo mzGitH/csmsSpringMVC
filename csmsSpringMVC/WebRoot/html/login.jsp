@@ -63,7 +63,7 @@
 				var enpwd = hex_md5(fix(username,password));
 				$("#inppassword").val(enpwd);
 				
-				alert(enpwd);
+				//alert(enpwd);
 				$.ajax({
 					type : 'get',
 					url : '../admin/adminlogin?userid='+username+'&pwd='+enpwd,

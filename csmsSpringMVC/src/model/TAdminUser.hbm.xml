@@ -14,7 +14,7 @@
             <column name="mobile" length="11" />
         </property>
         <property name="pwd" type="java.lang.String">
-            <column name="pwd" length="50" not-null="true" />
+            <column name="pwd" length="250" not-null="true" />
         </property>
         <property name="roleId" type="java.lang.Integer">
             <column name="roleId" not-null="true" />

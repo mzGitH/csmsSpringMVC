@@ -155,4 +155,32 @@ public class AdminUserController {
 
 	}
 
+	/**
+	 * 实现一个用户的退出
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/logoutsystem")
+	public void logoutsystem(HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
+
+		LayuiData laydata = new LayuiData();
+		HttpSession session = request.getSession();
+
+		session.removeAttribute("loginuser");
+		laydata.code = LayuiData.SUCCESS;
+		laydata.msg = "登陆成功";
+		// 回传json字符串
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.write(JSON.toJSONString(laydata));
+		out.flush();
+		out.close();
+
+	}
+
 }

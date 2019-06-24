@@ -1,4 +1,7 @@
-layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
+/**
+ * 
+ */
+ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 	var $ = layui.jquery,
 		form = layui.form,
 		layer = layui.layer,
@@ -6,29 +9,32 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 	var menu = [];
 	var curMenu;
 	
-	//²Ëµ¥ĞÅÏ¢¼ÓÔØ,µÇÂ¼ÓÃ»§ĞÅÏ¢¼ÓÔØ
+	//èœå•ä¿¡æ¯åŠ è½½,ç™»å½•ç”¨æˆ·ä¿¡æ¯åŠ è½½
 	$.ajax({
 		type : 'get',
 		url : "../systemmodel/getsystemmodelbyrole",
 		async:false, 
 		datatype : 'json',
 		success : function(menudata) {
-			//·µ»ØmenuµÄjsonÊı¾İ
+			//è¿”å›menuçš„jsonæ•°æ®
 			if(menudata.code==0){
 				//$("#userrole").text(menudata.loginuser[0].name);
 				var menu = "";
 				for (var i = 0; i < menudata.data.length; i++) {
-					if (menudata.data[i].parentid == 0 && menudata.data[i].deepth==1 && menudata.data[i].isedit==true) {		// ²éÑ¯ËùÓĞ¸¸Àà²Ëµ¥
+					if (menudata.data[i].parentid == 0 && menudata.data[i].deepth==1 && menudata.data[i].isedit==true) {		// æŸ¥è¯¢æ‰€æœ‰çˆ¶ç±»èœå•
 						menu += "<li>"
 						menu +="<a href='javascript:;'><i class='layui-icon' style='font-size:18px'>"+menudata.data[i].imageurl+"</i>"
 						menu += "<cite>"+ menudata.data[i].chinesename +"<cite>"
-						menu +="<i class='iconfont nav_right'>&#xe697;</i></a>"
+						if(menudata.data[i].chinesename!="æ¯”èµ›ç®¡ç†"){
+						menu +="<i class='iconfont nav_right'>&#xe697;</i>";
+						}
+						menu+="</a>"
 						menu +="<ul class='sub-menu'>"
 						for (var j = 0; j < menudata.data.length; j++) {
-							if (menudata.data[j].parentid == menudata.data[i].sysid) {// ÅĞ¶Ï¸¸Àà²Ëµ¥ÏÂµÄ×ÓÀà²Ëµ¥
+							if (menudata.data[j].parentid == menudata.data[i].sysid) {// åˆ¤æ–­çˆ¶ç±»èœå•ä¸‹çš„å­ç±»èœå•
 								menu += "<li>"
-								menu += "<a _href="+menudata.data[j].navurl+"><i class='iconfont'>&#xe6a7;" +
-										"</i><cite>"+menudata.data[j].chinesename+"</cite></a>"
+								menu += "<a _href="+menudata.data[j].navurl+">" +
+										"<cite style='margin-left: 40px'>"+menudata.data[j].chinesename+"</cite></a>"
 								menu += "</li>"
 							}
 						}
@@ -43,10 +49,10 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 		error : function() {}
 	});
 	
-	//×ó²àµ¼º½²Ëµ¥µÄÏÔÊ¾ºÍÒş²Ø
+	//å·¦ä¾§å¯¼èˆªèœå•çš„æ˜¾ç¤ºå’Œéšè—
 	$('.container .left_open i').click(function(event) {
 		if($('.left-nav').css('left') == '0px') {
-			//´Ë´¦×ó²à²Ëµ¥ÊÇÏÔÊ¾×´Ì¬£¬µã»÷Òş²Ø
+			//æ­¤å¤„å·¦ä¾§èœå•æ˜¯æ˜¾ç¤ºçŠ¶æ€ï¼Œç‚¹å‡»éšè—
 			$('.left-nav').animate({
 				left: '-221px'
 			}, 100);
@@ -55,29 +61,29 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			}, 100);
 			$('.page-content-bg').hide();
 		} else {
-			//´Ë´¦×ó²à²Ëµ¥ÊÇÒş²Ø×´Ì¬£¬µã»÷ÏÔÊ¾
+			//æ­¤å¤„å·¦ä¾§èœå•æ˜¯éšè—çŠ¶æ€ï¼Œç‚¹å‡»æ˜¾ç¤º
 			$('.left-nav').animate({
 				left: '0px'
 			}, 100);
 			$('.page-content').animate({
 				left: '200px'
 			}, 100);
-			//µã»÷ÏÔÊ¾ºó£¬ÅĞ¶ÏÆÁÄ»¿í¶È½ÏĞ¡Ê±ÏÔÊ¾ÕÚÕÖ±³¾°
+			//ç‚¹å‡»æ˜¾ç¤ºåï¼Œåˆ¤æ–­å±å¹•å®½åº¦è¾ƒå°æ—¶æ˜¾ç¤ºé®ç½©èƒŒæ™¯
 			if($(window).width() < 768) {
 				$('.page-content-bg').show();
 			}
 		}
 	});
 	
-	/*ÍË³öÏµÍ³*/
+	/*é€€å‡ºç³»ç»Ÿ*/
 	$("#loginout").click(function(){
 		$.ajax({
 			type: 'get',
-			url: '../sysadminusermanager/logoutsystem',
+			url: '../admin/logoutsystem',
 			datatype: 'json',
 			success: function(data) {
-				if(data.code=="10001"){
-					window.location.href = "../html/login.jsp";
+				if(data.code=="0"){
+					window.location.href = "../html/login2.jsp";
 				}else{
 					layer.msg(data.msg,{icon:2});
 				}
@@ -86,7 +92,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 		});
 	});
 	
-	/*ÃÜÂëĞŞ¸Ä*/
+	/*å¯†ç ä¿®æ”¹*/
 	$("#ddpersonalmsg").click(function(){
 		var title = $(this).html();
 		var url ="../html/personMessage.jsp";
@@ -94,14 +100,14 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 	});
 
 	
-	/*ÃÜÂëĞŞ¸Ä*/
+	/*å¯†ç ä¿®æ”¹*/
 	$("#changepwd").click(function(){
 		var title = $(this).html();
 		var url ="../html/changePwd.jsp";
 		changeURL(url,title);
 	});
 
-	//Èç¹ûÓĞ×Ó¼¶¾ÍÕ¹¿ª£¬Ã»ÓĞ¾Í´ò¿ªframe
+	//å¦‚æœæœ‰å­çº§å°±å±•å¼€ï¼Œæ²¡æœ‰å°±æ‰“å¼€frame
 	$('.left-nav #nav li').click(function(event) {
 		if($(this).children('.sub-menu').length) {
 			if($(this).hasClass('open')) {
@@ -127,13 +133,13 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 		event.stopPropagation();
 	});
 	
-	//µã»÷²à±ßµ¼º½À¸Ò³ÃæÌø×ª
+	//ç‚¹å‡»ä¾§è¾¹å¯¼èˆªæ é¡µé¢è·³è½¬
 	function changeURL(url,title){
 		$("#ifram1").attr("src", url);
 		$("#liformtitle").text(title);
 	}
 
-	//@todo ÖØĞÂ¼ÆËãiframe¸ß¶È
+	//@todo é‡æ–°è®¡ç®—iframeé«˜åº¦
 	function FrameWH() {
 		var h = $(window).height() - 80;
 		$("iframe").css("height", h + "px");

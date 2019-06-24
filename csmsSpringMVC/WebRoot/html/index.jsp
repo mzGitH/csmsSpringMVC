@@ -24,7 +24,7 @@
 		<!-- 顶部开始 -->
 		<div class="container">
 			<div class="logo">
-				<a href="../html/index.jsp">博客网站后台管理端</a>
+				<a href="../html/index.jsp">校园运动会网站后台管理端</a>
 			</div>
 			<div class="left_open">
 				<i title="展开左侧栏" class="iconfont">&#xe699;</i>
@@ -42,7 +42,7 @@
 						<a lay-href="set/user/password.html">修改密码</a>
 					</dd>
 					<hr>
-					<dd layadmin-event="logout" style="text-align: center;">
+					<dd layadmin-event="logout" id="loginout" style="text-align: center;">
 						<a>退出</a>
 					</dd>
 				</dl></li>
