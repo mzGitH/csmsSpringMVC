@@ -6,20 +6,21 @@ import model.TStudent;
 import model.TTeacher;
 import model.VStudent;
 import model.VTeacher;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.UserDAO;
 
+@Component("userdao")
 public class UserDaoImpl implements UserDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public UserDaoImpl() {
+		bdao = new iHibBaseDAOImpl();
 	}
 
-	// public UserDaoImpl(){
-	// bdao = new iHibBaseDAOImpl();
-	// }
 	@Override
 	public VStudent loginStu(String userid, String pwd) {
 		VStudent student = (VStudent) bdao.findById(VStudent.class, userid);

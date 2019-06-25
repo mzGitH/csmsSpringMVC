@@ -4,21 +4,21 @@ import java.util.List;
 
 import model.TClass;
 import model.VClass;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ClassesDAO;
 
+@Component("classesdao")
 public class ClassesDaoImpl implements ClassesDAO {
 
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public ClassesDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
-
-	// public ClassesDaoImpl() {
-	// bdao = new iHibBaseDAOImpl();
-	// }
 
 	@Override
 	public boolean insert(TClass classes) {

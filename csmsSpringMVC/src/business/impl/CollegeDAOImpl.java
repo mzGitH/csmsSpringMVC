@@ -3,15 +3,19 @@ package business.impl;
 import java.util.List;
 
 import model.TCollege;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.CollegeDAO;
 
+@Component("collegedao")
 public class CollegeDAOImpl implements CollegeDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public CollegeDAOImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

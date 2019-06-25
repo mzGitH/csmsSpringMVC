@@ -3,10 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+	
 	<!-- springmvc 注解驱动 -->
     <mvc:annotation-driven/>
     
@@ -35,8 +38,19 @@
 			</list>
 		</property>
 	</bean>
-     
-     
+	
+      <!-- 扫描器  扫描control包中的类，出现@Controller注解时，将类注册成bean-->
+     <context:component-scan base-package="controller.service">
+     </context:component-scan>
+    
+    <!-- 指定自动搜索Bean组件、自动搜索切面类 -->
+	<context:component-scan base-package="annotation,business.impl">
+		<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+	</context:component-scan>
+	<!--如果不写proxy-target-class="true"这句话也没问题-->
+	<aop:aspectj-autoproxy/>
+	
+	
       <!-- 配置资源文件,防止被拦截 -->
     <mvc:resources location="/image/" mapping="/image/**"/>  
     <mvc:resources location="/js/" mapping="/js/**"/>  
@@ -46,12 +60,20 @@
     <mvc:resources location="/layui/" mapping="/layui/**"/>
     <mvc:resources location="/json/" mapping="/json/**"/>
     <mvc:resources location="/lib/" mapping="/lib/**"/>
-    
+     <mvc:resources location="/dist/view" mapping="/*/**"/>
+     <mvc:resources location="/dist/layuiadmin" mapping="/*/**"/>
      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
             id="internalResourceViewResolver">
         <!-- 前缀 -->
         <property name="prefix" value="/" />
         <!-- 后缀 -->
         <property name="suffix" value=".jsp" />
+    </bean>
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+            id="html">
+        <!-- 前缀 -->
+        <property name="prefix" value="/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".html" />
     </bean>
 </beans>

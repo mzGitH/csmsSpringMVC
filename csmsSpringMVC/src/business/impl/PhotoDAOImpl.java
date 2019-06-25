@@ -1,15 +1,19 @@
 package business.impl;
 
 import model.TPhoto;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.PhotoDAO;
 
+@Component("photodao")
 public class PhotoDAOImpl implements PhotoDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public PhotoDAOImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

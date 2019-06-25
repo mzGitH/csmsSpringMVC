@@ -4,15 +4,19 @@ import java.util.List;
 
 import model.TForumContent;
 import model.VForum;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ContentDAO;
 
+@Component("contentdao")
 public class ContentDAOImpl implements ContentDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public ContentDAOImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

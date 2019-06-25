@@ -4,16 +4,16 @@ import java.util.List;
 
 import model.TAdminUser;
 import model.VAdminUser;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.AdminUserDAO;
 
+@Component("adminuserdao")
 public class AdminUserDaoImpl implements AdminUserDAO {
 	private iHibBaseDAO hdao = null;
-
-	// public void setHdao(iHibBaseDAOImpl hdao) {
-	// this.hdao = hdao;
-	// }
 
 	public AdminUserDaoImpl() {
 		this.hdao = new iHibBaseDAOImpl();

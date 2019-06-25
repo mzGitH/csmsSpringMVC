@@ -13,8 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import util.ResponseJSON;
-import business.basic.iHibBaseDAOImpl;
-import business.impl.UserDaoImpl;
+import business.dao.UserDAO;
+import business.factory.DAOFactory;
 
 import com.alibaba.fastjson.JSON;
 
@@ -24,8 +24,7 @@ public class StudentController {
 	@RequestMapping(value = "getstudent")
 	public void getStudent(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
-		UserDaoImpl udao = new UserDaoImpl();
-		udao.setBdao(new iHibBaseDAOImpl());
+		UserDAO udao = DAOFactory.getUserDAO();
 
 		VStudent student = udao.getStudent("1001");
 		// ´«»Øjson×Ö·û´®

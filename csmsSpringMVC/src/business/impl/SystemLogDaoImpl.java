@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.TSystemLog;
+
+import org.springframework.stereotype.Component;
+
 import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
@@ -11,6 +14,7 @@ import business.dao.SystemLogDAO;
 
 import common.properties.OperType;
 
+@Component("systemlogdao")
 public class SystemLogDaoImpl implements SystemLogDAO {
 	private iHibBaseDAO hdao = null;
 

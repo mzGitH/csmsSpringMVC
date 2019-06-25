@@ -4,16 +4,16 @@ import java.util.List;
 
 import model.TSystemModel;
 import model.VRoleSystemModel;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.SystemModelDAO;
 
+@Component("systemmodeldao")
 public class SystemModelDAOImpl implements SystemModelDAO {
 	private iHibBaseDAO hdao = null;
-
-	// public void setHdao(iHibBaseDAOImpl hdao) {
-	// this.hdao = hdao;
-	// }
 
 	public SystemModelDAOImpl() {
 		this.hdao = new iHibBaseDAOImpl();

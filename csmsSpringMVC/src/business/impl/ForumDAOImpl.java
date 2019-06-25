@@ -3,15 +3,19 @@ package business.impl;
 import java.util.List;
 
 import model.TForumTitle;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ForumDAO;
 
+@Component("forumdao")
 public class ForumDAOImpl implements ForumDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public ForumDAOImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

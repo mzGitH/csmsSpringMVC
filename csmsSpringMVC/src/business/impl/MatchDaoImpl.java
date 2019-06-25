@@ -5,20 +5,20 @@ import java.util.List;
 
 import model.TMatch;
 import model.VMatch;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.MatchDAO;
 
+@Component("matchdao")
 public class MatchDaoImpl implements MatchDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public MatchDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
-
-	// public MatchDaoImpl() {
-	// bdao = new iHibBaseDAOImpl();
-	// }
 
 	@Override
 	public boolean insert(TMatch match) {

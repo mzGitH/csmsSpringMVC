@@ -3,16 +3,20 @@ package business.impl;
 import java.util.List;
 
 import model.TMajor;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.MajorDAO;
 
+@Component("majordao")
 public class MajorDaoImpl implements MajorDAO {
 
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public MajorDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

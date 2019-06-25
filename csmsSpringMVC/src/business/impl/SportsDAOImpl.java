@@ -3,15 +3,19 @@ package business.impl;
 import java.util.List;
 
 import model.TConfig;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.SportsDAO;
 
+@Component("sportsdao")
 public class SportsDAOImpl implements SportsDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public SportsDAOImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

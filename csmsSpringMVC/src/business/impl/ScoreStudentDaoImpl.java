@@ -4,15 +4,19 @@ import java.util.List;
 
 import model.VScore;
 import model.VStudentScore;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ScoreStudentDAO;
 
+@Component("scorestudentdao")
 public class ScoreStudentDaoImpl implements ScoreStudentDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public ScoreStudentDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

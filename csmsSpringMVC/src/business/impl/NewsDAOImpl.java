@@ -4,15 +4,19 @@ import java.util.List;
 
 import model.TNews;
 import model.VNews;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.NewsDAO;
 
+@Component("newsdao")
 public class NewsDAOImpl implements NewsDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public NewsDAOImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

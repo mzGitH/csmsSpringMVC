@@ -3,15 +3,19 @@ package business.impl;
 import java.util.List;
 
 import model.TAdminRole;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.AdminRoleDAO;
 
+@Component("adminroledao")
 public class AdminRoleDaoImpl implements AdminRoleDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public AdminRoleDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

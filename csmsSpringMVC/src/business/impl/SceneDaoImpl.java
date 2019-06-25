@@ -4,15 +4,19 @@ import java.util.List;
 
 import model.TScene;
 import model.VScene;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.SceneDAO;
 
+@Component("scenedao")
 public class SceneDaoImpl implements SceneDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public SceneDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
 	@Override

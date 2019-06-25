@@ -24,7 +24,7 @@
       <init-param>
             <param-name>contextConfigLocation</param-name>
             <!-- 请求后的处理规则来自于 springmvc-servlet.xml -->
-            <param-value>classpath:springMVCServlet.xml</param-value>
+            <param-value>classpath:springmvc-servlet.xml</param-value>
         </init-param>
         <!-- <load-on-startup>1</load-on-startup> -->
   </servlet>

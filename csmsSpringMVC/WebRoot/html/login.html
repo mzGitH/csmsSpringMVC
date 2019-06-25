@@ -13,7 +13,7 @@
    <link rel="stylesheet" href="../layui/css/login.css" media="all">
 </head>
 <style>
-	
+	body{ background:url("../image/login_bg.jpg") no-repeat center center; background-size:100% 100%;-moz-background-size:100% 100%;}
 </style>
 <body>
 
@@ -24,7 +24,7 @@
         <h2>校园运动会后台管理系统</h2>
         <p>后台登录页面</p>
       </div>
-      <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layadmin-user-login-box layadmin-user-login-body layui-form" style="background-color: white;border: 1px solid white;border-radius: 10px;">
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
           <input type="text" name="username" id="user_name" lay-verify="required" placeholder="用户名" class="layui-input">
@@ -77,15 +77,26 @@
 				var password=$("#user_password").val().trim();
 		
 				if(username==null || username=="" || username==undefined){
+				layer.tips('用户名不能为空！', '#user_name', {
+					tips : [ 1, '#3595CC' ],
+					time : 3000
+				});
 					$("#user_name").focus();
 					return;
 				}
 				if(password==null || password=="" || password==undefined){
+				layer.tips('密码不能为空！', '#user_password', {
+					tips : [ 1, '#3595CC' ],
+					time : 3000
+				});
 					$("#user_password").focus();
 					return;
 				}
 				if(password.length<6 || password.length>18){
-					layer.alert('密码长度不符合规范!', {icon: 2});
+				layer.tips('密码长度不符合规范！', '#user_password', {
+					tips : [ 1, '#3595CC' ],
+					time : 3000
+				});
 					return;
 				}
 				

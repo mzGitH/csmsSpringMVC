@@ -5,20 +5,21 @@ import java.util.List;
 import model.TArrange;
 import model.VArrange;
 import model.VScene;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ArrangeDAO;
 
+@Component("arrangedao")
 public class ArrangeDaoImpl implements ArrangeDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public ArrangeDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
 
-	// public ArrangeDaoImpl(){
-	// bdao = new iHibBaseDAOImpl();
-	// }
 	@Override
 	public boolean insert(TArrange arrange) {
 		int row = (Integer) bdao.insert(arrange);

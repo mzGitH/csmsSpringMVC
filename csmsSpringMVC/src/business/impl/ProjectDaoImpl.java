@@ -3,23 +3,22 @@ package business.impl;
 import java.util.List;
 
 import model.TProject;
+
+import org.springframework.stereotype.Component;
+
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ProjectDAO;
 
 import common.properties.RoleType;
 
+@Component("projectdao")
 public class ProjectDaoImpl implements ProjectDAO {
 	private iHibBaseDAO bdao;
 
-	public void setBdao(iHibBaseDAOImpl bdao) {
-		this.bdao = bdao;
+	public ProjectDaoImpl() {
+		this.bdao = new iHibBaseDAOImpl();
 	}
-
-	// public ProjectDaoImpl() {
-	// // TODO Auto-generated constructor stub
-	// bdao = new iHibBaseDAOImpl();
-	// }
 
 	@Override
 	public boolean insert(TProject project) {
