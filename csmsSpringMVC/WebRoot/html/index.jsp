@@ -16,8 +16,19 @@
 			display:none;
 		}
 		.navacolor{
-			color:#148cf1;
+			margin-left: 3px;
+			border-left: 3px solid #4476A7;
+			
 		}
+		
+		.left-nav #nav li a:hover{
+		margin-left: 3px;
+			border-left: 3px solid #4476A7;
+		}
+		
+		#nav li:HOVER {
+	border-left: 2px #4476A7;
+}
 		</style>
 	</head>
 	<body>
@@ -54,7 +65,7 @@
 		<!-- 左侧菜单开始 -->
 		<div class="left-nav" style="overflow-x: hidden; width:200px;">
 			<div id="side-nav" style="overflow-x: hidden;height:100%">
-				<ul id="nav">	
+				<ul id="nav" class="layui-nav-tree">	
 				</ul>
 			</div>
 		</div>

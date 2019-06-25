@@ -34,7 +34,7 @@
 							if (menudata.data[j].parentid == menudata.data[i].sysid) {// 判断父类菜单下的子类菜单
 								menu += "<li>"
 								menu += "<a _href="+menudata.data[j].navurl+">" +
-										"<cite style='margin-left: 40px'>"+menudata.data[j].chinesename+"</cite></a>"
+										"<cite style='margin-left: 30px'>"+menudata.data[j].chinesename+"</cite></a>"
 								menu += "</li>"
 							}
 						}
@@ -83,7 +83,7 @@
 			datatype: 'json',
 			success: function(data) {
 				if(data.code=="0"){
-					window.location.href = "../html/login2.jsp";
+					window.location.href = "../html/login.html";
 				}else{
 					layer.msg(data.msg,{icon:2});
 				}
