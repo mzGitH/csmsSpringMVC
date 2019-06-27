@@ -19,7 +19,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 </style>
 <body>
 
-  <div class="layui-fluid">
+  <div class="layui-fluid" style="margin-top: 10px">
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-input-inline">
@@ -32,7 +32,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				<div  class="layui-inline">
           			<button class="layui-btn layuiadmin-btn-useradmin" type="button" id="btn_addcollege">添加</button>
         		</div>
-        		<div  class="layui-inline">
+        	    <div  class="layui-inline">
           			<button class="layui-btn layuiadmin-btn-useradmin" type="button" id="btn_importcollege">导入</button>
         		</div>
 			</form>
@@ -51,7 +51,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
         		<tr>
         			<td>1</td>
         			<td>信息工程学院</td>
-        			<td><button type="button" class="layui-btn layui-btn-normal">编辑</button><button type="button" class="layui-btn layui-btn-danger">删除</button></td>
+        			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑</button><button type="button" class="layui-btn layui-btn-sm layui-btn-danger">删除</button></td>
         		</tr>
         	</tbody>
         </table>

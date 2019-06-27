@@ -27,8 +27,6 @@ public class LoginFilter extends HttpServlet implements Filter {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		List<String> notCheckLoginUrls = new ArrayList<String>(); // 不检查登录的URL
-
-		notCheckLoginUrls.add("login.jsp");
 		notCheckLoginUrls.add("login.html");
 		notCheckLoginUrls.add("adminlogin");
 
@@ -60,7 +58,7 @@ public class LoginFilter extends HttpServlet implements Filter {
 			if (session.getAttribute("loginuser") == null) {
 				// System.out.println(arg0.getContextPath());
 				response.sendRedirect(request.getContextPath()
-						+ "/html/login.jsp");
+						+ "/html/login.html");
 				return;
 				// 如果高级别的身份验证，我们还需根据用户角色判断是否有权限
 			}

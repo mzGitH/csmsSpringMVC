@@ -21,13 +21,12 @@
 				//$("#userrole").text(menudata.loginuser[0].name);
 				var menu = "";
 				for (var i = 0; i < menudata.data.length; i++) {
-					if (menudata.data[i].parentid == 0 && menudata.data[i].deepth==1 && menudata.data[i].isedit==true) {		// 查询所有父类菜单
+					if (menudata.data[i].parentid == 0 && menudata.data[i].deepth==1 && menudata.data[i].isedit==true && menudata.data[i].isdelete==false) {		// 查询所有父类菜单
 						menu += "<li>"
 						menu +="<a href='javascript:;'><i class='layui-icon' style='font-size:18px'>"+menudata.data[i].imageurl+"</i>"
 						menu += "<cite>"+ menudata.data[i].chinesename +"<cite>"
-						if(menudata.data[i].chinesename!="比赛管理"){
+						
 						menu +="<i class='iconfont nav_right'>&#xe697;</i>";
-						}
 						menu+="</a>"
 						menu +="<ul class='sub-menu'>"
 						for (var j = 0; j < menudata.data.length; j++) {

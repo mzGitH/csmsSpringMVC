@@ -19,11 +19,21 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 </style>
 <body>
 
-  <div class="layui-fluid">
+  <div class="layui-fluid" style="margin-top: 10px">
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
+				<div class="layui-inline">
+					<select id="systemtype">
+						<option value="0">请选择学院</option>
+					</select>
+				</div>
+				<div class="layui-inline">
+					<select id="systemtype">
+						<option value="0">请选择专业</option>
+					</select>
+				</div>
 				<div class="layui-input-inline">
-					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入学院名称" class="layui-input" autocomplete="off">
+					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入条件" class="layui-input" autocomplete="off">
 			    </div>
 				<div class="layui-inline">
 					<button id="btnselfrontinfo" type="button"
@@ -44,6 +54,8 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
         		<tr>
         			<td>序号</td>
         			<td>学院名称</td>
+        			<td>专业名称</td>
+        			<td>班级名称</td>
         			<td>操作</td>
         		</tr>
         	</thead>
@@ -51,7 +63,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
         		<tr>
         			<td>1</td>
         			<td>信息工程学院</td>
-        			<td><button type="button" class="layui-btn layui-btn-normal">编辑</button><button type="button" class="layui-btn layui-btn-danger">删除</button></td>
+        			<td>计算机科学与技术</td>
+        			<td>计算机科学与技术一班</td>
+        			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑</button><button type="button" class="layui-btn layui-btn-sm layui-btn-danger">删除</button></td>
         		</tr>
         	</tbody>
         </table>
