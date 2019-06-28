@@ -1,5 +1,6 @@
 package model;
 
+
 /**
  * TNews entity. @author MyEclipse Persistence Tools
  */
@@ -11,7 +12,9 @@ public class TNews implements java.io.Serializable {
 	private Integer newid;
 	private String newstitle;
 	private String newscontent;
-	private Integer teacerid;
+	private String adminuserid;
+	private String datetime;
+	private Integer sportid;
 
 	// Constructors
 
@@ -19,11 +22,23 @@ public class TNews implements java.io.Serializable {
 	public TNews() {
 	}
 
-	/** full constructor */
-	public TNews(String newstitle, String newscontent, Integer teacerid) {
+	/** minimal constructor */
+	public TNews(String newstitle, String newscontent, String adminuserid,
+			String datetime) {
 		this.newstitle = newstitle;
 		this.newscontent = newscontent;
-		this.teacerid = teacerid;
+		this.adminuserid = adminuserid;
+		this.datetime = datetime;
+	}
+
+	/** full constructor */
+	public TNews(String newstitle, String newscontent, String adminuserid,
+			String datetime, Integer sportid) {
+		this.newstitle = newstitle;
+		this.newscontent = newscontent;
+		this.adminuserid = adminuserid;
+		this.datetime = datetime;
+		this.sportid = sportid;
 	}
 
 	// Property accessors
@@ -52,12 +67,28 @@ public class TNews implements java.io.Serializable {
 		this.newscontent = newscontent;
 	}
 
-	public Integer getTeacerid() {
-		return this.teacerid;
+	public String getAdminuserid() {
+		return this.adminuserid;
 	}
 
-	public void setTeacerid(Integer teacerid) {
-		this.teacerid = teacerid;
+	public void setAdminuserid(String adminuserid) {
+		this.adminuserid = adminuserid;
+	}
+
+	public String getDatetime() {
+		return this.datetime;
+	}
+
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
+	}
+
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
 	}
 
 }

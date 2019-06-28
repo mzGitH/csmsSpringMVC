@@ -72,7 +72,7 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 		return hdao.delete(TSystemLog.class, id);
 	}
 
-	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "添加一条日志")
+	@Log(isSaveLog = false)
 	@Override
 	public Integer addLog(TSystemLog record) {
 		return (Integer) hdao.insert(record);

@@ -8,6 +8,7 @@ import business.dao.AdminUserDAO;
 import business.dao.ArrangeDAO;
 import business.dao.ClassesDAO;
 import business.dao.CollegeDAO;
+import business.dao.ConfigDAO;
 import business.dao.ContentDAO;
 import business.dao.ForumDAO;
 import business.dao.MajorDAO;
@@ -75,6 +76,15 @@ public class DAOFactory {
 	 */
 	public static CollegeDAO getCollegeDAO() {
 		return (CollegeDAO) ctx.getBean("collegedao");
+	}
+
+	/**
+	 * 得到一个运动会业务操作的ConfigDAO实现类对象
+	 * 
+	 * @return ConfigDAO
+	 */
+	public static ConfigDAO getConfigDAO() {
+		return (ConfigDAO) ctx.getBean("configdao");
 	}
 
 	/**

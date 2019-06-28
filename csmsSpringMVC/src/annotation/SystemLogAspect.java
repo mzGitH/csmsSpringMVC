@@ -17,7 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import business.dao.SystemLogDAO;
 import business.factory.DAOFactory;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 
 /**
  * @author LGD
@@ -84,8 +84,9 @@ public class SystemLogAspect {
 			// 获得方法的参数
 			Object[] args = joinPoint.getArgs();
 			String param = "";
+			Gson gson = new Gson();
 			for (int i = 0; i < args.length; i++) {
-				param += JSON.toJSONString(args[i]);
+				param += gson.toJson(args[i]);
 			}
 			System.out.println("ClassName=" + targetName);
 			System.out.println("methodName=" + methodName);

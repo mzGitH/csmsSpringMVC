@@ -25,7 +25,6 @@
 		<mapping resource="model/TRole.hbm.xml" />
 		<mapping resource="model/TProject.hbm.xml" />
 		<mapping resource="model/TMajor.hbm.xml" />
-		<mapping resource="model/TConfig.hbm.xml" />
 		<mapping resource="model/TCollege.hbm.xml" />
 		<mapping resource="model/TClass.hbm.xml" />
 		<mapping resource="model/TArrange.hbm.xml" />
@@ -43,18 +42,19 @@
 		<mapping resource="model/TTeacher.hbm.xml" />
 		<mapping resource="model/VMatch.hbm.xml" />
 		<mapping resource="model/TForumContent.hbm.xml" />
-		<mapping resource="model/TNews.hbm.xml" />
 		<mapping resource="model/TPhoto.hbm.xml" />
-		<mapping resource="model/TForumTitle.hbm.xml" />
 		<mapping resource="model/VForum.hbm.xml" />
 		<mapping resource="model/VClassScore.hbm.xml" />
-		<mapping resource="model/VNews.hbm.xml" />
 		<mapping resource="model/TAdminUser.hbm.xml" />
 		<mapping resource="model/VAdminUser.hbm.xml" />
 		<mapping resource="model/TAdminRole.hbm.xml" />
 		<mapping resource="model/TSystemLog.hbm.xml" />
 		<mapping resource="model/TSystemModel.hbm.xml" />
 		<mapping resource="model/VRoleSystemModel.hbm.xml" />
+		<mapping resource="model/TNews.hbm.xml" />
+		<mapping resource="model/VNews.hbm.xml" />
+		<mapping resource="model/TConfig.hbm.xml" />
+		<mapping resource="model/TForumTitle.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>

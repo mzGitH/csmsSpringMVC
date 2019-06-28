@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.TAdminUser;
+import model.TConfig;
+import model.VAdminUser;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import util.EnCriptUtil;
 import util.Expression;
 import util.LayuiData;
 import business.dao.AdminUserDAO;
+import business.dao.ConfigDAO;
+import business.factory.DAOFactory;
 import business.impl.AdminUserDaoImpl;
 
 import com.alibaba.fastjson.JSON;
@@ -84,16 +88,19 @@ public class AdminUserController {
 			HttpServletRequest request, HttpServletResponse response,
 			Model model) throws IOException {
 
-		AdminUserDAO audao = new AdminUserDaoImpl();
+		AdminUserDAO audao = DAOFactory.getAdminUserDAO();
+		ConfigDAO cdao = DAOFactory.getConfigDAO();
 		LayuiData laydata = new LayuiData();
 
-		TAdminUser user = new TAdminUser();
+		VAdminUser user = new VAdminUser();
 		user.setUserid((String) userid);
 		user.setPwd(pwd);
-		TAdminUser loginuser = audao.login(user);
+		VAdminUser loginuser = audao.login(user);
 		if (loginuser != null) {
 			HttpSession session = request.getSession();
+			TConfig config = cdao.getNowTConfig();
 			session.setAttribute("loginuser", loginuser);
+			session.setAttribute("config", config);
 			laydata.code = LayuiData.SUCCESS;
 			laydata.msg = "µÇÂ½³É¹¦";
 		} else {

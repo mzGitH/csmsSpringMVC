@@ -44,5 +44,5 @@ public interface AdminUserDAO {
 	 * 
 	 * @param user
 	 */
-	public TAdminUser login(TAdminUser user);
+	public VAdminUser login(VAdminUser user);
 }

@@ -48,7 +48,7 @@ public class SystemLogController {
 			exp.andEqu("opertype", systemtype, String.class);
 		}
 		String opreation = exp.toString();
-		// System.out.println(opreation);
+		System.out.println(opreation);
 		int allcount = srdao.getSystemLogAmount(opreation);
 
 		List list = srdao.getaAllSystemList(opreation, page, limit);

@@ -1,23 +1,25 @@
 package model;
 
+
 /**
  * VNews entity. @author MyEclipse Persistence Tools
  */
 
 public class VNews implements java.io.Serializable {
 
+	// Fields
+
 	private Integer newid;
 	private String newstitle;
 	private String newscontent;
-	private String teacerid;
 	private String datetime;
-	private String userid;
-	private String username;
-	private String pwd;
-	private String agend;
+	private Integer sportid;
+	private String adminuserid;
+	private String realname;
 	private String mobile;
-	private Integer collegeid;
-	private Integer roleid;
+	private Integer userstatus;
+	private Integer roleId;
+	private String name;
 
 	// Constructors
 
@@ -25,23 +27,37 @@ public class VNews implements java.io.Serializable {
 	public VNews() {
 	}
 
-	/** full constructor */
+	/** minimal constructor */
 	public VNews(Integer newid, String newstitle, String newscontent,
-			String teacerid, String datetime, String userid, String username,
-			String pwd, String agend, String mobile, Integer collegeid,
-			Integer roleid) {
+			String datetime, String adminuserid, String realname,
+			Integer userstatus, Integer roleId, String name) {
 		this.newid = newid;
 		this.newstitle = newstitle;
 		this.newscontent = newscontent;
-		this.teacerid = teacerid;
 		this.datetime = datetime;
-		this.userid = userid;
-		this.username = username;
-		this.pwd = pwd;
-		this.agend = agend;
+		this.adminuserid = adminuserid;
+		this.realname = realname;
+		this.userstatus = userstatus;
+		this.roleId = roleId;
+		this.name = name;
+	}
+
+	/** full constructor */
+	public VNews(Integer newid, String newstitle, String newscontent,
+			String datetime, Integer sportid, String adminuserid,
+			String realname, String mobile, Integer userstatus, Integer roleId,
+			String name) {
+		this.newid = newid;
+		this.newstitle = newstitle;
+		this.newscontent = newscontent;
+		this.datetime = datetime;
+		this.sportid = sportid;
+		this.adminuserid = adminuserid;
+		this.realname = realname;
 		this.mobile = mobile;
-		this.collegeid = collegeid;
-		this.roleid = roleid;
+		this.userstatus = userstatus;
+		this.roleId = roleId;
+		this.name = name;
 	}
 
 	// Property accessors
@@ -70,14 +86,6 @@ public class VNews implements java.io.Serializable {
 		this.newscontent = newscontent;
 	}
 
-	public String getTeacerid() {
-		return this.teacerid;
-	}
-
-	public void setTeacerid(String teacerid) {
-		this.teacerid = teacerid;
-	}
-
 	public String getDatetime() {
 		return this.datetime;
 	}
@@ -86,36 +94,28 @@ public class VNews implements java.io.Serializable {
 		this.datetime = datetime;
 	}
 
-	public String getUserid() {
-		return this.userid;
+	public Integer getSportid() {
+		return this.sportid;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public String getAdminuserid() {
+		return this.adminuserid;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setAdminuserid(String adminuserid) {
+		this.adminuserid = adminuserid;
 	}
 
-	public String getPwd() {
-		return this.pwd;
+	public String getRealname() {
+		return this.realname;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	public String getAgend() {
-		return this.agend;
-	}
-
-	public void setAgend(String agend) {
-		this.agend = agend;
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 
 	public String getMobile() {
@@ -126,105 +126,28 @@ public class VNews implements java.io.Serializable {
 		this.mobile = mobile;
 	}
 
-	public Integer getCollegeid() {
-		return this.collegeid;
+	public Integer getUserstatus() {
+		return this.userstatus;
 	}
 
-	public void setCollegeid(Integer collegeid) {
-		this.collegeid = collegeid;
+	public void setUserstatus(Integer userstatus) {
+		this.userstatus = userstatus;
 	}
 
-	public Integer getRoleid() {
-		return this.roleid;
+	public Integer getRoleId() {
+		return this.roleId;
 	}
 
-	public void setRoleid(Integer roleid) {
-		this.roleid = roleid;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof VNews))
-			return false;
-		VNews castOther = (VNews) other;
-
-		return ((this.getNewid() == castOther.getNewid()) || (this.getNewid() != null
-				&& castOther.getNewid() != null && this.getNewid().equals(
-				castOther.getNewid())))
-				&& ((this.getNewstitle() == castOther.getNewstitle()) || (this
-						.getNewstitle() != null
-						&& castOther.getNewstitle() != null && this
-						.getNewstitle().equals(castOther.getNewstitle())))
-				&& ((this.getNewscontent() == castOther.getNewscontent()) || (this
-						.getNewscontent() != null
-						&& castOther.getNewscontent() != null && this
-						.getNewscontent().equals(castOther.getNewscontent())))
-				&& ((this.getTeacerid() == castOther.getTeacerid()) || (this
-						.getTeacerid() != null
-						&& castOther.getTeacerid() != null && this
-						.getTeacerid().equals(castOther.getTeacerid())))
-				&& ((this.getDatetime() == castOther.getDatetime()) || (this
-						.getDatetime() != null
-						&& castOther.getDatetime() != null && this
-						.getDatetime().equals(castOther.getDatetime())))
-				&& ((this.getUserid() == castOther.getUserid()) || (this
-						.getUserid() != null && castOther.getUserid() != null && this
-						.getUserid().equals(castOther.getUserid())))
-				&& ((this.getUsername() == castOther.getUsername()) || (this
-						.getUsername() != null
-						&& castOther.getUsername() != null && this
-						.getUsername().equals(castOther.getUsername())))
-				&& ((this.getPwd() == castOther.getPwd()) || (this.getPwd() != null
-						&& castOther.getPwd() != null && this.getPwd().equals(
-						castOther.getPwd())))
-				&& ((this.getAgend() == castOther.getAgend()) || (this
-						.getAgend() != null && castOther.getAgend() != null && this
-						.getAgend().equals(castOther.getAgend())))
-				&& ((this.getMobile() == castOther.getMobile()) || (this
-						.getMobile() != null && castOther.getMobile() != null && this
-						.getMobile().equals(castOther.getMobile())))
-				&& ((this.getCollegeid() == castOther.getCollegeid()) || (this
-						.getCollegeid() != null
-						&& castOther.getCollegeid() != null && this
-						.getCollegeid().equals(castOther.getCollegeid())))
-				&& ((this.getRoleid() == castOther.getRoleid()) || (this
-						.getRoleid() != null && castOther.getRoleid() != null && this
-						.getRoleid().equals(castOther.getRoleid())));
+	public String getName() {
+		return this.name;
 	}
 
-	public int hashCode() {
-		int result = 17;
-
-		result = 37 * result
-				+ (getNewid() == null ? 0 : this.getNewid().hashCode());
-		result = 37 * result
-				+ (getNewstitle() == null ? 0 : this.getNewstitle().hashCode());
-		result = 37
-				* result
-				+ (getNewscontent() == null ? 0 : this.getNewscontent()
-						.hashCode());
-		result = 37 * result
-				+ (getTeacerid() == null ? 0 : this.getTeacerid().hashCode());
-		result = 37 * result
-				+ (getDatetime() == null ? 0 : this.getDatetime().hashCode());
-		result = 37 * result
-				+ (getUserid() == null ? 0 : this.getUserid().hashCode());
-		result = 37 * result
-				+ (getUsername() == null ? 0 : this.getUsername().hashCode());
-		result = 37 * result
-				+ (getPwd() == null ? 0 : this.getPwd().hashCode());
-		result = 37 * result
-				+ (getAgend() == null ? 0 : this.getAgend().hashCode());
-		result = 37 * result
-				+ (getMobile() == null ? 0 : this.getMobile().hashCode());
-		result = 37 * result
-				+ (getCollegeid() == null ? 0 : this.getCollegeid().hashCode());
-		result = 37 * result
-				+ (getRoleid() == null ? 0 : this.getRoleid().hashCode());
-		return result;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

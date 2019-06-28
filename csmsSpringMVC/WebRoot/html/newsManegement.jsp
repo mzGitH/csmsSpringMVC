@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>文章管理</title>
+  <title>公告管理</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -30,20 +30,19 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						class="layui-btn layui-bg-blue">查询</button>
 				</div>
 				<div class="layui-inline">
-					<button id="btn_add" type="button"
-						class="layui-btn layui-bg-blue">添加</button>
+					<a href="addNews.jsp"><button id="btn_add" type="button" 
+						class="layui-btn layui-bg-blue">添加</button></a>
 				</div>
 			</form>
 		</blockquote>
       
       <div class="layui-card-body">
-        <table id="forumlist" style="text-align: center;" class="layui-table" lay-filter="tool">
+        <table id="newlist" style="text-align: center;" class="layui-table" lay-filter="tool">
         </table>
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
-        <script type="text/html" id="barDemo">
-          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+        <script type="text/html" id="barDemo" >
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
       </div>
@@ -58,10 +57,10 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   		
   		/*加载表格*/
 		table.render({
-			elem : '#forumlist',
-			id:'forumlist',
-			url : '../forum/getforumlist',
-			title : '文章数据表',
+			elem : '#newlist',
+			id:'newlist',
+			url : '../news/getallnewlist',
+			title : '公告数据表',
 			height: "full-160",
 			//skin : 'line',
 			even : true,
@@ -72,17 +71,17 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					align : 'center',
 					
 				}, {
-     field : 'title',
+     field : 'newstitle',
      align : 'center',
-     title : '文章标题',
+     title : '公告标题',
    
     }, {
-     field : 'author',
+     field : 'realname',
      align : 'center',
-     title : '投稿人',
+     title : '发布人',
     
     }, {
-     field : 'createtime',
+     field : 'datetime',
      title : '发布时间',
      align : 'center',
     		},{
@@ -102,7 +101,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		//表格工具栏事件 
 		table.on('tool(tool)', function(obj) {
 			var data = obj.data;
-			alert(data.forumid);
+			alert(data.newid);
 			
 			switch (obj.event) {
 				//删除按钮操作
@@ -113,17 +112,17 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					}, function(){
 						$.ajax({
 			        		type: 'get',
-			        		url: "../forum/delforum",
+			        		url: "../news/delnews",
 			        		dataType: 'json',
 			        		data:{
-			        			forumid:data.forumid
+			        		newid:data.newid
 			        		},
 			        		success:function(data){
 			        			if(data.code == 0){
 			        				layer.confirm(data.msg, {
 									  btn: ['确定']
 									}, function(){
-										table.reload("forumlist", { //此处是上文提到的 初始化标识id
+										table.reload("newlist", { //此处是上文提到的 初始化标识id
 							                where: {
 							                	keyword:data.code=='0'
 							                }
@@ -147,7 +146,6 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						layer.closeAll();
 					});
 				break;
-				
 			}
 			;
 		});
@@ -155,7 +153,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		
 		/* 点击查询对网站用户进行筛选 */
 		$("#btnselfrontinfo").click(function() {
-			table.reload('forumlist', {
+			table.reload('newlist', {
 				method : 'post',
 				where : {
 					'wherecondition' : $("#wherecondition").val().trim(),
@@ -166,105 +164,14 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			});
 		})
 		
-  		
-  		//添加文章确认按钮点击事件
-  		$("#btn_add").click(function(){
-  			layer.open({
-  				title:"添加文章",
-  				type: 1,
-  				area: ['400px', '300px'],
-  				skin: 'demo-class',
-  				btn:['添加'],
-  				maxmin: true,//显示最大化最小化按钮
-  				//offset: 'b', 弹框的位置
-  				content: $('#div_addForum'),
-  				btn1: function(index, layero){
-    					$.ajax({
-			        		type: 'get',
-			        		url: "../forum/addforum",
-			        		dataType: 'json',
-			        		data:{
-			        			author:$("#author").val().trim(),
-			        			title:$("#title").val().trim()
-			        		},
-			        		success:function(data){
-			        			if(data.code == 0){
-			        				layer.confirm(data.msg, {
-									  btn: ['确定']
-									}, function(){
-										table.reload("forumlist", { //此处是上文提到的 初始化标识id
-							                where: {
-							                	keyword:data.code=='0'
-							                }
-							            });	
-										layer.closeAll();
-									});          				 
-			        			}
-			        			else{
-			        				layer.confirm(data.msg, {
-										  btn: ['确定']
-									});
-			        			}
-			        		},
-			        		error:function(){
-			        			layer.confirm('出现错误，删除失败，请重试！', {
-									  btn: ['确定']
-								});
-			        		},
-			        	});   
-  				},
-  				cancel: function(){ 
-  					$('#title').val("");
-  					$('#author').val("");
-  				}
-			});
-  		})
-  		$(".btn_det").click(function(){
-  			window.location.href="addForumcontent.jsp";
+  		//编辑按钮点击事件
+  		$(".btn_del").click(function(){
+  			layer.alert("查看详情");
   		})
   		
  		
 	}); 
   </script>
-   <!--添加文章  -->
-	<div id="div_addForum"
-		style="display: none;text-align: center; margin-top: 15px;">
-		
-		<div class="layui-form-item">
-			<label class="layui-form-label">文章标题:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" id="title" 
-					placeholder="请输入文章标题" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">文章投稿人:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title"  id="author"
-					placeholder="请输入投稿人" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-	</div>
-	
-	 <!--编辑文章  -->
-	<div id="div_edlForum"
-		style="display: none;text-align: center; margin-top: 15px;">
-		
-		<div class="layui-form-item">
-			<label class="layui-form-label">文章标题:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" id="title" 
-					placeholder="请输入文章标题" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">文章投稿人:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title"  id="author"
-					placeholder="请输入投稿人" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-	</div>
 </body>
 		   
 </html>

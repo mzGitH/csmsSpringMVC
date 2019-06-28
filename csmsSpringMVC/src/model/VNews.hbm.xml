@@ -6,6 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="model.VNews" table="V_News" schema="dbo" catalog="CSMS">
+       
             <id name="newid" type="java.lang.Integer">
                 <column name="newid" />
             </id>
@@ -15,32 +16,29 @@
             <property name="newscontent" type="java.lang.String">
                 <column name="newscontent" />
             </property>
-            <property name="teacerid" type="java.lang.String">
-                <column name="teacerid" length="20" />
-            </property>
             <property name="datetime" type="java.lang.String">
                 <column name="datetime" length="23" />
             </property>
-            <property name="userid" type="java.lang.String">
-                <column name="userid" length="20" />
+            <property name="sportid" type="java.lang.Integer">
+                <column name="sportid" />
             </property>
-            <property name="username" type="java.lang.String">
-                <column name="username" length="50" />
+            <property name="adminuserid" type="java.lang.String">
+                <column name="adminuserid" length="50" />
             </property>
-            <property name="pwd" type="java.lang.String">
-                <column name="pwd" length="20" />
-            </property>
-            <property name="agend" type="java.lang.String">
-                <column name="agend" length="2" />
+            <property name="realname" type="java.lang.String">
+                <column name="realname" />
             </property>
             <property name="mobile" type="java.lang.String">
-                <column name="mobile" length="20" />
+                <column name="mobile" length="11" />
             </property>
-            <property name="collegeid" type="java.lang.Integer">
-                <column name="collegeid" />
+            <property name="userstatus" type="java.lang.Integer">
+                <column name="userstatus" />
             </property>
-            <property name="roleid" type="java.lang.Integer">
-                <column name="roleid" />
+            <property name="roleId" type="java.lang.Integer">
+                <column name="roleId" />
+            </property>
+            <property name="name" type="java.lang.String">
+                <column name="name" />
             </property>
     </class>
 </hibernate-mapping>

@@ -7,9 +7,12 @@ import model.VAdminUser;
 
 import org.springframework.stereotype.Component;
 
+import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.AdminUserDAO;
+
+import common.properties.OperType;
 
 @Component("adminuserdao")
 public class AdminUserDaoImpl implements AdminUserDAO {
@@ -19,6 +22,7 @@ public class AdminUserDaoImpl implements AdminUserDAO {
 		this.hdao = new iHibBaseDAOImpl();
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<VAdminUser> getaAdminUserList(String wherecondition, int page,
 			int pageSize) {
@@ -26,10 +30,12 @@ public class AdminUserDaoImpl implements AdminUserDAO {
 		if (wherecondition != null && !wherecondition.equals("")) {
 			hql += wherecondition;
 		}
+		hql += " order by userid asc";
 		List<VAdminUser> list = hdao.selectByPage(hql, page, pageSize);
 		return list;
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public int getAdaminUserAmount(String wherecondition) {
 		String hql = "select count(userid) from VAdminUser";
@@ -47,7 +53,7 @@ public class AdminUserDaoImpl implements AdminUserDAO {
 	// List list = auDaoImpl.getaAdminUserList(null, 1, 20);
 	// System.out.println(list.size());
 	// }
-
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "添加管理员用户")
 	@Override
 	public boolean addAdminUser(TAdminUser user) {
 		String id = (String) hdao.insert(user);
@@ -58,11 +64,12 @@ public class AdminUserDaoImpl implements AdminUserDAO {
 		return false;
 	}
 
+	@Log(isSaveLog = true, operationType = OperType.QUERY, operationName = "登录")
 	@Override
-	public TAdminUser login(TAdminUser user) {
-		TAdminUser user2;
+	public VAdminUser login(VAdminUser user) {
+		VAdminUser user2;
 
-		user2 = (TAdminUser) hdao.findById(TAdminUser.class, user.getUserid());
+		user2 = (VAdminUser) hdao.findById(VAdminUser.class, user.getUserid());
 		if (user2 != null) {
 			if (user.getPwd().equals(user2.getPwd())) {
 				return user2;

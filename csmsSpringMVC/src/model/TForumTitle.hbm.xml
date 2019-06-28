@@ -14,10 +14,13 @@
             <column name="title" not-null="true" />
         </property>
         <property name="author" type="java.lang.String">
-            <column name="author" length="100" />
+            <column name="author" length="100" not-null="true" />
         </property>
         <property name="createtime" type="java.lang.String">
             <column name="createtime" length="23" />
+        </property>
+        <property name="sportid" type="java.lang.Integer">
+            <column name="sportid" />
         </property>
     </class>
 </hibernate-mapping>

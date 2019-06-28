@@ -24,7 +24,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			<form class="layui-form">
 				<label>公告标题:</label>
 				<div class="layui-input-inline">
-					<input type="text" name="sysmothed" id="sysmothed"
+					<input type="text" name="newstitle" id="newstitle"
 						placeholder="请输入标题" class="layui-input" autocomplete="off">
 				</div>
 			</form>
@@ -38,7 +38,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				</textarea>
 			</center>
 			<div class="site-demo-button" style="margin-top: 20px;">
-				<button class="layui-btn site-demo-layedit" data-type="content">发布</button>
+				<button class="layui-btn site-demo-layedit" id="content">发布</button>
 			</div>
 		</div>
 	</div>
@@ -47,20 +47,51 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 	
 	<script src="../layui/layui.js" charset="utf-8"></script>
   <script>
-  	layui.use(['layer','upload','table','layedit'], function(){
+  	layui.use(['layer','upload','table','layer','layedit'], function(){
   		var layer = layui.layer,$=layui.jquery,upload = layui.upload,layedit=layui.layedit;
   		
   		//构建一个默认的编辑器
   var index = layedit.build('LAY_demo1');
   
-  //编辑器外部操作
-  var active = {
-    content: function(){
-      alert(layedit.getContent(index)); //获取编辑器内容
-    }
-  };
   
-	}); 
+    $("#content").click( function(){
+       //获取编辑器内容
+     var newstitle= $("#newstitle").val().trim();
+     var newscontent=layedit.getContent(index);
+     if(newstitle==null||newstitle==""){
+     layer.tips('文章标题不能为空！', '#newstitle', {
+					tips : [ 1, '#3595CC' ],
+					time : 3000
+				});
+				return;
+     }
+     if(newscontent==null||newscontent==""){
+				layer.alert("文章内容不能为空！", {icon: 2});
+				return;
+     }
+      $.ajax({
+			type: 'Post',
+			url: "../news/addnews",
+			dataType: 'json',
+			data:{
+				newstitle:$("#newstitle").val().trim(),
+				newscontent:newscontent
+			},
+			success:function(data){
+			     if(data.code == 0){
+				     layer.alert('添加成功', {icon: 1})
+			     }
+			     else{
+			         layer.confirm('出现错误,请重试！', {btn: ['确定']});
+			     }
+			 },
+			error:function(){
+			    layer.confirm('出现错误，请重试！', {btn: ['确定']});
+			        		},
+		});
+  });
+  
+}); 
   </script>
 </body>
 		   

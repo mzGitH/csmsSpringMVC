@@ -25,9 +25,29 @@ public interface NewsDAO {
 	/**
 	 * 獲取所有公告
 	 * 
+	 * @param wherecondition
+	 *            查询条件
+	 * @param page
+	 *            当前页
+	 * @param pageSize
+	 *            页数限制
 	 * @return
 	 */
-	public List<TNews> getAllNews();
+	public List<VNews> getAllNews(String wherecondition, int page, int pageSize);
+
+	/**
+	 * 獲取所有公告(不包含内容)
+	 * 
+	 * @param wherecondition
+	 *            查询条件
+	 * @param page
+	 *            当前页
+	 * @param pageSize
+	 *            页数限制
+	 * @return
+	 */
+	public List<VNews> getAllNewsNoContent(String wherecondition, int page,
+			int pageSize);
 
 	/**
 	 * 根據發佈人id獲取對應的公告對象
@@ -35,5 +55,25 @@ public interface NewsDAO {
 	 * @param teaid
 	 * @return
 	 */
-	public List<TNews> getNewsByTeaid(String teaid);
+	public List<VNews> getNewsByTeaid(String teaid);
+
+	/**
+	 * 根據公告删除公告
+	 * 
+	 * @param news
+	 *            公告
+	 * @return
+	 */
+	public Boolean deleteNewsById(Integer newid);
+
+	/**
+	 * 根据条件获取符合条件的公告的数量
+	 * 
+	 * @param wherecondition
+	 *            条件
+	 * 
+	 * @return
+	 */
+	public int getNewsAmount(String wherecondition);
+
 }

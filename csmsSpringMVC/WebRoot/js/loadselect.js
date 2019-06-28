@@ -36,7 +36,7 @@ function loadAdminRole(selectId, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value='0'>请选择管理员角色类型</option>";
+			var str = "<option value=''>请选择管理员角色类型</option>";
 			for(var i = 0; i < stageData.data.length; i++) {
 				str += '<option value=' + stageData.data[i].id + '>' + stageData.data[i].name + '</option>';
 			}
@@ -66,7 +66,7 @@ function loadSystemOperType(selectId, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value='0'>请选择管理员角色类型</option>";
+			var str = "<option value=''>请选择日志类型</option>";
 			for(var i = 0; i < stageData.data.length; i++) {
 				str += '<option value=' + stageData.data[i] + '>' + stageData.data[i] + '</option>';
 			}
@@ -74,10 +74,10 @@ function loadSystemOperType(selectId, form){
 			form.render("select");
 		} else {
 			//layer.msg("未获取到阶段信息！");
-			layer.msg('未获取到用户角色信息！', function(){});
+			layer.msg('未获取到日志类型', function(){});
 		}
 	} else {
 		//layer.msg("阶段信息获取失败！");
-		layer.msg('未获取到用户角色信息！', function(){});
+		layer.msg('未获取到日志类型！', function(){});
 	}
 }

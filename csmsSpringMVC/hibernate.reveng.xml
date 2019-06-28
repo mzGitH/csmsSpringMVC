@@ -32,8 +32,32 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
-<table name="V_RoleSystemModel" schema="dbo" catalog="CSMS"
-	class="model.VRoleSystemModel">
+	<table name="V_RoleSystemModel" schema="dbo" catalog="CSMS"
+		class="model.VRoleSystemModel">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="T_News" schema="dbo" catalog="CSMS"
+		class="model.TNews">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_News" schema="dbo" catalog="CSMS"
+		class="model.VNews">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="T_Config" schema="dbo" catalog="CSMS"
+		class="model.TConfig">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+<table name="T_ForumTitle" schema="dbo" catalog="CSMS"
+	class="model.TForumTitle">
 	<primary-key>
 		<generator class="identity"></generator>
 	</primary-key>

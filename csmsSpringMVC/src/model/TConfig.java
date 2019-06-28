@@ -1,6 +1,5 @@
 package model;
 
-
 /**
  * TConfig entity. @author MyEclipse Persistence Tools
  */
@@ -9,11 +8,13 @@ public class TConfig implements java.io.Serializable {
 
 	// Fields
 
-	private Integer configid;
+	private Integer sportid;
+	private String sportname;
 	private String starttime;
 	private String endtime;
 	private String reportstart;
 	private String reportend;
+	private Boolean iscomplete;
 
 	// Constructors
 
@@ -21,23 +22,43 @@ public class TConfig implements java.io.Serializable {
 	public TConfig() {
 	}
 
-	/** full constructor */
-	public TConfig(String starttime, String endtime,
+	/** minimal constructor */
+	public TConfig(String sportname, String starttime, String endtime,
 			String reportstart, String reportend) {
+		this.sportname = sportname;
 		this.starttime = starttime;
 		this.endtime = endtime;
 		this.reportstart = reportstart;
 		this.reportend = reportend;
 	}
 
-	// Property accessors
-
-	public Integer getConfigid() {
-		return this.configid;
+	/** full constructor */
+	public TConfig(String sportname, String starttime, String endtime,
+			String reportstart, String reportend, Boolean iscomplete) {
+		this.sportname = sportname;
+		this.starttime = starttime;
+		this.endtime = endtime;
+		this.reportstart = reportstart;
+		this.reportend = reportend;
+		this.iscomplete = iscomplete;
 	}
 
-	public void setConfigid(Integer configid) {
-		this.configid = configid;
+	// Property accessors
+
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
+	}
+
+	public String getSportname() {
+		return this.sportname;
+	}
+
+	public void setSportname(String sportname) {
+		this.sportname = sportname;
 	}
 
 	public String getStarttime() {
@@ -70,6 +91,14 @@ public class TConfig implements java.io.Serializable {
 
 	public void setReportend(String reportend) {
 		this.reportend = reportend;
+	}
+
+	public Boolean getIscomplete() {
+		return this.iscomplete;
+	}
+
+	public void setIscomplete(Boolean iscomplete) {
+		this.iscomplete = iscomplete;
 	}
 
 }

@@ -90,7 +90,7 @@
 			<form class="layui-form" action="admin/getuser">
 				<div class="layui-inline">
 					<select id="systemtype">
-						<option value="0">请选择日志类型</option>
+						<option value="">请选择日志类型</option>
 					</select>
 				</div>
 				<div class="layui-input-inline">
@@ -156,23 +156,23 @@
 			     [ {
 					type : 'numbers',
 					title : '序号',
-					align : 'center',
-					width : 80
+					align : 'center'
 				}, {
      field : 'opertype',
      align : 'center',
      title : '操作类型',
-     width : 100
+     width:100
+     
     }, {
      field : 'description',
      align : 'center',
      title : '描述',
-     width : 100
+      width:100
     }, {
      field : 'opermethod',
      title : '操作方法',
      align : 'center',
-     width : 150
+     width:350
     },{
      field : 'params',
      align : 'center',
@@ -180,11 +180,13 @@
     },{
      field : 'createdate',
      title : '执行时间',
-     align : 'center'
+     align : 'center',
+     width:200
     },{
      field : 'createby',
      align : 'center',
-     title : '执行人'
+     title : '执行人',
+     width:80
     }] 
 			 ],
 			 page: {

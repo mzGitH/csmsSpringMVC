@@ -6,6 +6,7 @@ import model.TAdminRole;
 
 import org.springframework.stereotype.Component;
 
+import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.AdminRoleDAO;
@@ -18,6 +19,7 @@ public class AdminRoleDaoImpl implements AdminRoleDAO {
 		this.bdao = new iHibBaseDAOImpl();
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<TAdminRole> getaAdminUserList() {
 		String hql = "from TAdminRole";
