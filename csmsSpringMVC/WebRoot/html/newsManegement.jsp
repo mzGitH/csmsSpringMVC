@@ -120,6 +120,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        		success:function(data){
 			        			if(data.code == 0){
 			        				layer.confirm(data.msg, {
+			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
 										table.reload("newlist", { //此处是上文提到的 初始化标识id
@@ -132,12 +133,14 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        			}
 			        			else{
 			        				layer.confirm(data.msg, {
+			        				icon: 7,
 										  btn: ['确定']
 									});
 			        			}
 			        		},
 			        		error:function(){
 			        			layer.confirm('出现错误，删除失败，请重试！', {
+			        				  icon: 6,
 									  btn: ['确定']
 								});
 			        		},

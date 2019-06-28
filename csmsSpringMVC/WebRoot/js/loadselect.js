@@ -81,3 +81,174 @@ function loadSystemOperType(selectId, form){
 		layer.msg('未获取到日志类型！', function(){});
 	}
 }
+
+
+/**
+ * 下拉框加载
+ * @param type college class major
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadSelect(type,selectId, form){
+	var reqType = 'post';
+	var reqURL = '';
+	if(type=="college"){
+		reqURL = '../select/selectcollege';
+	}if(type=="class"){
+		reqURL = '../select/selectmajor';
+	}if(type=="major")
+	{
+		reqURL = '../select/selectclasses';
+	}
+	
+	var reqPara = {};
+	var stageData = callAJAX(reqType, reqURL, reqPara);
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择学院</option>";
+			for(var i = 0; i < stageData.data.length; i++) {
+				 if(type=="college"){
+					str += '<option value=' + stageData.data[i]['collegeid'] + '>' + stageData.data[i]['collegename'] + '</option>';
+				}if(type=="class"){
+					str += '<option value=' + stageData.data[i]['majorid'] + '>' + stageData.data[i]['majorname'] + '</option>';
+				}if(type=="major")
+				{
+					str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
+				}
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取信息', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取信息', function(){});
+	}
+}
+
+
+/**
+ * 学院下拉框默认值
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadCollegeSelected(selectId,collegeid, form){
+	var reqType = 'post';
+	var reqURL = '../select/selectcollege';
+	var reqPara = {collegeid:collegeid};
+	var stageData = callAJAX(reqType, reqURL, reqPara);
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择</option>";
+			for(var i = 0; i < stageData.data.length; i++) {
+				if(collegeid==stageData.data[i]['collegeid'])
+				{
+						str += '<option value=' + stageData.data[i]['collegeid'] + " selected='selected'"+'>' + stageData.data[i]['collegename'] + '</option>';
+				}else{
+						str += '<option value=' + stageData.data[i]['collegeid'] + '>' + stageData.data[i]['collegename'] + '</option>';
+				}	
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到专业信息', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到专业信息', function(){});
+	}
+}
+
+
+
+/**
+ * 根据学院id 专业下拉框动态加载
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadMajorSelectByCollegeid(selectId,collegeid, form){
+	var reqType = 'post';
+	var reqURL = '../select/selectmajorbycollegeid';
+	var reqPara = {collegeid:collegeid};
+	var stageData = callAJAX(reqType, reqURL, reqPara);
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择</option>";
+			for(var i = 0; i < stageData.data.length; i++) {
+				str += '<option value=' + stageData.data[i]['majorid'] + '>' + stageData.data[i]['majorname'] + '</option>';
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到专业信息', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到专业信息', function(){});
+	}
+}
+
+
+/**
+ * 根据专业id 班级下拉框动态加载
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadClassSelectByMajor(selectId,majorid, form){
+	var reqType = 'post';
+	var reqURL = '../select/selectclassesbymajor';
+	var reqPara = {majorid:majorid};
+	var stageData = callAJAX(reqType, reqURL, reqPara);
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择</option>";
+			for(var i = 0; i < stageData.data.length; i++) {
+				str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到班级信息', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到班级信息', function(){});
+	}
+}
+/**
+ * 根据学院id  班级下拉框动态加载
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadclassSelectByMajor(selectId, collegeid,form){
+	var reqType = 'post';
+	var reqURL = '../select/selectclassesbycollegeid';
+	var reqPara = {collegeid:collegeid};
+	var stageData = callAJAX(reqType, reqURL, reqPara);
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择</option>";
+			for(var i = 0; i < stageData.data.length; i++) {
+				str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到班级信息', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到班级信息', function(){});
+	}
+}

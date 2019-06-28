@@ -45,7 +45,7 @@ public class iHibBaseDAOImpl implements iHibBaseDAO {
 	}
 
 	@Override
-	public boolean insert(List<Object> list) {
+	public boolean insertList(List<Object> list) {
 		Session session = HibSessionFactory.getSession();
 		Transaction tx = null;
 		try {
