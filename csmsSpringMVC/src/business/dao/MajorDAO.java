@@ -89,4 +89,11 @@ public interface MajorDAO {
 	public List<VMajor> selectByPage(String wherecondition, int page,
 			int pageSize);
 
+	/**
+	 * 根据条件专业名称获取专业id
+	 * 
+	 * @return
+	 */
+	public int getMajorid(String majorname);
+
 }

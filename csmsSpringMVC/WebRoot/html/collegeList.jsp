@@ -230,8 +230,50 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   					
   				}
 			});
-  		})
+  		});
   		
+  		//确认导入按钮
+		$("#btn_import").click(function(){
+			
+			if($("#btn_import").val()==null || $("#btn_import").val()==""){
+				layer.msg("请先选择文件");
+				return;
+			}
+			$.ajax({
+				type:"GET",
+        		url:"../college/addcollegelist",
+        		dataType:"json",
+				data:{
+					path:$("#btn_import").val()
+				},beforeSend: function(){
+        			layer.load();
+    			},
+        		success:function(data){
+ 					layer.closeAll('loading'); //关闭loading
+           			if(data.code==0){
+						layer.confirm(data.msg, { icon: 1, btn: ['确定'] },
+				 		function(){
+							table.reload("collegelist", { //此处是上文提到的 初始化标识id
+							       where: {
+							        },
+							        page: {
+							          curr:1
+							        }
+							        })
+							 layer.closeAll();
+						})
+							
+						
+           			}else{
+              			layer.confirm(data.msg, { icon: 7,  btn: ['确定'] });
+          			 }
+        		},
+       			 error:function(jqXHR){
+ 					layer.closeAll('loading'); //关闭loading
+ 					layer.msg("发生错误："+ jqXHR.status);
+        		}
+			})
+		});
   		//添加学院按钮事件
   		$("#btn_addcollege").click(function(){
   			layer.open({
@@ -312,40 +354,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     
   			}
 		});
-		//确认导入按钮
-		$("#btn_import").click(function(){
-		$.ajax({
-			type:"GET",
-        url:"../college/addcollegelist",
-        dataType:"json",
-		data:{
-			path:$("#btn_import").val()
-		},beforeSend: function(){
-        	layer.load();
-    	},
-        success:function(data){
- 			layer.closeAll('loading'); //关闭loading
-           if(data.code==0){
-				layer.confirm(data.msg, { icon: 1, btn: ['确定'] },
-				 function(){
-							table.reload("collegelist", { //此处是上文提到的 初始化标识id
-							       where: {
-							        },
-							        page: {
-							          curr:1
-							        }
-							 layer.closeAll();
-				}); 
-           }else{
-              layer.confirm(data.msg, { icon: 7,  btn: ['确定'] });
-           }
-        },
-        error:function(jqXHR){
- 			layer.closeAll('loading'); //关闭loading
- 			layer.msg("发生错误："+ jqXHR.status);
-        }
-		})
-	});
+		
  		
 	}); 
   </script>
