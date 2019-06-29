@@ -3,6 +3,8 @@ package business.dao;
 import java.util.List;
 
 import model.TForumTitle;
+import model.VForum;
+import model.VForumTitle;
 
 public interface ForumDAO {
 	/**
@@ -47,7 +49,7 @@ public interface ForumDAO {
 	 *            文章编号
 	 * @return TForumTitle文章对象
 	 */
-	public TForumTitle getTForumById(int forumid);
+	public VForumTitle getVForumById(int forumid);
 
 	/**
 	 * 獲取文章分頁數據
@@ -60,6 +62,12 @@ public interface ForumDAO {
 	 */
 	public List<TForumTitle> getForumTitleByPages(String wherecondition,
 			int page, int pageSize);
+	
+	/**
+	 * 獲取文章内容數據
+	 * @return
+	 */
+	public List<VForum> getForumContent(int forumid);
 
 	/**
 	 * 获得按模糊查询实现的所有博客用户发表的文章对象列表
