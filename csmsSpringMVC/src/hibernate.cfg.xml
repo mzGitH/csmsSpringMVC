@@ -11,7 +11,7 @@
 		</property>
 		<property name="connection.url">
 			<!--jdbc:sqlserver://192.168.3.60:1433;DatabaseName=CSMS-->
-			jdbc:sqlserver://localhost:1433;DatabaseName=CSMS
+			jdbc:sqlserver://192.168.191.1:1433;DatabaseName=CSMS
 		</property>
 		<property name="connection.username">sa</property>
 		<property name="connection.password">123456</property>

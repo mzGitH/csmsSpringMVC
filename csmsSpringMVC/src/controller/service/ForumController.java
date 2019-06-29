@@ -102,7 +102,7 @@ public class ForumController {
 	}
 
 	@RequestMapping("delforum")
-	public void getForumList(HttpServletRequest request, Integer forumid,
+	public void delForumList(HttpServletRequest request, Integer forumid,
 			HttpServletResponse response, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
 
@@ -116,6 +116,39 @@ public class ForumController {
 		} else {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "删除失败";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// 编辑文章标题
+	@RequestMapping("edlforum")
+	public void edlForumList(HttpServletRequest request, Integer forumid,
+			String title, String author, HttpServletResponse response,
+			Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		TForumTitle forum = new TForumTitle();
+		forum.setForumid(forumid);
+		forum.setAuthor(author);
+		forum.setTitle(title);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+
+		LayuiData laydata = new LayuiData();
+		if (fdao.updateForum(forum)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "修改成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "修改失败";
 		}
 		Writer out;
 		try {

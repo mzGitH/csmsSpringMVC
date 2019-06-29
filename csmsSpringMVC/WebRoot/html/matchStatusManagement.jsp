@@ -38,28 +38,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		</blockquote>
       
       <div class="layui-card-body">
-        <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	<thead>
-        		<tr>
-        			<td>序号</td>
-        			<td>赛项名称</td>
-        			<td>比赛地点</td>
-        			<td>赛项级别</td>
-        			<td>比赛状态</td>
-        			<td>操作</td>
-        		</tr>
-        	</thead>
-        	<tbody>
-        		<tr>
-        			<td>1</td>
-        			<td>跳远</td>
-        			<td>田径场跳远场地二</td>
-        			<td>预赛</td>
-        			<td>未比赛</td>
-        			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑</button></td>
-        		</tr>
-        	</tbody>
-        </table>
+        
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 

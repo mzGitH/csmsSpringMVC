@@ -43,6 +43,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
         <script type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="add">内容管理</a>
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
@@ -102,7 +103,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		//表格工具栏事件 
 		table.on('tool(tool)', function(obj) {
 			var data = obj.data;
-			alert(data.forumid);
+			
 			
 			switch (obj.event) {
 				//删除按钮操作
@@ -146,10 +147,86 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					}, function(){ 
 						layer.closeAll();
 					});
+					case 'edit':
+					$("#oldtitle").val(data.title);
+					$("#oldauthor").val(data.author);
+					
+					layer.open({
+  						title:"文章信息编辑",
+  						type: 1,
+  						area: ['500px', '500px'],
+  						skin: 'demo-class',
+  						btn:['确认保存'],
+  						maxmin: true,//显示最大化最小化按钮
+  						//offset: 'b', 弹框的位置
+  						content: $('#div_edlForum'),
+  						btn1: function(index, layero){
+  							var author=data.author,title=data.title;
+  						
+  							if($("#newtitle").val().trim()!=null && $("#newtitle").val().trim()!=""){
+  							title=$("#newtitle").val().trim();
+  							}
+  							if($("#newauthor").val().trim()!=null && $("#newauthor").val().trim()!=""){
+  								author=$("#newauthor").val().trim();
+  							}
+  							if(($("#newauthor").val().trim()==null ||$("#newauthor").val().trim()=="")&&($("#newtitle").val().trim()==null ||$("#newtitle").val().trim()=="")){
+  							layer.tips('至少有一项修改才能提交', '#newtitle', {
+								tips : [ 1, '#3595CC' ],
+								time : 3000
+								});
+								return;
+  							}
+  							$.ajax({
+			        		type: 'get',
+			        		url: "../forum/edlforum",
+			        		dataType: 'json',
+			        		data:{
+			        		forumid:data.forumid,
+			        		 title:title,
+			        		  author:author
+			        		},
+			        		success:function(data){
+			        			if(data.code == 0){
+			        				layer.confirm(data.msg, {
+			        				icon: 1,
+									  btn: ['确定']
+									}, function(){
+										table.reload("forumlist", { //此处是上文提到的 初始化标识id
+							                where: {
+							                	
+							                },page: {
+							                curr:1
+							                }
+							            });	
+										layer.closeAll();
+									});          				 
+			        			}
+			        			else{
+			        				layer.confirm(data.msg, {
+			        					  icon: 7,
+										  btn: ['确定']
+									});
+			        			}
+			        		},
+			        		error:function(){
+			        			layer.confirm('出现错误，请重试！', {
+			        				  icon: 6,
+									  btn: ['确定']
+								});
+			        		},
+			        	});  
+    						},
+  						
+  						cancel: function(){ 
+  							$("#newcollegename").val("");
+  						}
+					});
 				break;
-				
-			}
-			;
+				case 'add':
+					alert(data.forumid);
+					window.location.href="addForumcontent.jsp?forumid="+data.forumid;
+				break;
+			};
 		});
 		
 		
@@ -251,16 +328,30 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		style="display: none;text-align: center; margin-top: 15px;">
 		
 		<div class="layui-form-item">
-			<label class="layui-form-label">文章标题:</label>
+			<label class="layui-form-label">文章原标题:</label>
 			<div class="layui-input-inline">
-				<input type="text" name="title" id="title" 
+				<input type="text" name="title" id="oldtitle" 
+					readonly="true" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">文章新标题:</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title" id="newtitle" 
 					placeholder="请输入文章标题" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">文章投稿人:</label>
+			<label class="layui-form-label">文章原投稿人:</label>
 			<div class="layui-input-inline">
-				<input type="text" name="title"  id="author"
+				<input type="text" name="title"  id="oldauthor"
+					readonly="true" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">文章新投稿人:</label>
+			<div class="layui-input-inline">
+				<input type="text" name="title"  id="newauthor"
 					placeholder="请输入投稿人" autocomplete="off" class="layui-input">
 			</div>
 		</div>

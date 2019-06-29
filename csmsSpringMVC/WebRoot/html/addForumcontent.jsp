@@ -59,13 +59,13 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			<div class="layui-row">
 				<div class="layui-container layui-col-md12 layui-col-lg12">
 					<div class="layui-card ">
-						<div class="layui-card-header">文章内容管理<button class="layui-btn btn_addcontent layui-btn-sm layui-btn-normal">添加内容</button></div>
+						<div class="layui-card-header">文章内容管理<button style="margin-left: 50px;" class="layui-btn btn_addcontent layui-btn-sm layui-btn-normal">添加内容</button></div>
 						<div class="layui-card-body">
 							<table class="layui-table" lay-skin="line">
 								<tr>
-									<td>标题</td>
+									<td>美丽西山大昆明</td>
 									<td>图片</td>
-									<td>内容</td>
+									<td>测试内容</td>
 									<td><button class="layui-btn btn_addcontent layui-btn-sm layui-btn-normal">编辑</button></td>
 								</tr>
 							</table>

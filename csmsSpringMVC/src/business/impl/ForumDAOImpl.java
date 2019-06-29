@@ -34,15 +34,25 @@ public class ForumDAOImpl implements ForumDAO {
 	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "删除文章")
 	@Override
 	public boolean deleteForum(int forumid) {
-		TForumTitle forum = (TForumTitle) bdao.findById(TForumTitle.class,
-				forumid);
-		return bdao.delete(forum);
+		String procname = "up_deleteForum(?)";
+		Object[] para = { forumid };
+		int row = (Integer) bdao.executeProduce(procname, para);
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Log(isSaveLog = true, operationType = OperType.MODIFY, operationName = "修改文章标题")
 	@Override
 	public boolean updateForum(TForumTitle Forum) {
-		return bdao.update(Forum);
+		TForumTitle forumsql = (TForumTitle) bdao.findById(TForumTitle.class,
+				Forum.getForumid());
+		forumsql.setAuthor(Forum.getAuthor());
+		forumsql.setTitle(Forum.getTitle());
+
+		return bdao.update(forumsql);
 	}
 
 	@Log(isSaveLog = false)
