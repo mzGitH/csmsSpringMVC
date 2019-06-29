@@ -36,16 +36,21 @@ public class ArrangeDaoImpl implements ArrangeDAO {
 	}
 
 	@Override
-	public List<VArrange> selectByPage(String strWhere, int pageSize,
-			int startPage) {
-		String hql = "from VArrange" + strWhere;
-		List<VArrange> list = bdao.selectByPage(hql, startPage, pageSize);
+	public List<VArrange> selectByPage(String strWhere, int page, int limit) {
+		String hql = "from VArrange";
+		if (strWhere != null && !strWhere.equals("")) {
+			hql += strWhere;
+		}
+		List<VArrange> list = bdao.selectByPage(hql, page, limit);
 		return list;
 	}
 
 	@Override
 	public int getCount(String strWhere) {
-		String hql = "select count(*) from VArrange" + strWhere;
+		String hql = "select count(*) from VArrange";
+		if (strWhere != null && !strWhere.equals("")) {
+			hql += strWhere;
+		}
 		int count = bdao.selectValue(hql);
 		return count;
 	}
@@ -63,6 +68,15 @@ public class ArrangeDaoImpl implements ArrangeDAO {
 		String hql = "select protype from VArrange where arrid=?";
 		Object[] param = { arrid };
 		int count = bdao.selectValue(hql, param);
+		return count;
+	}
+
+	@Override
+	public boolean updateState(int arrid, int state) {
+		// TODO Auto-generated method stub
+		TArrange arrange = (TArrange) bdao.findById(TArrange.class, arrid);
+		arrange.setState(state);
+		boolean count = bdao.update(arrange);
 		return count;
 	}
 
