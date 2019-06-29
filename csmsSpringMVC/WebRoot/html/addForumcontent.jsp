@@ -27,9 +27,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					<div class="layui-card">
 						<div class="layui-card-header">
 							<span style="font-size:18px;">文章信息</span>
-							<div style="float:right">
+							<!-- <div style="float:right">
 								<button class="layui-btn layui-btn-sm layui-btn-normal">修改文章信息</button>
-							</div>
+							</div> -->
 						</div>
 						<div class="layui-card-body">
 							<div class="layui-row layui-col-space20">
@@ -37,16 +37,16 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 									<table class="layui-table" id="forumcontent">
 										<tr>
 											<td>文章主标题</td>
-											<td>美丽西山大昆明</td>
+											<td>${forum.title }</td>
 										</tr>
 										
 										<tr>
 											<td>发表日期</td>
-											<td>2018-11-23 23:06</td>
+											<td>${forum.createtime }</td>
 										</tr>
 										<tr>
-											<td>发表届数</td>
-											<td>2018春季运动会</td>
+											<td>发表运动会名称</td>
+											<td>${forum.sportname }</td>
 										</tr>
 									</table>
 								</div>
@@ -61,129 +61,159 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					<div class="layui-card ">
 						<div class="layui-card-header">文章内容管理<button style="margin-left: 50px;" class="layui-btn btn_addcontent layui-btn-sm layui-btn-normal">添加内容</button></div>
 						<div class="layui-card-body">
-							<table class="layui-table" lay-skin="line">
+							<table id="contentlist" style="text-align: center;" class="layui-table" lay-filter="tool"></table>
+							<!-- <table class="layui-table" lay-skin="line">
 								<tr>
 									<td>美丽西山大昆明</td>
 									<td>图片</td>
 									<td>测试内容</td>
 									<td><button class="layui-btn btn_addcontent layui-btn-sm layui-btn-normal">编辑</button></td>
 								</tr>
-							</table>
+							</table> -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
+<script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+</script>
+<script>
+ 	layui.use(['layer','upload','table','jquery','form'], function(){
+ 		var layer = layui.layer,
+ 		form=layui.form,
+ 		table=layui.table,
+ 		$=layui.jquery,
+ 		upload = layui.upload;
+ 		/*加载表格*/
+	table.render({
+		elem : '#forumlist',
+		id:'contentlist',
+		url : '../forum/getcontentlist?forumid='+"${forum.forumid}",
+		title : '文章数据表',
+		height: "full-160",
+		even : true,
+		cols : [ 
+		     [ {
+				type : 'numbers',
+				title : '序号',
+				align : 'center',
+			}, {
+			    field : 'picpath',
+			    align : 'center',
+			    title : '图片',
+				templet:function(data){
+					return '<img style="display: inline-block; width: 100%; height: 100%;" src= '+data.picpath+'>'
+				}
+			}, {
+			    field : 'textcontent',
+			    title : '文章内容',
+			    align : 'center',
+    		},{
+				title : '操作',
+				toolbar : '#barDemo',
+				align : 'center'
+			}]
+		]
+	});
+ 		//添加内容按钮点击事件
+ 		$(".btn_addcontent").click(function(){
+ 			layer.open({
+ 				title:"编写一个博文内容",
+ 				type: 1,
+ 				area: ['500px'],
+ 				skin: 'demo-class',
+ 				btn:['添加'],
+ 				maxmin: true,//显示最大化最小化按钮
+ 				//offset: 'b', 弹框的位置
+ 				content: $('#div_addcontent'),
+ 				btn1: function(index, layero){
+   				layer.msg("666")
+ 				},
+ 				cancel: function(){ 
+ 					//$('#addcollegename').val("");
+ 				}
+		});
+ 		})
+ 		//监听提交
+       form.on('submit(formDemo)', function(data) {
+           layer.alert(JSON.stringify(data.field), {
+               title: '最终的提交信息'
+           })
+           return false;
+       });
+       upload.render({
+           elem: '#btn-photo',
+           url: 'fileuploadservlet.do',
+           before: function(obj) {
+               obj.preview(function(index, file, result) {
+                   $('#demo1').attr('src', result); //图片链接（base64）
+               });
+               layer.load(); //上传loading
+           },
+           done: function(res, index, upload) {
+               layer.closeAll('loading'); //关闭loading
+               $("#userphoto").val(data.result1); //将资源码传给 <input
+               alert(data.msg);
+           },
+           error: function(index, upload) {
+               layer.closeAll('loading'); //关闭loading
+           }
+       });
+}); 
+ </script>
 
-  <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
-	
-	<script src="../layui/layui.js" charset="utf-8"></script>
-  <script>
-  	layui.use(['layer','upload','table'], function(){
-  		var layer = layui.layer,$=layui.jquery,upload = layui.upload;
-  		
-  		
-  		//编辑按钮点击事件
-  		$(".btn_addcontent").click(function(){
-  			layer.open({
-  				title:"编写一个博文内容",
-  				type: 1,
-  				area: ['600px'],
-  				skin: 'demo-class',
-  				btn:['添加'],
-  				maxmin: true,//显示最大化最小化按钮
-  				//offset: 'b', 弹框的位置
-  				content: $('#div_addcontent'),
-  				btn1: function(index, layero){
-    				layer.msg("666")
-  				},
-  				cancel: function(){ 
-  					//$('#addcollegename').val("");
-  				}
-			});
-  		})
-  		//监听提交
-        form.on('submit(formDemo)', function(data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
-            return false;
-        });
-        upload.render({
-            elem: '#btn-photo',
-            url: 'fileuploadservlet.do',
-            before: function(obj) {
-                obj.preview(function(index, file, result) {
-                    $('#demo1').attr('src', result); //图片链接（base64）
-                });
-                layer.load(); //上传loading
-            },
-            done: function(res, index, upload) {
-                layer.closeAll('loading'); //关闭loading
-                $("#userphoto").val(data.result1); //将资源码传给 <input
-                alert(data.msg);
-            },
-            error: function(index, upload) {
-                layer.closeAll('loading'); //关闭loading
-            }
-        });
-  		
- 		
-	}); 
-  </script>
+<div class="layui-card" id="div_addcontent" style="display: none;height:450px;">
+	<div class="layui-card-body">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<!--表单开始-->
+				<form class="layui-form">
+					<div class="layui-form-item">
+						<label class="layui-form-label">图片名称</label>
+						<div class="layui-input-block">
+							<input type="text" name="userid"  required
+								lay-verify="required" placeholder="请选择上传的文章内容图片"
+								autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label"></label>
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-normal"
+								id="btn-photo">上传内容图片</button>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">图片预览</label>
+						<div class="layui-input-block">
+							<img class="layui-upload-img" src="img/2.jpg" id="demo1"
+								height="100px" width="150px">
+						</div>
+					</div>
 
-	<div class="layui-card" id="div_addcontent" style="display: none">
-		<div class="layui-card-body">
-			<div class="layui-card">
-				
-				<div class="layui-card-body">
-					<!--表单开始-->
-					<form class="layui-form">
-						<div class="layui-form-item">
-							<label class="layui-form-label">图片名称</label>
+					<div class=" layui-form-item">
+						<label class="layui-form-label">标题图片</label>
+						<div class="layui-input-block">
+							<input type="checkbox" name="like[true]" title="选定">
+						</div>
+					</div>
+					<!-- <div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">位置</label>
 							<div class="layui-input-block">
-								<input type="text" name="userid"  required
-									lay-verify="required" placeholder="请选择上传的文章内容图片"
-									autocomplete="off" class="layui-input layui-bg-gary">
+								<input class="layui-input" type="number" name="index" title="">
 							</div>
 						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label"></label>
-							<div class="layui-input-block">
-								<button type="button" class="layui-btn layui-btn-normal"
-									id="btn-photo">上传内容图片</button>
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">图片预览</label>
-							<div class="layui-input-block">
-								<img class="layui-upload-img" src="img/2.jpg" id="demo1"
-									height="200px" width="300px">
-							</div>
-						</div>
-
-						<div class=" layui-form-item">
-							<label class="layui-form-label">标题图片</label>
-							<div class="layui-input-block">
-								<input type="checkbox" name="like[true]" title="选定">
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<div class="layui-inline">
-								<label class="layui-form-label">位置</label>
-								<div class="layui-input-block">
-									<input class="layui-input" type="number" name="index" title="">
-								</div>
-							</div>
-						</div>
-
-						<div class="layui-form-item layui-form-text">
-							<label class="layui-form-label">图片描述</label>
-							<div class="layui-input-block">
-								<textarea name="signed" placeholder="请输入一段文字描述图片"
-									class="layui-textarea"></textarea>
+					</div> -->
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label">图片描述</label>
+						<div class="layui-input-block">
+							<textarea name="signed" placeholder="请输入一段文字描述图片"
+								class="layui-textarea"></textarea>
 							</div>
 						</div>
 					</form>
