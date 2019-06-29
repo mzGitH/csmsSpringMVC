@@ -2,16 +2,17 @@ package business.impl;
 
 import java.util.List;
 
-import model.TStudent;
-import model.TTeacher;
-import model.VStudent;
-import model.VTeacher;
+import model.TUser;
+import model.VUser;
 
 import org.springframework.stereotype.Component;
 
+import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.UserDAO;
+
+import common.properties.OperType;
 
 @Component("userdao")
 public class UserDaoImpl implements UserDAO {
@@ -22,211 +23,104 @@ public class UserDaoImpl implements UserDAO {
 	}
 
 	@Override
-	public VStudent loginStu(String userid, String pwd) {
-		VStudent student = (VStudent) bdao.findById(VStudent.class, userid);
-		if (student != null && !student.getUserid().equals("")) {
-			if (student.getPwd().equals(pwd)) {
-				return student;
-			} else {
-				return null;
+	public TUser loginStu(String userid, String pwd) {
+		TUser user2 = (TUser) bdao.findById(TUser.class, userid);
+		if (user2 != null) {
+			if (user2.getPwd().equals(pwd)) {
+				return user2;
 			}
-		} else {
-			return null;
 		}
+
+		return null;
 	}
 
-	// public static void main(String[] args){
-	// UserDAO dao = new UserDaoImpl();
-	// VStudent stu = dao.loginStu("1001", "123456");
-	// //VStudent stu = dao.geVStudent("1001");
-	// if(stu!=null){
-	// System.out.print(stu.getUsername());
-	// }
-	// }
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "添加用户")
 	@Override
-	public boolean insertStu(VStudent user) {
-		int row = (Integer) bdao.insert(user);
-		if (row > 0) {
+	public boolean insert(TUser user) {
+		String id = (String) bdao.insert(user);
+		if (id != null && !id.equals("")) {
+
 			return true;
-		} else {
-			return false;
 		}
+		return false;
+
+	}
+
+	@Log(isSaveLog = true, operationType = OperType.MODIFY, operationName = "修改用户密码")
+	@Override
+	public boolean updatePwd(String userid, String pwd) {
+
+		TUser user = (TUser) bdao.findById(TUser.class, userid);
+		user.setPwd(pwd);
+		return bdao.update(user);
+	}
+
+	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "根据用户id 删除用户")
+	@Override
+	public boolean delete(String userid) {
+		TUser user = (TUser) bdao.findById(TUser.class, userid);
+
+		return bdao.delete(user);
 	}
 
 	@Override
-	public boolean updateStuPwd(String userid, String pwd) {
-		// String sql="update T_Student set pwd=? where userid=?";
-		// Object[] param = {pwd,userid};
-		TStudent stu = (TStudent) bdao.findById(TStudent.class, userid);
-		stu.setPwd(pwd);
-		boolean flag = bdao.update(stu);
-		return flag;
+	public TUser getTUserByUserId(String userid) {
+		// TODO Auto-generated method stub
+		return (TUser) bdao.findById(TUser.class, userid);
 	}
 
 	@Override
-	public boolean deleteStu(String userid) {
-		VStudent student = (VStudent) bdao.findById(VStudent.class, userid);
-		if (student != null && !student.getUserid().equals("")) {
-			return bdao.delete(student);
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public VStudent getStudent(String userid) {
-		VStudent student = (VStudent) bdao.findById(VStudent.class, userid);
-		if (student != null && !student.getUserid().equals("")) {
-			return student;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public List<VStudent> selectStuByColl(String collegeid) {
-		String hql = "from VStudent where collegeid=?";
+	public List<VUser> selectUserByColl(String collegeid) {
+		String hql = "from VUser where collegeid=?";
 		Object[] param = { collegeid };
-		List<VStudent> list = bdao.select(hql, param);
-		if (list != null && list.size() > 0) {
-			return list;
-		} else {
-			return null;
-		}
+
+		return bdao.select(hql, param);
 	}
 
 	@Override
-	public List<VStudent> selectStuByMajor(String majorid) {
-		String hql = "from VStudent where majorid=?";
+	public List<VUser> selectUserByMajor(String majorid) {
+		String hql = "from VUser where majorid=?";
 		Object[] param = { majorid };
-		List<VStudent> list = bdao.select(hql, param);
-		if (list != null && list.size() > 0) {
-			return list;
-		} else {
-			return null;
-		}
+
+		return bdao.select(hql, param);
 	}
 
 	@Override
-	public List<VStudent> selectStuByClass(String classid) {
-		String hql = "from VStudent where classid=?";
+	public List<VUser> selectUserByClass(String classid) {
+		String hql = "from VUser where classid=?";
 		Object[] param = { classid };
-		List<VStudent> list = bdao.select(hql, param);
-		if (list != null && list.size() > 0) {
-			return list;
-		} else {
-			return null;
+
+		return bdao.select(hql, param);
+	}
+
+	@Override
+	public List<VUser> selectUserByClassPage(int classid, int page, int limit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getUserAmount(String opretion) {
+		String hql = "from VUser ";
+		if (opretion != null && !opretion.equals("")) {
+			hql += opretion;
 		}
+		return bdao.selectValue(hql);
 	}
 
-	// public static void main(String[] args){
-	// UserDaoImpl udao= new UserDaoImpl();
-	// List<VStudent> list = udao.selectStuByClassPage(3, 1, 5);
-	// for(VStudent stu:list){
-	// System.out.println(stu.getClassname());
-	// }
-	// }
-
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "批量添加用户")
 	@Override
-	public int stucount(int classid) {
-		String hql = "select count(userid) from VStudent where classid=?";
-		Object[] para = { classid };
-		int count = bdao.selectValue(hql, para);
-		return count;
+	public boolean insertList(List<Object> classeslist) {
+		return bdao.insertList(classeslist);
 	}
 
 	@Override
-	public List<VStudent> selectStuByClassPage(int classid, int page, int limit) {
-		String hql = "from VStudent where classid=?";
-		Object[] param = { classid };
-		List<VStudent> list = bdao.selectByPage(hql, param, page, limit);
-		return list;
-	}
-
-	@Override
-	public VTeacher loginTea(String userid, String pwd) {
-		VTeacher tea = (VTeacher) bdao.findById(VTeacher.class, userid);
-		if (tea != null && !tea.getUserid().equals("")) {
-			if (tea.getPwd().equals(pwd)) {
-				return tea;
-			} else {
-				return null;
-			}
-		} else {
-			return null;
+	public List<VUser> selectUserByPage(String opretion, int page, int limit) {
+		String hql = "from VUser ";
+		if (opretion != null && !opretion.equals("")) {
+			hql += opretion;
 		}
+		hql += " order by userid";
+		return bdao.selectByPage(hql, page, limit);
 	}
-
-	@Override
-	public boolean insertTea(VTeacher user) {
-		int row = (Integer) bdao.insert(user);
-		if (row > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean updateTeaPwd(String userid, String pwd) {
-		TTeacher tea = (TTeacher) bdao.findById(TTeacher.class, userid);
-		tea.setPwd(pwd);
-		return bdao.update(tea);
-	}
-
-	// public static void main(String[] args){
-	// UserDAO dao = new UserDaoImpl();
-	// TStudent stu = dao.getStudent("1001");
-	// if(stu!=null){
-	// System.out.print(dao.updateTeaPwd("94001", "123456"));
-	// }
-	// }
-	@Override
-	public boolean deleteTea(String userid) {
-		VTeacher teacher = (VTeacher) bdao.findById(VTeacher.class, userid);
-		if (teacher != null && !teacher.getUserid().equals("")) {
-			return bdao.delete(teacher);
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public VTeacher getTeacher(String userid) {
-		VTeacher teacher = (VTeacher) bdao.findById(VTeacher.class, userid);
-		if (teacher != null && !teacher.getUserid().equals("")) {
-			return teacher;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public List<VTeacher> selectTeaByColl(String collegeid) {
-		String hql = "from VTeacher where collegeid=?";
-		Object[] param = { collegeid };
-		List<VTeacher> list = bdao.select(hql, param);
-		if (list != null && list.size() > 0) {
-			return list;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public List<VTeacher> selectTeaByCollPage(int collegeid, int page, int limit) {
-		String hql = "from VTeacher where collegeid=?";
-		Object[] param = { collegeid };
-		List<VTeacher> list = bdao.selectByPage(hql, param, page, limit);
-		return list;
-	}
-
-	@Override
-	public int teacount(int collegeid) {
-		String hql = "select count(userid) from VTeacher where collegeid=?";
-		Object[] para = { collegeid };
-		int count = bdao.selectValue(hql, para);
-		return count;
-	}
-
 }

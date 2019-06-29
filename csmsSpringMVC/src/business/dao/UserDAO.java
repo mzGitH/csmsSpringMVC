@@ -2,144 +2,136 @@ package business.dao;
 
 import java.util.List;
 
-import model.VStudent;
-import model.VTeacher;
+import model.TUser;
+import model.VUser;
+
 /**
  * 用户业务接口类
+ * 
  * @author Administrator
  *
  */
 public interface UserDAO {
-	//学生方法
+	// 学生方法
 	/**
 	 * 学生用户登录
-	 * @param userid 用户id
-	 * @param pwd 用户密码
+	 * 
+	 * @param userid
+	 *            用户id
+	 * @param pwd
+	 *            用户密码
 	 * @return user用户对象
 	 */
-	public VStudent loginStu(String userid,String pwd);
-	
-	//public boolean insert(String userid,String username,String pwd,String agend,String mobile,Classes classes,College college,Role role);
+	public TUser loginStu(String userid, String pwd);
+
+	// public boolean insert(String userid,String username,String pwd,String
+	// agend,String mobile,Classes classes,College college,Role role);
 	/**
 	 * 添加学生用户对象
-	 * @param user 用户对象
+	 * 
+	 * @param user
+	 *            用户对象
 	 * @return 添加结果，true为成功，false为失败
 	 */
-	public boolean insertStu(VStudent user);
-	
+	public boolean insert(TUser user);
+
 	/**
 	 * 修改学生密码
-	 * @param userid 用户id
-	 * @param pwd 新密码
+	 * 
+	 * @param userid
+	 *            用户id
+	 * @param pwd
+	 *            新密码
 	 * @return 更新结果，true为成功，false为失败
 	 */
-	public boolean updateStuPwd(String userid,String pwd);
-	
+	public boolean updatePwd(String userid, String pwd);
+
 	/**
 	 * 删除用户对象
-	 * @param userid 用户id
+	 * 
+	 * @param userid
+	 *            用户id
 	 * @return 删除结果，true为成功，false为失败
 	 */
-	public boolean deleteStu(String userid);
-	
+	public boolean delete(String userid);
+
 	/**
 	 * 获取用户对象
-	 * @param userid 用户id
+	 * 
+	 * @param userid
+	 *            用户id
 	 * @return 用户对象
 	 */
-	public VStudent getStudent(String userid);
-	
+	public TUser getTUserByUserId(String userid);
+
 	/**
 	 * 根据学院id获取用户对象列表
-	 * @param collegeid 学院id
+	 * 
+	 * @param collegeid
+	 *            学院id
 	 * @return 用户对象列表
 	 */
-	public List<VStudent> selectStuByColl(String collegeid);
-	
+	public List<VUser> selectUserByColl(String collegeid);
+
 	/**
 	 * 根据专业id获取用户对象列表
-	 * @param majorid 专业id
+	 * 
+	 * @param majorid
+	 *            专业id
 	 * @return 用户对象列表
 	 */
-	public List<VStudent> selectStuByMajor(String majorid);
-	
+	public List<VUser> selectUserByMajor(String majorid);
+
 	/**
 	 * 根据班级id获取用户对象列表
-	 * @param classid 班级id
+	 * 
+	 * @param classid
+	 *            班级id
 	 * @return 用户对象列表
 	 */
-	public List<VStudent> selectStuByClass(String classid);
+	public List<VUser> selectUserByClass(String classid);
+
 	/**
 	 * 根据班级分页获取学生信息
-	 * @param classid 班级id
-	 * @param page 当前页
-	 * @param limit 每页数量
+	 * 
+	 * @param classid
+	 *            班级id
+	 * @param page
+	 *            当前页
+	 * @param limit
+	 *            每页数量
 	 * @return
 	 */
-	public List<VStudent> selectStuByClassPage(int classid,int page,int limit);
+	public List<VUser> selectUserByClassPage(int classid, int page, int limit);
+
+	/**
+	 * 根据查询分页获取用户信息
+	 * 
+	 * @param classid
+	 *            班级id
+	 * @param page
+	 *            当前页
+	 * @param limit
+	 *            每页数量
+	 * @return
+	 */
+	public List<VUser> selectUserByPage(String opretion, int page, int limit);
+
 	/**
 	 * 班级学生数量
+	 * 
 	 * @param classid
 	 * @return
 	 */
-	public int stucount(int classid);
-	//教师方法
-	
+	public int getUserAmount(String opretion);
+
 	/**
-	 * 教师用户登录
-	 * @param userid 用户id
-	 * @param pwd 用户密码
-	 * @return user用户对象
-	 */
-	public VTeacher loginTea(String userid,String pwd);
-	
-	/**
-	 * 添加教师用户对象
-	 * @param user 用户对象
-	 * @return 添加结果，true为成功，false为失败
-	 */
-	public boolean insertTea(VTeacher user);
-	
-	/**
-	 * 修改学生密码
-	 * @param userid 用户id
-	 * @param pwd 新密码
-	 * @return 更新结果，true为成功，false为失败
-	 */
-	public boolean updateTeaPwd(String userid,String pwd);
-	
-	/**
-	 * 删除用户对象
-	 * @param userid 用户id
-	 * @return 删除结果，true为成功，false为失败
-	 */
-	public boolean deleteTea(String userid);
-	
-	/**
-	 * 获取用户对象
-	 * @param userid 用户id
-	 * @return 用户对象
-	 */
-	public VTeacher getTeacher(String userid);
-	
-	/**
-	 * 根据学院id获取教师对象列表
-	 * @param collegeid 学院id
-	 * @return 教师对象列表
-	 */
-	public List<VTeacher> selectTeaByColl(String collegeid);
-	/**
-	 * 根据学院id分页获取教师对象列表
-	 * @param collegeid
-	 * @param page
-	 * @param limit
+	 * 批量添加用户
+	 * 
+	 * @param classeslist
+	 *            用户列表
 	 * @return
 	 */
-	public List<VTeacher> selectTeaByCollPage(int collegeid,int page,int limit);
-	/**
-	 * 学院教师数量
-	 * @param collegeid
-	 * @return
-	 */
-	public int teacount(int collegeid);
+	public boolean insertList(List<Object> classeslist);
+
 }
