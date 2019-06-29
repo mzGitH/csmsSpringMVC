@@ -12,10 +12,19 @@
 </head>
 <style>
 	body .demo-class .layui-layer-title{background:#4476A7; color:#fff; border: none;}
-body .demo-class .layui-layer-btn{border-top:1px solid #4476A7}
-body .demo-class .layui-layer-btn a{background:#4476A7;}
-body .demo-class .layui-layer-btn .layui-layer-btn1{background:#4476A7;}
-body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e4;}
+	body .demo-class .layui-layer-btn{border-top:1px solid #4476A7}
+	body .demo-class .layui-layer-btn a{background:#4476A7;}
+	body .demo-class .layui-layer-btn .layui-layer-btn1{background:#4476A7;}
+	body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e4;}
+	.layui-table-cell {
+	    font-size:14px;
+	    padding:0 5px;
+	    height:auto;
+	    overflow:visible;
+	    text-overflow:inherit;
+	    white-space:normal;
+	    word-break: break-all;
+	}
 </style>
 <body>
 
@@ -61,7 +70,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					<div class="layui-card ">
 						<div class="layui-card-header">文章内容管理<button style="margin-left: 50px;" class="layui-btn btn_addcontent layui-btn-sm layui-btn-normal">添加内容</button></div>
 						<div class="layui-card-body">
-							<table id="contentlist" style="text-align: center;" class="layui-table" lay-filter="tool"></table>
+							<table id="contentlist" style="text-align: center;" class="layui-table"></table>
 							<!-- <table class="layui-table" lay-skin="line">
 								<tr>
 									<td>美丽西山大昆明</td>
@@ -90,9 +99,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
  		upload = layui.upload;
  		/*加载表格*/
 	table.render({
-		elem : '#forumlist',
+		elem : '#contentlist',
 		id:'contentlist',
-		url : '../forum/getcontentlist?forumid='+"${forum.forumid}",
+		url : '../forum/getcontentlist?forumid=${forum.forumid}',
 		title : '文章数据表',
 		height: "full-160",
 		even : true,
@@ -105,8 +114,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			    field : 'picpath',
 			    align : 'center',
 			    title : '图片',
+			    style:'height:100px;',
 				templet:function(data){
-					return '<img style="display: inline-block; width: 100%; height: 100%;" src= '+data.picpath+'>'
+					return '<img style="display: inline-block; width: 100%;height:100%" src= '+data.picpath+'>'
 				}
 			}, {
 			    field : 'textcontent',
@@ -190,7 +200,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					<div class="layui-form-item">
 						<label class="layui-form-label">图片预览</label>
 						<div class="layui-input-block">
-							<img class="layui-upload-img" src="img/2.jpg" id="demo1"
+							<img class="layui-upload-img" src="../image/defaultuser.jpg" id="demo1"
 								height="100px" width="150px">
 						</div>
 					</div>

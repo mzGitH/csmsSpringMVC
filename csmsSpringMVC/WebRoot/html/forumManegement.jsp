@@ -73,30 +73,28 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					align : 'center',
 					
 				}, {
-     field : 'title',
-     align : 'center',
-     title : '文章标题',
-   
-    }, {
-     field : 'author',
-     align : 'center',
-     title : '投稿人',
-    
-    }, {
-     field : 'createtime',
-     title : '发布时间',
-     align : 'center',
-    		},{
-			title : '操作',
+				    field : 'title',
+				    align : 'center',
+				    title : '文章标题',
+				}, {
+				    field : 'author',
+				    align : 'center',
+				    title : '投稿人',
+				}, {
+				    field : 'createtime',
+				    title : '发布时间',
+				    align : 'center',
+				},{
+					title : '操作',
 					toolbar : '#barDemo',
 					align : 'center'
 				}] ],
 			 page: {
-					layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
-					groups: 5,
-					limit: 10,
-					limits: [1, 4, 5, 10, 50],
-					theme: '#1E9FFF',						
+				layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+				groups: 5,
+				limit: 10,
+				limits: [1, 4, 5, 10, 50],
+				theme: '#1E9FFF',						
 			 },
 		});
 		
@@ -222,7 +220,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				break;
 				/* 添加文章内容按钮 */
 				case 'add':
-					alert(data.forumid);
+					//alert(data.forumid);
 					window.location.href="../forum/getforum?forumid="+data.forumid;
 				break;
 			};
