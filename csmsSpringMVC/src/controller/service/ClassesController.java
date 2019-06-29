@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.TClass;
-import model.TMajor;
 import model.VClass;
 
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import util.Expression;
 import util.LayuiData;
 import util.ReadExcelUtils;
 import business.dao.ClassesDAO;
-import business.dao.CollegeDAO;
 import business.dao.MajorDAO;
 import business.factory.DAOFactory;
 
@@ -184,11 +182,11 @@ public class ClassesController {
 		}
 	}
 
-	// 批量添加专业
+	// 批量添加班级
 	@RequestMapping(value = "addclasseslist")
 	public void addcollegeByList(HttpServletRequest request, String path,
 			HttpServletResponse response, Model model) {
-		MajorDAO mdao = DAOFactory.getMajorDAO();
+		ClassesDAO mdao = DAOFactory.getClassesDAO();
 
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
@@ -200,30 +198,30 @@ public class ClassesController {
 
 			// 读取Excel表格内容
 			List<Map<Integer, Object>> list = excelReader.readExcelContent();
-			List<Object> majorlist = new ArrayList<Object>();
+			List<Object> classeslist = new ArrayList<Object>();
 
 			for (Map<Integer, Object> map : list) {
-				TMajor major = new TMajor();
+				TClass classes = new TClass();
 				for (Map.Entry<Integer, Object> m : map.entrySet()) {
 
 					switch (m.getKey()) {
 					case 0:
-						CollegeDAO cdao = DAOFactory.getCollegeDAO();
-						Integer collegeid = cdao.getCollegeid((String) m
-								.getValue());
-						major.setCollegeid(collegeid);
+						MajorDAO cdao = DAOFactory.getMajorDAO();
+						Integer majorid = cdao
+								.getMajorid((String) m.getValue());
+						classes.setMajorid(majorid);
 						break;
 					case 1:
-						major.setMajorname((String) m.getValue());
+						classes.setClassname((String) m.getValue());
 						break;
 					default:
 						break;
 					}
 				}
-				majorlist.add(major);
+				classeslist.add(classes);
 
 			}
-			if (mdao.insertList(majorlist)) {
+			if (mdao.insertList(classeslist)) {
 				layui.code = 0;
 				layui.msg = "导入成功";
 			} else {

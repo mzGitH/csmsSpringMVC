@@ -118,4 +118,11 @@ public class MajorDaoImpl implements MajorDAO {
 		return bdao.update(majorsql);
 	}
 
+	@Override
+	public int getMajorid(String majorname) {
+		String hql = "select majorid from TMajor where majorname=?";
+		Object[] para = { majorname };
+		return bdao.selectValue(hql, para);
+	}
+
 }

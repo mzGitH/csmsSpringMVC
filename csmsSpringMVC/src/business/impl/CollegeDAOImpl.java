@@ -99,6 +99,7 @@ public class CollegeDAOImpl implements CollegeDAO {
 		return bdao.update(collegesql);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public int getCollegeid(String collegename) {
 		String hql = "select collegeid from TCollege where collegename=?";
