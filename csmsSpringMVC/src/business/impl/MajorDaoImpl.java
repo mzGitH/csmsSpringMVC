@@ -3,12 +3,16 @@ package business.impl;
 import java.util.List;
 
 import model.TMajor;
+import model.VMajor;
 
 import org.springframework.stereotype.Component;
 
+import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.MajorDAO;
+
+import common.properties.OperType;
 
 @Component("majordao")
 public class MajorDaoImpl implements MajorDAO {
@@ -19,6 +23,7 @@ public class MajorDaoImpl implements MajorDAO {
 		this.bdao = new iHibBaseDAOImpl();
 	}
 
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "添加一个专业")
 	@Override
 	public boolean insert(TMajor major) {
 		int row = (Integer) bdao.insert(major);
@@ -29,37 +34,88 @@ public class MajorDaoImpl implements MajorDAO {
 		}
 	}
 
+	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "删除一个专业")
 	@Override
 	public boolean delete(int majorid) {
-		TMajor major = (TMajor) bdao.findById(TMajor.class, majorid);
-		return bdao.delete(major);
+		String procname = "up_deleteMajor(?)";
+		Object[] para = { majorid };
+		int row = (Integer) bdao.executeProduce(procname, para);
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
+	@Log(isSaveLog = false)
 	@Override
-	public TMajor selectByid(int majorid) {
-		return (TMajor) bdao.findById(TMajor.class, majorid);
+	public VMajor selectByid(int majorid) {
+		return (VMajor) bdao.findById(VMajor.class, majorid);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
-	public List<TMajor> select() {
+	public List<VMajor> select() {
 		String hql = "from TMajor";
-		List<TMajor> list = (List<TMajor>) bdao.select(hql);
+		List<VMajor> list = (List<VMajor>) bdao.select(hql);
 		return list;
 	}
 
+	@Log(isSaveLog = false)
 	@Override
-	public List<TMajor> selectByColl(int collegeid) {
-		String hql = "from TMajor where collegeid=?";
+	public List<VMajor> selectByColl(int collegeid) {
+		String hql = "from VMajor where collegeid=?";
 		Object[] para = { collegeid };
-		List<TMajor> list = (List<TMajor>) bdao.select(hql, para);
+		List<VMajor> list = (List<VMajor>) bdao.select(hql, para);
 		return list;
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public int getPageCount() {
 		String hql = "select count(*) from TMajor";
 		int count = bdao.selectValue(hql);
 		return count;
+	}
+
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "批量添加专业")
+	@Override
+	public boolean insertList(List<Object> majorlist) {
+		return bdao.insertList(majorlist);
+	}
+
+	@Log(isSaveLog = false)
+	@Override
+	public int getMajorAmount(String wherecondition) {
+		String hql = "select count(collegeid) from TMajor";
+		if (wherecondition != null && !wherecondition.equals("")) {
+			hql += wherecondition;
+		}
+		return bdao.selectValue(hql);
+
+	}
+
+	@Log(isSaveLog = false)
+	@Override
+	public List<VMajor> selectByPage(String wherecondition, int page,
+			int pageSize) {
+		String hql = "from VMajor";
+		if (wherecondition != null && !wherecondition.equals("")) {
+			hql += wherecondition;
+		}
+		hql += " order by majorid asc";
+		List<VMajor> list = bdao.selectByPage(hql, page, pageSize);
+		return list;
+	}
+
+	@Log(isSaveLog = true, operationType = OperType.MODIFY, operationName = "修改专业")
+	@Override
+	public boolean update(TMajor major) {
+		TMajor majorsql = (TMajor) bdao.findById(TMajor.class,
+				major.getMajorid());
+		majorsql.setCollegeid(major.getCollegeid());
+		majorsql.setMajorname(major.getMajorname());
+		return bdao.update(majorsql);
 	}
 
 }
