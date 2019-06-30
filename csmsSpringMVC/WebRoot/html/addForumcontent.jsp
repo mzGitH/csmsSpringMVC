@@ -109,7 +109,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 		     [ {
 				type : 'numbers',
 				title : '序号',
-				align : 'center',
+				align : 'center'
 			}, {
 			    field : 'picpath',
 			    align : 'center',
@@ -119,6 +119,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 					return '<img style="width: 150px;height:100%" src= "'+data.picpath+'">'
 					+'<input type="hidden" class="picid" value="'+data.picid+'" />'
 					+'<input type="hidden" class="picpath" value="'+data.picpath+'" />'
+					+'<input type="hidden" class="contentid" value="'+data.contentid+'" />'
 				}
 			}, {
 			    field : 'textcontent',
@@ -137,9 +138,6 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 				title : '操作',
 				toolbar : '#barDemo',
 				align : 'center'
-			},{
-				field :'contentid',
-				hide: true
 			}]
 		]
 	});
@@ -168,7 +166,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 					success : function(succ) {
 						layer.msg(succ.msg);
 						if (succ.code == 0) {
-							window.location.href="../forum/getforum?forumid=${forum.forumid}"
+							window.location.reload();
 						}
 					},
 					error : function() {
@@ -187,7 +185,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 	})
 	/* 文章内容编辑按钮 */
 	$(document).on('click',".edit", function () {
-            var contentid = $(this).parent().parent().next().children().text();
+            var contentid = $(this).parent().parent().prev().prev().find(".contentid").val();
             var content = $(this).parent().parent().prev().children().text();
             var photoid = $(this).parent().parent().prev().prev().find(".picid").val();
             var photopath = $(this).parent().parent().prev().prev().find(".picpath").val();
@@ -220,7 +218,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 						success : function(succ) {
 							layer.msg(succ.msg);
 							if (succ.code == 0) {
-								window.location.href="../forum/getforum?forumid=${forum.forumid}"
+								window.location.reload();
 							}
 						},
 						error : function() {
@@ -239,7 +237,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
     });
     /* 文章内容删除按钮 */
 	$(document).on('click',".del", function () {
-		var contentid = $(this).parent().parent().next().children().text();
+		var contentid = $(this).parent().parent().prev().prev().find(".contentid").val();
 		layer.open({
 			title: '温馨提示',
 			content: '确定要删除这条内容吗？',

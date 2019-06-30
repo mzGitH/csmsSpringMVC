@@ -119,7 +119,7 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 	}
 
-	@Log(isSaveLog = true)
+	@Log(isSaveLog = true,operationType = OperType.ADD, operationName = "添加文章内容")
 	@Override
 	public boolean addContent(TForumContent content) {
 		int row = (Integer)bdao.insert(content);
@@ -130,7 +130,7 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 	}
 
-	@Log(isSaveLog = true)
+	@Log(isSaveLog = true,operationType = OperType.MODIFY, operationName = "编辑文章内容")
 	@Override
 	public boolean editContent(TForumContent content) {
 		TForumContent newContent = (TForumContent)bdao.findById(TForumContent.class, content.getContentid());
@@ -139,6 +139,7 @@ public class ForumDAOImpl implements ForumDAO {
 		return bdao.update(newContent);
 	}
 
+	@Log(isSaveLog = true,operationType = OperType.DELETE, operationName = "删除文章内容")
 	@Override
 	public boolean delContent(int contentid) {
 		Object[] param = {contentid};
