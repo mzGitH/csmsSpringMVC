@@ -23,8 +23,12 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-inline">
-					<select id="systemtype">
-						<option value="0">请选择项目</option>
+					<select id="protype">
+						<option value="0">请选择项目类型</option>
+						<option value="1">学生个人赛</option>
+						<option value="2">学生团体赛</option>
+						<option value="3">教师个人赛</option>
+						<option value="4">教师团体赛</option>
 					</select>
 				</div>
 				<div class="layui-input-inline">
@@ -38,33 +42,195 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		</blockquote>
       
       <div class="layui-card-body">
-        
+        <table id="matchstatus" style="text-align: center;" class="layui-table" lay-filter="tool"></table>
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
-        <script type="text/html" id="table-useradmin-webuser">
+        <script type="text/html" id="edit">
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
       </div>
+      	<!--状态编辑div  -->
+		<div id="div_editcollege"
+			style="display: none;text-align: center; margin-top: 15%;">
+	    	<form class="layui-form">
+				<label class="layui-form-label">选择状态</label>
+				<div class="layui-input-block">
+					<input type="radio" lay-filter="erweima" name="sex" value="0" title="未比赛" id="btnradio">
+					<input type="radio" lay-filter="erweima" name="sex" value="1" title="比赛中">
+					<input type="radio" lay-filter="erweima" name="sex" value="2" title="比赛完成" checked>
+				</div>
+			</form>
+		</div>
     </div>
-
-  <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
+ <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 	
-	<script src="../layui/layui.js" charset="utf-8"></script>
-  <script>
-  	layui.use(['layer','upload','table'], function(){
-  		var layer = layui.layer,$=layui.jquery,upload = layui.upload;
-  		
-  		
-  		//编辑按钮点击事件
-  		$(".layui-btn").click(function(){
-  			layer.alert("编辑");
-  		})
-  		
- 		
-	}); 
-  </script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+	layui.use([ 'table', 'form', 'layer',  'laytpl', 'element','laydate' ], function() {
+		var table = layui.table, layer = layui.layer, $ = layui.jquery,
+			element = layui.element,  laydate = layui.laydate;
+		var form = layui.form;
+		form.render();
+		/*加载表格*/
+		table.render({
+			elem : '#matchstatus',
+			id:'satustable',
+			url : '../compelition/status',
+			title : '后台用户数据表',
+			height: "full-160",
+			skin : 'line',
+			even : true,
+			cols : [ 
+			     [ {
+					type : 'numbers',
+					title : '序号',
+					align : 'center'
+				},{
+					field : 'arrid',
+					title : 'id',
+					hide : true,
+				}, {
+			     field : 'proname',
+			     align : 'center',
+			     title : '赛项名称',
+			    }, {
+					field : '',
+					title : '赛项类型',
+					align : 'center',
+					templet : function(data) {
+						if(data.protype==1){
+							return "学生个人赛";
+						}
+						if(data.protype==2){
+							return "学生团体赛";
+						}
+						if(data.protype==3){
+							return "教师个人赛";
+						}
+						if(data.protype==4){
+							return "教师团体赛";
+						}
+					}
+				},{
+			     field : 'addr',
+			     align : 'center',
+			     title : '比赛地点',
+			    }, {
+					field : '',
+					title : '赛项级别',
+					align : 'center',
+					templet : function(data) {
+						return data.leveltype==1 ? "决赛":"预赛";
+					}
+				},{
+			     field : '',
+					title : '比赛状态',
+					align : 'center',
+					templet : function(data) {
+						if (data.state == 0) {
+							return "未比赛"
+						} else if (data.state == 1) {
+							return "比赛中"
+						} 
+						else if (data.state == 2) {
+							return "比赛完成"
+						} 
+					}
+			    },{
+			     field : 'createdate',
+			     title : '操作',
+			     toolbar: '#edit',
+			    }] 
+			 ],
+			 page: {
+					layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+					groups: 5,
+					limit: 10,
+					limits: [1, 4, 5, 10, 50],
+					theme: '#1E9FFF',						
+			 },
+		});	
+		
+		//表格工具栏事件 
+		table.on('tool(tool)', function(obj) {
+			var data = obj.data;
+			switch (obj.event) {
+				case 'edit':
+					//alert(data.arrid);
+					layer.open({
+  						title:"比赛状态编辑",
+  						type: 1,
+  						area: ['500px', '300px'],
+  						skin: 'demo-class',
+  						btn:['确认保存'],
+  						maxmin: true,//显示最大化最小化按钮
+  						//offset: 'b', 弹框的位置
+  						content: $('#div_editcollege'),
+  						btn1: function(index, layero){
+  							var state = $('input:radio[name="sex"]:checked').val();
+    						$.ajax({
+			        		type: 'get',
+			        		url: "../compelition/updatestate",
+			        		dataType: 'json',
+			        		data:{
+			        			state:state,
+			        			arrid:data.arrid,
+			        		},
+			        		success:function(data){
+			        			if(data.code == 0){
+			        				layer.confirm(data.msg, {
+			        				icon: 1,
+									  btn: ['确定']
+									}, function(){
+										table.reload("satustable", { //此处是上文提到的 初始化标识id
+							                where: {
+							                },page: {
+							                curr:1
+							                }
+							            });	
+										layer.closeAll();
+									});          				 
+			        			}
+			        			else{
+			        				layer.confirm(data.msg, {
+			        					  icon: 7,
+										  btn: ['确定']
+									});
+			        			}
+			        		},
+			        		error:function(){
+			        			layer.confirm('出现错误，请重试！', {
+			        				  icon: 6,
+									  btn: ['确定']
+								});
+			        		},
+			        	});  
+  						},
+  						cancel: function(){ 
+  							$("#newcollegename").val("");
+  						}
+					});
+				break;
+			};
+		});
+		
+		/* 点击查询对网站用户进行筛选 */
+		$("#btnselfrontinfo").click(function() {
+			table.reload('satustable', {
+				method : 'post',
+				where : {
+					'wherecondition' : $("#sysmothed").val().trim(),
+					'protype':$("#protype").val(),
+						},
+				page : {
+					curr : 1
+					}
+			});
+		});
+		
+	});
+</script>
 </body>
 		   
 </html>
