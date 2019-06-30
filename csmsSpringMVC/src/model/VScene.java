@@ -1,5 +1,6 @@
 package model;
 
+
 /**
  * VScene entity. @author MyEclipse Persistence Tools
  */
@@ -21,27 +22,18 @@ public class VScene implements java.io.Serializable {
 	private Integer collegelimit;
 	private Integer totallimit;
 	private Integer protype;
+	private Integer sportid;
+	private String sportname;
 	private String userid;
 	private String username;
-	private String mobile;
+	private Integer collegeid;
+	private String collegename;
 	private Integer classid;
-	private Integer roleid;
-	private String rolename;
 	private String classname;
 	private Integer majorid;
 	private String majorname;
-	private Integer collegeid;
-	private String collegename;
-	private String teausername;
-	private String teamobile;
-	private Integer teacollegeid;
-	private Integer tearoleid;
-	private String tearolename;
-	private String teacollegename;
-	private String pwd;
-	private String agend;
-	private String teapwd;
-	private String teaagend;
+	private Integer stucollegeid;
+	private String stucollegename;
 
 	// Constructors
 
@@ -51,8 +43,8 @@ public class VScene implements java.io.Serializable {
 
 	/** minimal constructor */
 	public VScene(Integer sceneid, Integer arrid, String arrname,
-			String starttime, String endtime, String addr,
-			Integer leveltype, Integer state, Integer matchid) {
+			String starttime, String endtime, String addr, Integer leveltype,
+			Integer state, Integer matchid) {
 		this.sceneid = sceneid;
 		this.arrid = arrid;
 		this.arrname = arrname;
@@ -66,16 +58,13 @@ public class VScene implements java.io.Serializable {
 
 	/** full constructor */
 	public VScene(Integer sceneid, Integer arrid, String arrname,
-			String starttime, String endtime, String addr,
-			Integer leveltype, Integer state, Integer matchid, Integer proid,
-			String proname, Integer scenelimit, Integer collegelimit,
-			Integer totallimit, Integer protype, String userid,
-			String username, String mobile, Integer classid, Integer roleid,
-			String rolename, String classname, Integer majorid,
-			String majorname, Integer collegeid, String collegename,
-			String teausername, String teamobile, Integer teacollegeid,
-			Integer tearoleid, String tearolename, String teacollegename,
-			String pwd, String agend, String teapwd, String teaagend) {
+			String starttime, String endtime, String addr, Integer leveltype,
+			Integer state, Integer matchid, Integer proid, String proname,
+			Integer scenelimit, Integer collegelimit, Integer totallimit,
+			Integer protype, Integer sportid, String sportname, String userid,
+			String username, Integer collegeid, String collegename,
+			Integer classid, String classname, Integer majorid,
+			String majorname, Integer stucollegeid, String stucollegename) {
 		this.sceneid = sceneid;
 		this.arrid = arrid;
 		this.arrname = arrname;
@@ -91,27 +80,18 @@ public class VScene implements java.io.Serializable {
 		this.collegelimit = collegelimit;
 		this.totallimit = totallimit;
 		this.protype = protype;
+		this.sportid = sportid;
+		this.sportname = sportname;
 		this.userid = userid;
 		this.username = username;
-		this.mobile = mobile;
+		this.collegeid = collegeid;
+		this.collegename = collegename;
 		this.classid = classid;
-		this.roleid = roleid;
-		this.rolename = rolename;
 		this.classname = classname;
 		this.majorid = majorid;
 		this.majorname = majorname;
-		this.collegeid = collegeid;
-		this.collegename = collegename;
-		this.teausername = teausername;
-		this.teamobile = teamobile;
-		this.teacollegeid = teacollegeid;
-		this.tearoleid = tearoleid;
-		this.tearolename = tearolename;
-		this.teacollegename = teacollegename;
-		this.pwd = pwd;
-		this.agend = agend;
-		this.teapwd = teapwd;
-		this.teaagend = teaagend;
+		this.stucollegeid = stucollegeid;
+		this.stucollegename = stucollegename;
 	}
 
 	// Property accessors
@@ -236,6 +216,22 @@ public class VScene implements java.io.Serializable {
 		this.protype = protype;
 	}
 
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
+	}
+
+	public String getSportname() {
+		return this.sportname;
+	}
+
+	public void setSportname(String sportname) {
+		this.sportname = sportname;
+	}
+
 	public String getUserid() {
 		return this.userid;
 	}
@@ -252,12 +248,20 @@ public class VScene implements java.io.Serializable {
 		this.username = username;
 	}
 
-	public String getMobile() {
-		return this.mobile;
+	public Integer getCollegeid() {
+		return this.collegeid;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setCollegeid(Integer collegeid) {
+		this.collegeid = collegeid;
+	}
+
+	public String getCollegename() {
+		return this.collegename;
+	}
+
+	public void setCollegename(String collegename) {
+		this.collegename = collegename;
 	}
 
 	public Integer getClassid() {
@@ -266,22 +270,6 @@ public class VScene implements java.io.Serializable {
 
 	public void setClassid(Integer classid) {
 		this.classid = classid;
-	}
-
-	public Integer getRoleid() {
-		return this.roleid;
-	}
-
-	public void setRoleid(Integer roleid) {
-		this.roleid = roleid;
-	}
-
-	public String getRolename() {
-		return this.rolename;
-	}
-
-	public void setRolename(String rolename) {
-		this.rolename = rolename;
 	}
 
 	public String getClassname() {
@@ -308,100 +296,20 @@ public class VScene implements java.io.Serializable {
 		this.majorname = majorname;
 	}
 
-	public Integer getCollegeid() {
-		return this.collegeid;
+	public Integer getStucollegeid() {
+		return this.stucollegeid;
 	}
 
-	public void setCollegeid(Integer collegeid) {
-		this.collegeid = collegeid;
+	public void setStucollegeid(Integer stucollegeid) {
+		this.stucollegeid = stucollegeid;
 	}
 
-	public String getCollegename() {
-		return this.collegename;
+	public String getStucollegename() {
+		return this.stucollegename;
 	}
 
-	public void setCollegename(String collegename) {
-		this.collegename = collegename;
-	}
-
-	public String getTeausername() {
-		return this.teausername;
-	}
-
-	public void setTeausername(String teausername) {
-		this.teausername = teausername;
-	}
-
-	public String getTeamobile() {
-		return this.teamobile;
-	}
-
-	public void setTeamobile(String teamobile) {
-		this.teamobile = teamobile;
-	}
-
-	public Integer getTeacollegeid() {
-		return this.teacollegeid;
-	}
-
-	public void setTeacollegeid(Integer teacollegeid) {
-		this.teacollegeid = teacollegeid;
-	}
-
-	public Integer getTearoleid() {
-		return this.tearoleid;
-	}
-
-	public void setTearoleid(Integer tearoleid) {
-		this.tearoleid = tearoleid;
-	}
-
-	public String getTearolename() {
-		return this.tearolename;
-	}
-
-	public void setTearolename(String tearolename) {
-		this.tearolename = tearolename;
-	}
-
-	public String getTeacollegename() {
-		return this.teacollegename;
-	}
-
-	public void setTeacollegename(String teacollegename) {
-		this.teacollegename = teacollegename;
-	}
-
-	public String getPwd() {
-		return this.pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	public String getAgend() {
-		return this.agend;
-	}
-
-	public void setAgend(String agend) {
-		this.agend = agend;
-	}
-
-	public String getTeapwd() {
-		return this.teapwd;
-	}
-
-	public void setTeapwd(String teapwd) {
-		this.teapwd = teapwd;
-	}
-
-	public String getTeaagend() {
-		return this.teaagend;
-	}
-
-	public void setTeaagend(String teaagend) {
-		this.teaagend = teaagend;
+	public void setStucollegename(String stucollegename) {
+		this.stucollegename = stucollegename;
 	}
 
 	public boolean equals(Object other) {
@@ -463,6 +371,13 @@ public class VScene implements java.io.Serializable {
 				&& ((this.getProtype() == castOther.getProtype()) || (this
 						.getProtype() != null && castOther.getProtype() != null && this
 						.getProtype().equals(castOther.getProtype())))
+				&& ((this.getSportid() == castOther.getSportid()) || (this
+						.getSportid() != null && castOther.getSportid() != null && this
+						.getSportid().equals(castOther.getSportid())))
+				&& ((this.getSportname() == castOther.getSportname()) || (this
+						.getSportname() != null
+						&& castOther.getSportname() != null && this
+						.getSportname().equals(castOther.getSportname())))
 				&& ((this.getUserid() == castOther.getUserid()) || (this
 						.getUserid() != null && castOther.getUserid() != null && this
 						.getUserid().equals(castOther.getUserid())))
@@ -470,19 +385,17 @@ public class VScene implements java.io.Serializable {
 						.getUsername() != null
 						&& castOther.getUsername() != null && this
 						.getUsername().equals(castOther.getUsername())))
-				&& ((this.getMobile() == castOther.getMobile()) || (this
-						.getMobile() != null && castOther.getMobile() != null && this
-						.getMobile().equals(castOther.getMobile())))
+				&& ((this.getCollegeid() == castOther.getCollegeid()) || (this
+						.getCollegeid() != null
+						&& castOther.getCollegeid() != null && this
+						.getCollegeid().equals(castOther.getCollegeid())))
+				&& ((this.getCollegename() == castOther.getCollegename()) || (this
+						.getCollegename() != null
+						&& castOther.getCollegename() != null && this
+						.getCollegename().equals(castOther.getCollegename())))
 				&& ((this.getClassid() == castOther.getClassid()) || (this
 						.getClassid() != null && castOther.getClassid() != null && this
 						.getClassid().equals(castOther.getClassid())))
-				&& ((this.getRoleid() == castOther.getRoleid()) || (this
-						.getRoleid() != null && castOther.getRoleid() != null && this
-						.getRoleid().equals(castOther.getRoleid())))
-				&& ((this.getRolename() == castOther.getRolename()) || (this
-						.getRolename() != null
-						&& castOther.getRolename() != null && this
-						.getRolename().equals(castOther.getRolename())))
 				&& ((this.getClassname() == castOther.getClassname()) || (this
 						.getClassname() != null
 						&& castOther.getClassname() != null && this
@@ -494,52 +407,15 @@ public class VScene implements java.io.Serializable {
 						.getMajorname() != null
 						&& castOther.getMajorname() != null && this
 						.getMajorname().equals(castOther.getMajorname())))
-				&& ((this.getCollegeid() == castOther.getCollegeid()) || (this
-						.getCollegeid() != null
-						&& castOther.getCollegeid() != null && this
-						.getCollegeid().equals(castOther.getCollegeid())))
-				&& ((this.getCollegename() == castOther.getCollegename()) || (this
-						.getCollegename() != null
-						&& castOther.getCollegename() != null && this
-						.getCollegename().equals(castOther.getCollegename())))
-				&& ((this.getTeausername() == castOther.getTeausername()) || (this
-						.getTeausername() != null
-						&& castOther.getTeausername() != null && this
-						.getTeausername().equals(castOther.getTeausername())))
-				&& ((this.getTeamobile() == castOther.getTeamobile()) || (this
-						.getTeamobile() != null
-						&& castOther.getTeamobile() != null && this
-						.getTeamobile().equals(castOther.getTeamobile())))
-				&& ((this.getTeacollegeid() == castOther.getTeacollegeid()) || (this
-						.getTeacollegeid() != null
-						&& castOther.getTeacollegeid() != null && this
-						.getTeacollegeid().equals(castOther.getTeacollegeid())))
-				&& ((this.getTearoleid() == castOther.getTearoleid()) || (this
-						.getTearoleid() != null
-						&& castOther.getTearoleid() != null && this
-						.getTearoleid().equals(castOther.getTearoleid())))
-				&& ((this.getTearolename() == castOther.getTearolename()) || (this
-						.getTearolename() != null
-						&& castOther.getTearolename() != null && this
-						.getTearolename().equals(castOther.getTearolename())))
-				&& ((this.getTeacollegename() == castOther.getTeacollegename()) || (this
-						.getTeacollegename() != null
-						&& castOther.getTeacollegename() != null && this
-						.getTeacollegename().equals(
-								castOther.getTeacollegename())))
-				&& ((this.getPwd() == castOther.getPwd()) || (this.getPwd() != null
-						&& castOther.getPwd() != null && this.getPwd().equals(
-						castOther.getPwd())))
-				&& ((this.getAgend() == castOther.getAgend()) || (this
-						.getAgend() != null && castOther.getAgend() != null && this
-						.getAgend().equals(castOther.getAgend())))
-				&& ((this.getTeapwd() == castOther.getTeapwd()) || (this
-						.getTeapwd() != null && castOther.getTeapwd() != null && this
-						.getTeapwd().equals(castOther.getTeapwd())))
-				&& ((this.getTeaagend() == castOther.getTeaagend()) || (this
-						.getTeaagend() != null
-						&& castOther.getTeaagend() != null && this
-						.getTeaagend().equals(castOther.getTeaagend())));
+				&& ((this.getStucollegeid() == castOther.getStucollegeid()) || (this
+						.getStucollegeid() != null
+						&& castOther.getStucollegeid() != null && this
+						.getStucollegeid().equals(castOther.getStucollegeid())))
+				&& ((this.getStucollegename() == castOther.getStucollegename()) || (this
+						.getStucollegename() != null
+						&& castOther.getStucollegename() != null && this
+						.getStucollegename().equals(
+								castOther.getStucollegename())));
 	}
 
 	public int hashCode() {
@@ -582,57 +458,35 @@ public class VScene implements java.io.Serializable {
 		result = 37 * result
 				+ (getProtype() == null ? 0 : this.getProtype().hashCode());
 		result = 37 * result
+				+ (getSportid() == null ? 0 : this.getSportid().hashCode());
+		result = 37 * result
+				+ (getSportname() == null ? 0 : this.getSportname().hashCode());
+		result = 37 * result
 				+ (getUserid() == null ? 0 : this.getUserid().hashCode());
 		result = 37 * result
 				+ (getUsername() == null ? 0 : this.getUsername().hashCode());
-		result = 37 * result
-				+ (getMobile() == null ? 0 : this.getMobile().hashCode());
-		result = 37 * result
-				+ (getClassid() == null ? 0 : this.getClassid().hashCode());
-		result = 37 * result
-				+ (getRoleid() == null ? 0 : this.getRoleid().hashCode());
-		result = 37 * result
-				+ (getRolename() == null ? 0 : this.getRolename().hashCode());
-		result = 37 * result
-				+ (getClassname() == null ? 0 : this.getClassname().hashCode());
-		result = 37 * result
-				+ (getMajorid() == null ? 0 : this.getMajorid().hashCode());
-		result = 37 * result
-				+ (getMajorname() == null ? 0 : this.getMajorname().hashCode());
 		result = 37 * result
 				+ (getCollegeid() == null ? 0 : this.getCollegeid().hashCode());
 		result = 37
 				* result
 				+ (getCollegename() == null ? 0 : this.getCollegename()
 						.hashCode());
-		result = 37
-				* result
-				+ (getTeausername() == null ? 0 : this.getTeausername()
-						.hashCode());
 		result = 37 * result
-				+ (getTeamobile() == null ? 0 : this.getTeamobile().hashCode());
-		result = 37
-				* result
-				+ (getTeacollegeid() == null ? 0 : this.getTeacollegeid()
-						.hashCode());
+				+ (getClassid() == null ? 0 : this.getClassid().hashCode());
 		result = 37 * result
-				+ (getTearoleid() == null ? 0 : this.getTearoleid().hashCode());
+				+ (getClassname() == null ? 0 : this.getClassname().hashCode());
+		result = 37 * result
+				+ (getMajorid() == null ? 0 : this.getMajorid().hashCode());
+		result = 37 * result
+				+ (getMajorname() == null ? 0 : this.getMajorname().hashCode());
 		result = 37
 				* result
-				+ (getTearolename() == null ? 0 : this.getTearolename()
+				+ (getStucollegeid() == null ? 0 : this.getStucollegeid()
 						.hashCode());
 		result = 37
 				* result
-				+ (getTeacollegename() == null ? 0 : this.getTeacollegename()
+				+ (getStucollegename() == null ? 0 : this.getStucollegename()
 						.hashCode());
-		result = 37 * result
-				+ (getPwd() == null ? 0 : this.getPwd().hashCode());
-		result = 37 * result
-				+ (getAgend() == null ? 0 : this.getAgend().hashCode());
-		result = 37 * result
-				+ (getTeapwd() == null ? 0 : this.getTeapwd().hashCode());
-		result = 37 * result
-				+ (getTeaagend() == null ? 0 : this.getTeaagend().hashCode());
 		return result;
 	}
 

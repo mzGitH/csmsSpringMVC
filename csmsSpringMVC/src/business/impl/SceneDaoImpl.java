@@ -48,4 +48,27 @@ public class SceneDaoImpl implements SceneDAO {
 		return (List<VScene>) bdao.select(hql, param);
 	}
 
+	@Override
+	public List<VScene> selectByPageFinish(String wherecondition, int page,
+			int limit) {
+		// TODO Auto-generated method stub
+		String hql = "from VScene";
+		if (wherecondition != null && !wherecondition.equals("")) {
+			hql += wherecondition;
+		}
+		List<VScene> list = bdao.selectByPage(hql, page, limit);
+		return list;
+	}
+
+	@Override
+	public int selectByPageFinishCount(String wherecondition) {
+		// TODO Auto-generated method stub
+		String hql = "select count(*) from VScene";
+		if (wherecondition != null && !wherecondition.equals("")) {
+			hql += wherecondition;
+		}
+		int count = bdao.selectValue(hql);
+		return count;
+	}
+
 }

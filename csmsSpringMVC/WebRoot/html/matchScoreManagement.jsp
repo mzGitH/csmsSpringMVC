@@ -23,13 +23,13 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-inline">
-					<select id="systemtype">
-						<option value="0">请选择项目</option>
+					<select id="project">
+						
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<!--  <div class="layui-input-inline">
 					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入查询条件" class="layui-input" autocomplete="off">
-			    </div>
+			    </div>-->
 				<div class="layui-inline">
 					<button id="btnselfrontinfo" type="button"
 						class="layui-btn layui-bg-blue">查询</button>
@@ -38,40 +38,13 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		</blockquote>
       
       <div class="layui-card-body">
-        <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	<thead>
-        		<tr>
-        			<td>序号</td>
-        			<td>场次名称</td>
-        			<td>比赛项目</td>
-        			<td>开始时间</td>
-        			<td>结束时间</td>
-        			<td>比赛地点</td>
-        			<td>比赛等级</td>
-        			<td>参赛选手</td>
-        			<td>操作</td>
-        		</tr>
-        	</thead>
-        	<tbody>
-        		<tr>
-        			<td>1</td>
-        			<td>男子跳高预赛第一场</td>
-        			<td>跳高</td>
-        			<td>2018-03-15 14:00:00</td>
-        			<td>2018-03-15 14:10:00</td>
-        			<td>田径场跳远场地二</td>
-        			<td>预赛</td>
-        			<td>张三,李四,王五,李白,张飞,关羽</td>
-        			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">成绩录入</button></td>
-        		</tr>
-        	</tbody>
-        </table>
+      <table id="scremanagement" style="text-align: center;" class="layui-table" lay-filter="tool"></table>
+        
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
-        <script type="text/html" id="table-useradmin-webuser">
-          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        <script type="text/html" id="scoreIn">
+          <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="signIn">成绩录入</button>
         </script>
       </div>
     </div>
@@ -80,33 +53,183 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 	
 	<script src="../layui/layui.js" charset="utf-8"></script>
   <script>
-  	layui.use(['layer','upload','table'], function(){
-  		var layer = layui.layer,$=layui.jquery,upload = layui.upload;
-  		
-  		
-  		//编辑按钮点击事件
-  		$(".layui-btn").click(function(){
-  			layer.open({
-  				title:"比赛成绩录入",
-  				type: 1,
-  				area: ['400px', '590px'],
-  				skin: 'demo-class',
-  				btn:['确认保存'],
-  				maxmin: true,//显示最大化最小化按钮
-  				//offset: 'b', 弹框的位置
-  				content: $('#div_editcollege'),
-  				btn1: function(index, layero){
-    				layer.msg("666")
-  				},
-  				cancel: function(){ 
-  					
-  				}
+  	layui.use([ 'table', 'form', 'layer',  'laytpl', 'element','laydate' ], function() {
+		var table = layui.table, layer = layui.layer, $ = layui.jquery,
+			element = layui.element,  laydate = layui.laydate;
+		var form = layui.form;
+		form.render();
+		/*加载表格*/
+		table.render({
+			elem : '#scremanagement',
+			id:'scremanagement',
+			url : '../score/getscore',
+			title : '后台用户数据表',
+			height: "full-160",
+			skin : 'row',
+			even : true,
+			cols : [ 
+			     [ {
+					type : 'numbers',
+					title : '序号',
+					align : 'center'
+				},{
+			     field : 'arrname',
+			     align : 'center',
+			     title : '场次名称',
+			    },{
+			     field : 'proname',
+			     align : 'center',
+			     title : '比赛项目',
+			    }, {
+			     field : 'starttime',
+			     align : 'center',
+			     title : '开始时间',
+			    },{
+			     field : 'endtime',
+			     align : 'center',
+			     title : '结束时间',
+			    },{
+			     field : 'addr',
+			     align : 'center',
+			     title : '比赛地点',
+			    }, {
+					field : '',
+					title : '赛项级别',
+					align : 'center',
+					templet : function(data) {
+						return data.leveltype==1 ? "决赛":"预赛";
+					}
+				},{
+			     field : '',
+			     title : '操作',
+			     toolbar: '#scoreIn',
+			    }] 
+			 ],
+			 page: {
+					layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+					groups: 5,
+					limit: 10,
+					limits: [1, 4, 5, 10, 50],
+					theme: '#1E9FFF',						
+			 },
+		});	
+		
+		//表格工具栏事件 
+		table.on('tool(tool)', function(obj) {
+			var data = obj.data;
+			switch (obj.event) {
+				case 'signIn':
+					//alert(data.arrid);
+					layer.open({
+  						title:"比赛状态编辑",
+  						type: 1,
+  						area: ['500px', '300px'],
+  						skin: 'demo-class',
+  						btn:['确认保存'],
+  						maxmin: true,//显示最大化最小化按钮
+  						//offset: 'b', 弹框的位置
+  						content: $('#div_editcollege'),
+  						btn1: function(index, layero){
+  							var state = $('input:radio[name="sex"]:checked').val();
+    						$.ajax({
+			        		type: 'get',
+			        		url: "../score/getscore",
+			        		dataType: 'json',
+			        		data:{
+			        			state:state,
+			        			arrid:data.arrid,
+			        		},
+			        		success:function(data){
+			        			if(data.code == 0){
+			        				layer.confirm(data.msg, {
+			        				icon: 1,
+									  btn: ['确定']
+									}, function(){
+										table.reload("satustable", { //此处是上文提到的 初始化标识id
+							                where: {
+							                },page: {
+							                curr:1
+							                }
+							            });	
+										layer.closeAll();
+									});          				 
+			        			}
+			        			else{
+			        				layer.confirm(data.msg, {
+			        					  icon: 7,
+										  btn: ['确定']
+									});
+			        			}
+			        		},
+			        		error:function(){
+			        			layer.confirm('出现错误，请重试！', {
+			        				  icon: 6,
+									  btn: ['确定']
+								});
+			        		},
+			        	});  
+  						},
+  						cancel: function(){ 
+  							$("#newcollegename").val("");
+  						}
+					});
+				break;
+			};
+		});
+		
+		/* 点击查询对网站用户进行筛选 */
+		$("#btnselfrontinfo").click(function() {
+			table.reload('scremanagement', {
+				method : 'post',
+				where : {
+					//'wherecondition' : $("#sysmothed").val().trim(),
+					'project':$("#project").val(),
+					'sport':$("#sport").val()
+						},
+				page : {
+					curr : 1
+					}
 			});
-  		})
-  		
- 		
-	}); 
-  </script>
+		});
+		//下拉框加载
+		$(function() {
+			//$(".search").hide();
+			$.ajax({
+				url : "../score/getproject",
+				type : "POST",
+				data : null,
+				dataType : 'json',
+				contentType : 'application/json;charset=UTF-8',//contentType 很重要
+				success : function(e) {
+					//alert(e.data[0].collegeid);
+					var s = $("#project").html();
+					var str = "<option value='0'>请选择项目</option>";
+					for(var i=0;i<e.resultObject.length;i++){
+						var typeid = e.resultObject[i].protype;
+						var protypename="";
+						if(typeid==1){
+							protypename="学生个人赛";
+						}else if(typeid==2){
+							protypename="学生团体赛";
+						}
+						else if(typeid==3){
+							protypename="教职工个人赛";
+						}else if(typeid==4){
+							protypename="教职工团体赛";
+						}
+						str += "<option value="+e.resultObject[i].proid+">"+e.resultObject[i].proname+"("+protypename+")"+"</option>"
+					}
+					$("#project").append(str);
+					form.render("select");
+				},
+				error : function(e) {
+					layer.alert("error:"+e.msg);
+				}
+	
+			})
+		});
+	});
+</script>
    <!--学院编辑div  -->
 	<div id="div_editcollege"
 		style="display: none;text-align: center; margin-top: 10%;">

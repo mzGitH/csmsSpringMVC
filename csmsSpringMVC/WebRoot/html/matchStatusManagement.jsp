@@ -58,7 +58,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				<div class="layui-input-block">
 					<input type="radio" lay-filter="erweima" name="sex" value="0" title="未比赛" id="btnradio">
 					<input type="radio" lay-filter="erweima" name="sex" value="1" title="比赛中">
-					<input type="radio" lay-filter="erweima" name="sex" value="2" title="比赛完成" checked>
+					<input type="radio" lay-filter="erweima" name="sex" value="2" title="比赛完成">
 				</div>
 			</form>
 		</div>
@@ -86,10 +86,6 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					type : 'numbers',
 					title : '序号',
 					align : 'center'
-				},{
-					field : 'arrid',
-					title : 'id',
-					hide : true,
 				}, {
 			     field : 'proname',
 			     align : 'center',
