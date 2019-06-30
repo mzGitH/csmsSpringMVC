@@ -15,7 +15,7 @@ public interface PhotoDAO {
 	 * @param TPhoto obj 图片资源对象
 	 * @return int 成功返回图片资源的主键key，失败返回0
 	 */
-	public boolean addPhoto(TPhoto obj);
+	public int addPhoto(TPhoto obj);
 	
 	/**
 	 * 将指定一个图片资源删除

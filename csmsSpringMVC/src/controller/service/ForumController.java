@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.TConfig;
+import model.TForumContent;
 import model.TForumTitle;
+import model.VForum;
+import model.VForumTitle;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +56,6 @@ public class ForumController {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -96,7 +98,6 @@ public class ForumController {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -124,7 +125,6 @@ public class ForumController {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -157,7 +157,103 @@ public class ForumController {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("getforum")
+	public String getForumTitle(HttpServletRequest request,int forumid,
+			HttpServletResponse response, Model model){
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		VForumTitle forum = fdao.getVForumById(forumid);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		model.addAttribute("forum", forum);
+		return "html/addForumcontent";
+	}
+	
+	@RequestMapping("getcontentlist")
+	public void getContentList(HttpServletRequest request,int forumid,
+			HttpServletResponse response, Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		List<VForum> forumlist = fdao.getForumContent(forumid);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+
+		LayuiData laydata = new LayuiData();
+		if (forumlist != null) {
+			laydata.data = forumlist;
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "查询成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "无数据";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("addcontent")
+	public void addContent(HttpServletRequest request,HttpServletResponse response,
+			int forumid,int photoid,String textcontent,Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		TForumContent content = new TForumContent();
+		content.setForumid(forumid);
+		content.setPicid(photoid);
+		content.setTextcontent(textcontent);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (fdao.addContent(content)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "添加成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "添加失败";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("editcontent")
+	public void editContent(HttpServletRequest request,HttpServletResponse response,
+			int contentid,int photoid,String textcontent,Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		TForumContent content = new TForumContent();
+		content.setContentid(contentid);
+		content.setPicid(photoid);
+		content.setTextcontent(textcontent);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (fdao.editContent(content)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "添加成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "添加失败";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

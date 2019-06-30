@@ -73,38 +73,34 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					align : 'center',
 					
 				}, {
-     field : 'title',
-     align : 'center',
-     title : '文章标题',
-   
-    }, {
-     field : 'author',
-     align : 'center',
-     title : '投稿人',
-    
-    }, {
-     field : 'createtime',
-     title : '发布时间',
-     align : 'center',
-    		},{
-			title : '操作',
+				    field : 'title',
+				    align : 'center',
+				    title : '文章标题',
+				}, {
+				    field : 'author',
+				    align : 'center',
+				    title : '投稿人',
+				}, {
+				    field : 'createtime',
+				    title : '发布时间',
+				    align : 'center',
+				},{
+					title : '操作',
 					toolbar : '#barDemo',
 					align : 'center'
 				}] ],
 			 page: {
-					layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
-					groups: 5,
-					limit: 10,
-					limits: [1, 4, 5, 10, 50],
-					theme: '#1E9FFF',						
+				layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+				groups: 5,
+				limit: 10,
+				limits: [1, 4, 5, 10, 50],
+				theme: '#1E9FFF',						
 			 },
 		});
 		
 		//表格工具栏事件 
 		table.on('tool(tool)', function(obj) {
 			var data = obj.data;
-			
-			
 			switch (obj.event) {
 				//删除按钮操作
 				case 'del':
@@ -147,10 +143,10 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					}, function(){ 
 						layer.closeAll();
 					});
+					/* 编辑文章标题按钮 */
 					case 'edit':
 					$("#oldtitle").val(data.title);
 					$("#oldauthor").val(data.author);
-					
 					layer.open({
   						title:"文章信息编辑",
   						type: 1,
@@ -222,9 +218,10 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   						}
 					});
 				break;
+				/* 添加文章内容按钮 */
 				case 'add':
-					alert(data.forumid);
-					window.location.href="addForumcontent.jsp?forumid="+data.forumid;
+					//alert(data.forumid);
+					window.location.href="../forum/getforum?forumid="+data.forumid;
 				break;
 			};
 		});
@@ -256,39 +253,39 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   				//offset: 'b', 弹框的位置
   				content: $('#div_addForum'),
   				btn1: function(index, layero){
-    					$.ajax({
-			        		type: 'get',
-			        		url: "../forum/addforum",
-			        		dataType: 'json',
-			        		data:{
-			        			author:$("#author").val().trim(),
-			        			title:$("#title").val().trim()
-			        		},
-			        		success:function(data){
-			        			if(data.code == 0){
-			        				layer.confirm(data.msg, {
-									  btn: ['确定']
-									}, function(){
-										table.reload("forumlist", { //此处是上文提到的 初始化标识id
-							                where: {
-							                	keyword:data.code=='0'
-							                }
-							            });	
-										layer.closeAll();
-									});          				 
-			        			}
-			        			else{
-			        				layer.confirm(data.msg, {
-										  btn: ['确定']
-									});
-			        			}
-			        		},
-			        		error:function(){
-			        			layer.confirm('出现错误，删除失败，请重试！', {
+   					$.ajax({
+		        		type: 'get',
+		        		url: "../forum/addforum",
+		        		dataType: 'json',
+		        		data:{
+		        			author:$("#author").val().trim(),
+		        			title:$("#title").val().trim()
+		        		},
+		        		success:function(data){
+		        			if(data.code == 0){
+		        				layer.confirm(data.msg, {
+								  btn: ['确定']
+								}, function(){
+									table.reload("forumlist", { //此处是上文提到的 初始化标识id
+						                where: {
+						                	keyword:data.code=='0'
+						                }
+						            });	
+									layer.closeAll();
+								});          				 
+		        			}
+		        			else{
+		        				layer.confirm(data.msg, {
 									  btn: ['确定']
 								});
-			        		},
-			        	});   
+		        			}
+		        		},
+		        		error:function(){
+		        			layer.confirm('出现错误，删除失败，请重试！', {
+								  btn: ['确定']
+							});
+		        		},
+		        	});   
   				},
   				cancel: function(){ 
   					$('#title').val("");

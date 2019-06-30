@@ -10,65 +10,66 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.TClass;
-import model.VClass;
+import model.TUser;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import util.EnCriptUtil;
 import util.Expression;
 import util.LayuiData;
 import util.ReadExcelUtils;
-import business.dao.ClassesDAO;
-import business.dao.MajorDAO;
+import business.dao.UserDAO;
 import business.factory.DAOFactory;
 
 import com.alibaba.fastjson.JSON;
 
 @Controller
-@RequestMapping(value = "classes")
-public class ClassesController {
-	// 获取专业列表
-	@RequestMapping(value = "getclasses")
-	public void getCollegeList(HttpServletRequest request, Integer page,
-			Integer limit, Integer collegeid, Integer majorid,
-			String wherecondition, HttpServletResponse response, Model model) {
+@RequestMapping(value = "user")
+public class UserController {
+	@RequestMapping(value = "getuser")
+	public void getUserList(HttpServletRequest request, int page, int limit,
+			String opretion, Integer collegeid, Integer majorid,
+			Integer classid, HttpServletResponse response, Model model) {
 
+		UserDAO udao = DAOFactory.getUserDAO();
 		// 查询条件
 		Expression exp = new Expression();
-		if (collegeid != null) {
+
+		if (collegeid != null && !collegeid.equals("")) {
+
 			exp.andEqu("collegeid", collegeid, Integer.class);
 		}
-		if (majorid != null) {
+		if (majorid != null && !majorid.equals("")) {
+
 			exp.andEqu("majorid", majorid, Integer.class);
 		}
-		if (wherecondition != null && !wherecondition.equals("")) {
+		if (classid != null && !classid.equals("")) {
 
-			exp.andLike("classname", wherecondition, String.class);
+			exp.andEqu("classid", classid, Integer.class);
 		}
-
+		if (opretion != null && !opretion.equals("")) {
+			exp.andLeftBraLike("username", opretion, String.class);
+			exp.orLike("userid", opretion, String.class);
+			exp.orLike("collegename", opretion, String.class);
+			exp.orLike("majorname", opretion, String.class);
+			exp.orRightBraLike("classname", opretion, String.class);
+		}
 		String opreation = exp.toString();
+		System.out.println(opreation);
+		int allcount = udao.getUserAmount(opreation);
 
-		ClassesDAO cdao = DAOFactory.getClassesDAO();
-		int allcount = cdao.getclassAmount(opreation);
-		List<VClass> majorlist = cdao.selectByPage(opreation, page, limit);
+		List list = udao.selectUserByPage(opreation, page, limit);
 
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 
 		LayuiData laydata = new LayuiData();
-		if (majorlist != null) {
-			laydata.code = LayuiData.SUCCESS;
-			laydata.msg = "执行成功";
-		} else {
-			laydata.code = LayuiData.ERRR;
-			laydata.msg = "无数据";
-
-		}
-
+		laydata.code = LayuiData.SUCCESS;
+		laydata.msg = "执行成功";
 		laydata.count = allcount;
-		laydata.data = majorlist;
+		laydata.data = list;
 		Writer out;
 		try {
 			out = response.getWriter();
@@ -79,29 +80,32 @@ public class ClassesController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	// 添加班级
-	@RequestMapping(value = "addclasses")
-	public void addcollege(HttpServletRequest request, Integer majorid,
-			String classname, HttpServletResponse response, Model model) {
-		ClassesDAO cdao = DAOFactory.getClassesDAO();
+	@RequestMapping(value = "adduser")
+	public void addUser(HttpServletRequest request, Integer classid,
+			String userid, String pwd, Integer usertype,
+			HttpServletResponse response, Model model) {
 
+		UserDAO udao = DAOFactory.getUserDAO();
+		String md5Str = EnCriptUtil.fix(userid, pwd);
+		String endPwd = EnCriptUtil.getEcriptStr(md5Str, "md5");
+		TUser user = new TUser();
+		user.setUserid(userid);
+		user.setPwd(endPwd);
+		user.setUserregion(classid);
+		user.setUsertype(usertype);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
-		TClass classes = new TClass();
-		classes.setMajorid(majorid);
-		classes.setClassname(classname);
 
 		LayuiData laydata = new LayuiData();
-		if (cdao.insert(classes)) {
+
+		if (udao.insert(user)) {
 			laydata.code = LayuiData.SUCCESS;
 			laydata.msg = "添加成功";
 		} else {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "添加失败";
-
 		}
 		Writer out;
 		try {
@@ -113,62 +117,22 @@ public class ClassesController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	// 删除班级
-	@RequestMapping(value = "delclasses")
-	public void delcollege(HttpServletRequest request, Integer classid,
+	@RequestMapping(value = "deluser")
+	public void delUser(HttpServletRequest request, String userid,
 			HttpServletResponse response, Model model) {
-		ClassesDAO cdao = DAOFactory.getClassesDAO();
 
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("application/json");
+		UserDAO udao = DAOFactory.getUserDAO();
 
 		LayuiData laydata = new LayuiData();
-		if (cdao.delete(classid)) {
+
+		if (udao.delete(userid)) {
 			laydata.code = LayuiData.SUCCESS;
 			laydata.msg = "删除成功";
 		} else {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "删除失败";
-
-		}
-		Writer out;
-		try {
-			out = response.getWriter();
-			out.write(JSON.toJSONString(laydata));
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	// 编辑班级
-	@RequestMapping(value = "edclasses")
-	public void edcollege(HttpServletRequest request, Integer majorid,
-			Integer classid, String classname, HttpServletResponse response,
-			Model model) {
-		ClassesDAO cdao = DAOFactory.getClassesDAO();
-
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("application/json");
-		TClass classes = new TClass();
-		classes.setClassid(classid);
-		classes.setMajorid(majorid);
-		classes.setClassname(classname);
-
-		LayuiData laydata = new LayuiData();
-		if (cdao.update(classes)) {
-			laydata.code = LayuiData.SUCCESS;
-			laydata.msg = "编辑成功";
-		} else {
-			laydata.code = LayuiData.ERRR;
-			laydata.msg = "编辑失败";
-
 		}
 		Writer out;
 		try {
@@ -182,11 +146,11 @@ public class ClassesController {
 		}
 	}
 
-	// 批量添加班级
-	@RequestMapping(value = "addclasseslist")
-	public void addcollegeByList(HttpServletRequest request, String path,
+	// 批量添加用户
+	@RequestMapping(value = "addUserlist")
+	public void addUserByList(HttpServletRequest request, String path,
 			HttpServletResponse response, Model model) {
-		ClassesDAO mdao = DAOFactory.getClassesDAO();
+		UserDAO udao = DAOFactory.getUserDAO();
 
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
@@ -198,30 +162,45 @@ public class ClassesController {
 
 			// 读取Excel表格内容
 			List<Map<Integer, Object>> list = excelReader.readExcelContent();
-			List<Object> classeslist = new ArrayList<Object>();
+			List<Object> userlist = new ArrayList<Object>();
 
 			for (Map<Integer, Object> map : list) {
-				TClass classes = new TClass();
+				TUser user = new TUser();
 				for (Map.Entry<Integer, Object> m : map.entrySet()) {
 
 					switch (m.getKey()) {
 					case 0:
-						MajorDAO cdao = DAOFactory.getMajorDAO();
-						Integer majorid = cdao
-								.getMajorid((String) m.getValue());
-						classes.setMajorid(majorid);
+						user.setUserid((String) m.getValue());
 						break;
 					case 1:
-						classes.setClassname((String) m.getValue());
+						user.setUsername((String) m.getValue());
+						break;
+					case 2:
+						String md5Str = EnCriptUtil.fix(user.getUserid(),
+								(String) m.getValue());
+						String endPwd = EnCriptUtil.getEcriptStr(md5Str, "md5");
+						user.setPwd(endPwd);
+						break;
+					case 3:
+						user.setUserregion((Integer) m.getValue());
+						break;
+					case 4:
+						Integer usertype = null;
+						if (((String) m.getValue()).equals("教师")) {
+							usertype = 1;
+						} else {
+							usertype = 0;
+						}
+						user.setUserregion(usertype);
 						break;
 					default:
 						break;
 					}
 				}
-				classeslist.add(classes);
+				userlist.add(user);
 
 			}
-			if (mdao.insertList(classeslist)) {
+			if (udao.insertList(userlist)) {
 				layui.code = 0;
 				layui.msg = "导入成功";
 			} else {

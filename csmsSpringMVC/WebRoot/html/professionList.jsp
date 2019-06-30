@@ -241,20 +241,60 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   			layer.open({
   				title:"专业信息导入",
   				type: 1,
-  				area: ['400px', '300px'],
+  				area: ['500px', '400px'],
   				skin: 'demo-class',
-  				btn:['确认导入'],
   				maxmin: true,//显示最大化最小化按钮
   				//offset: 'b', 弹框的位置
   				content: $('#div_import'),
-  				btn1: function(index, layero){
-    				layer.msg("666")
-  				},
+  				
   				cancel: function(){ 
   					
   				}
 			});
   		})
+  		
+  		//确认导入按钮
+		$("#btn_import").click(function(){
+			
+			if($("#btn_import").val()==null || $("#btn_import").val()==""){
+				layer.msg("请先选择文件");
+				return;
+			}
+			$.ajax({
+				type:"GET",
+        		url:"../major/addmajorlist",
+        		dataType:"json",
+				data:{
+					path:$("#btn_import").val()
+				},beforeSend: function(){
+        			layer.load();
+    			},
+        		success:function(data){
+ 					layer.closeAll('loading'); //关闭loading
+           			if(data.code==0){
+						layer.confirm(data.msg, { icon: 1, btn: ['确定'] },
+				 		function(){
+							table.reload("majorlist", { //此处是上文提到的 初始化标识id
+							      where: {
+							        },
+							        page: {
+							          curr:1
+							        }
+							        })
+							 layer.closeAll();
+						})
+							
+						
+           			}else{
+              			layer.confirm(data.msg, { icon: 7,  btn: ['确定'] });
+          			 }
+        		},
+       			 error:function(jqXHR){
+ 					layer.closeAll('loading'); //关闭loading
+ 					layer.msg("发生错误："+ jqXHR.status);
+        		}
+			})
+		});
   		
   		//添加专业按钮事件
   		$("#btn_addmajor").click(function(){
@@ -317,47 +357,47 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		//执行实例
 		var uploadInst = upload.render({
 			elem : '#upfile' //绑定元素
-			,auto: false, //不自动上传
-			url : 'fileuploadservlet.do', //上传接口
+			,//auto: false, //不自动上传
+			url : '../file/springUpload', //上传接口
+			//bindAction:'#btn_upload',
 			//accept : 'file'//上传所有格式文件,
 			exts : 'xls|xlsx',
 			choose: function(obj) {
 					obj.preview(function(index, file, result) {
-						layer.msg(file.name);
+							$("#filename").text('您的文件名是:'+file.name);
 					});
 				},
-			before: function(input){
-    		//返回的参数item，即为当前的input DOM对象
-    		console.log('文件上传中');
-    		layer.load(1, {
-  				shade: [0.1,'#fff'] //0.1透明度的白色背景
-				});
-  			},
-			success : function(res) {
-			layer.closeAll('loading');
-				//上传完毕回调
-				if (res.code == 0) {
-					layer.msg(res.msg);
-					$("#path").val(res.msg);
-				} else {
-					layer.msg(res.msg);
-				}
-			},
-			error : function() {
-				//请求异常回调
-				layer.closeAll('loading');
-				layer.msg("请求异常回调");
-			}
+			done: function(res, index, upload){
+    			//code=0代表上传成功
+    			if(res.code == 0){
+      				//layer.msg(res.msg);
+					$("#btn_import").val(res.msg);
+    			}else
+    			{
+    				layer.confirm(res.msg, { icon: 7,  btn: ['确定'] });
+    			}
+    
+  			}
 		});
  		
 	}); 
   </script>
   <!--文件导入div  -->
 	<div id="div_import" style="display: none;text-align: center;">
-		<div class="layui-upload-drag" id="upfile" style="margin: 30px;">
-			<i class="layui-icon"></i>
-			<p>点击上传，或将文件拖拽到此处</p>
-		</div>
+	<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<div class="layui-upload-drag" id="upfile" style="margin: 30px;">
+					<i class="layui-icon"></i>
+					<p id="filename">点击选择文件，或将文件拖拽到此处</p>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<button class="layui-btn layuiadmin-btn-useradmin" type="button"
+					id="btn_import">确认导入</button>
+				<a href="../upload/download/专业模版.xlsx"><button
+						class="layui-btn layuiadmin-btn-useradmin" type="button">下载模版</button></a>
+			</div>
+		</form>
 	</div>
 	 <!--专业添加div  -->
 	<div id="div_addmajor"

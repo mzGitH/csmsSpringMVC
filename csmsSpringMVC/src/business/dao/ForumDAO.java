@@ -2,7 +2,10 @@ package business.dao;
 
 import java.util.List;
 
+import model.TForumContent;
 import model.TForumTitle;
+import model.VForum;
+import model.VForumTitle;
 
 public interface ForumDAO {
 	/**
@@ -47,7 +50,7 @@ public interface ForumDAO {
 	 *            文章编号
 	 * @return TForumTitle文章对象
 	 */
-	public TForumTitle getTForumById(int forumid);
+	public VForumTitle getVForumById(int forumid);
 
 	/**
 	 * 獲取文章分頁數據
@@ -110,4 +113,24 @@ public interface ForumDAO {
 	 * @return
 	 */
 	public int getForumAmount(String wherecondition);
+	
+	/**
+	 * 獲取文章内容數據
+	 * @return
+	 */
+	public List<VForum> getForumContent(int forumid);
+	
+	/**
+	 * 添加文章内容
+	 * @param content 内容对象
+	 * @return boolean true为成功，false为失败
+	 */
+	public boolean addContent(TForumContent content);
+
+	/**
+	 * 编辑文章内容
+	 * @param content 内容对象
+	 * @return boolean true为成功，false为失败
+	 */
+	public boolean editContent(TForumContent content);
 }
