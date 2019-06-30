@@ -2,6 +2,7 @@ package business.impl;
 
 import java.util.List;
 
+import model.TForumContent;
 import model.TForumTitle;
 import model.VForum;
 import model.VForumTitle;
@@ -85,19 +86,6 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 
 	}
-	
-	@Log(isSaveLog = false)
-	@Override
-	public List<VForum> getForumContent(int forumid){
-		String hql = "from VForum where forumid=? order by contentid";
-		Object[] param = {forumid};
-		List<VForum> list = (List<VForum>) bdao.select(hql,param);
-		if (list != null && list.size() > 0) {
-			return list;
-		} else {
-			return null;
-		}
-	}
 
 	@Log(isSaveLog = false)
 	@Override
@@ -115,6 +103,39 @@ public class ForumDAOImpl implements ForumDAO {
 			hql += wherecondition;
 		}
 		return bdao.selectValue(hql);
+	}
+
+	@Log(isSaveLog = false)
+	@Override
+	public List<VForum> getForumContent(int forumid){
+		String hql = "from VForum where forumid=? order by contentid";
+		Object[] param = {forumid};
+		List<VForum> list = (List<VForum>) bdao.select(hql,param);
+		if (list != null && list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}
+
+	@Log(isSaveLog = true)
+	@Override
+	public boolean addContent(TForumContent content) {
+		int row = (Integer)bdao.insert(content);
+		if(row>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Log(isSaveLog = true)
+	@Override
+	public boolean editContent(TForumContent content) {
+		TForumContent newContent = (TForumContent)bdao.findById(TForumContent.class, content.getContentid());
+		newContent.setPicid(content.getPicid());
+		newContent.setTextcontent(content.getTextcontent());
+		return bdao.update(newContent);
 	}
 
 }

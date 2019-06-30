@@ -16,10 +16,10 @@
 	body .demo-class .layui-layer-btn a{background:#4476A7;}
 	body .demo-class .layui-layer-btn .layui-layer-btn1{background:#4476A7;}
 	body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e4;}
-	.layui-table-cell {
+	tbody .layui-table-cell {
 	    font-size:14px;
 	    padding:0 5px;
-	    height:auto;
+	    height:100px;
 	    overflow:visible;
 	    text-overflow:inherit;
 	    white-space:normal;
@@ -88,22 +88,21 @@
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-normal layui-btn-lg edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
 </script>
 <script>
- 	layui.use(['layer','upload','table','jquery','form'], function(){
- 		var layer = layui.layer,
- 		form=layui.form,
- 		table=layui.table,
- 		$=layui.jquery,
- 		upload = layui.upload;
- 		/*加载表格*/
+layui.use(['layer','upload','table','jquery','form'], function(){
+	var layer = layui.layer,
+	form=layui.form,
+	table=layui.table,
+	$=layui.jquery,
+	upload = layui.upload;
+	/*加载表格*/
 	table.render({
 		elem : '#contentlist',
 		id:'contentlist',
 		url : '../forum/getcontentlist?forumid=${forum.forumid}',
 		title : '文章数据表',
-		height: "full-160",
 		even : true,
 		cols : [ 
 		     [ {
@@ -116,63 +115,151 @@
 			    title : '图片',
 			    style:'height:100px;',
 				templet:function(data){
-					return '<img style="display: inline-block; width: 100%;height:100%" src= '+data.picpath+'>'
+					return '<img style="width: 150px;height:100%" src= "'+data.picpath+'">'
+					+'<input type="hidden" value="'+data.picpath+'" />'
 				}
 			}, {
 			    field : 'textcontent',
 			    title : '文章内容',
 			    align : 'center',
+			    templet:function(data){
+			    	var textcontent = data.textcontent;
+			    	if(textcontent.length>50){
+				    	var text = textcontent.slice(0,50)+"...";
+						return text
+					}else{
+						return data.textcontent
+					}
+				}
     		},{
 				title : '操作',
 				toolbar : '#barDemo',
 				align : 'center'
+			},{
+				field :'contentid',
+				hide: true
 			}]
 		]
 	});
- 		//添加内容按钮点击事件
- 		$(".btn_addcontent").click(function(){
- 			layer.open({
- 				title:"编写一个博文内容",
- 				type: 1,
- 				area: ['500px'],
- 				skin: 'demo-class',
- 				btn:['添加'],
- 				maxmin: true,//显示最大化最小化按钮
- 				//offset: 'b', 弹框的位置
- 				content: $('#div_addcontent'),
- 				btn1: function(index, layero){
-   				layer.msg("666")
- 				},
- 				cancel: function(){ 
- 					//$('#addcollegename').val("");
- 				}
+	//添加内容按钮点击事件
+	$(".btn_addcontent").click(function(){
+		layer.open({
+			title:"编写一个博文内容",
+			type: 1,
+			area: ['500px'],
+			skin: 'demo-class',
+			btn:['添加'],
+			maxmin: true,//显示最大化最小化按钮
+			content: $('#div_addcontent'),
+			btn1: function(index, layero){
+	            var textcontent = $("#contenttext").val();
+	            var photoid = $("#photoid").val();
+ 				$.ajax({
+					type : "post",
+					url : "../forum/addcontent",
+					data : {
+						forumid : ${forum.forumid},
+						photoid : photoid,
+						textcontent : textcontent
+					},
+					dataType : "json",
+					success : function(succ) {
+						layer.msg(succ.msg);
+						if (succ.code == 0) {
+							window.location.href="../forum/getforum?forumid=${forum.forumid}"
+						}
+					},
+					error : function() {
+						layer.msg('请求失败，稍后再试',{icon : 5});
+					}
+	
+				});
+			},
+			cancel: function(){ 
+				$("#contentid").val("");
+	            $("#contentimg").attr("src","../image/defaultuser.jpg");
+	            $("#contenttext").text("");
+	            $("#photoid").val("");
+			}
 		});
- 		})
- 		//监听提交
-       form.on('submit(formDemo)', function(data) {
-           layer.alert(JSON.stringify(data.field), {
-               title: '最终的提交信息'
-           })
-           return false;
-       });
-       upload.render({
-           elem: '#btn-photo',
-           url: 'fileuploadservlet.do',
-           before: function(obj) {
-               obj.preview(function(index, file, result) {
-                   $('#demo1').attr('src', result); //图片链接（base64）
-               });
-               layer.load(); //上传loading
-           },
-           done: function(res, index, upload) {
-               layer.closeAll('loading'); //关闭loading
-               $("#userphoto").val(data.result1); //将资源码传给 <input
-               alert(data.msg);
-           },
-           error: function(index, upload) {
-               layer.closeAll('loading'); //关闭loading
-           }
-       });
+	})
+	/* 文章内容编辑按钮 */
+	$(document).on('click',".edit", function () {
+            var contentid = $(this).parent().parent().next().children().text();
+            var content = $(this).parent().parent().prev().children().text();
+            var contentimg = $(this).parent().parent().prev().prev().find("input").val();
+            $("#contentid").val(contentid);
+            $("#contentimg").attr("src",contentimg);
+            $("#contenttext").text(content);
+	        layer.open({
+				title:"编写一个博文内容",
+				type: 1,
+				area: ['500px'],
+				skin: 'demo-class',
+				btn:['添加'],
+				maxmin: true,//显示最大化最小化按钮
+				//offset: 'b', 弹框的位置
+				content: $('#div_addcontent'),
+				btn1: function(index, layero){
+	 				var contentid = $("#contentid").val();
+		            var content = $("#contenttext").val();
+		            var photoid = $("#photoid").val();
+		            $.ajax({
+						type : "post",
+						url : "../forum/editcontent",
+						data : {
+							contentid : contentid,
+							photoid : photoid,
+							textcontent : content
+						},
+						dataType : "json",
+						success : function(succ) {
+							layer.msg(succ.msg);
+							if (succ.code == 0) {
+								window.location.href="../forum/getforum?forumid=${forum.forumid}"
+							}
+						},
+						error : function() {
+							layer.msg('请求失败，稍后再试',{icon : 5});
+						}
+		
+					});
+				},
+				cancel: function(){ 
+					$("#contentid").val("");
+		            $("#contentimg").attr("src","../image/defaultuser.jpg");
+		            $("#contenttext").text("");
+		            $("#photoid").val("");
+				}
+			});
+    });
+	//监听提交
+     form.on('submit(formDemo)', function(data) {
+         layer.alert(JSON.stringify(data.field), {
+             title: '最终的提交信息'
+         })
+         return false;
+     });
+     upload.render({
+         elem: '#btn-photo',
+         url: '../file/springUpload',
+         before: function(obj) {
+             obj.preview(function(index, file, result) {
+                 $('#contentimg').attr('src', result); //图片链接（base64）
+             });
+             layer.load(); //上传loading
+         },
+         done: function(res, index, upload) {
+             layer.closeAll('loading'); //关闭loading
+             if(res.code == 0){
+             	$("#photoid").val(res.count); //将资源码传给 <input/>
+             }
+             layer.msg(res.msg);
+         },
+         error: function(index, upload) {
+             layer.closeAll('loading'); //关闭loading
+         }
+     });
 }); 
  </script>
 
@@ -182,10 +269,11 @@
 			<div class="layui-card-body">
 				<!--表单开始-->
 				<form class="layui-form">
+					<input type="hidden" id="contentid" value="" />
 					<div class="layui-form-item">
 						<label class="layui-form-label">图片名称</label>
 						<div class="layui-input-block">
-							<input type="text" name="userid"  required
+							<input type="text" name="photoid" id="photoid" required
 								lay-verify="required" placeholder="请选择上传的文章内容图片"
 								autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
@@ -200,17 +288,16 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">图片预览</label>
 						<div class="layui-input-block">
-							<img class="layui-upload-img" src="../image/defaultuser.jpg" id="demo1"
-								height="100px" width="150px">
+							<img class="layui-upload-img" src="../image/defaultuser.jpg" id="contentimg" width="150px">
 						</div>
 					</div>
 
-					<div class=" layui-form-item">
+					<!-- <div class=" layui-form-item">
 						<label class="layui-form-label">标题图片</label>
 						<div class="layui-input-block">
 							<input type="checkbox" name="like[true]" title="选定">
 						</div>
-					</div>
+					</div> -->
 					<!-- <div class="layui-form-item">
 						<div class="layui-inline">
 							<label class="layui-form-label">位置</label>
@@ -222,7 +309,7 @@
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">图片描述</label>
 						<div class="layui-input-block">
-							<textarea name="signed" placeholder="请输入一段文字描述图片"
+							<textarea name="signed" id="contenttext" placeholder="请输入一段文字描述图片"
 								class="layui-textarea"></textarea>
 							</div>
 						</div>

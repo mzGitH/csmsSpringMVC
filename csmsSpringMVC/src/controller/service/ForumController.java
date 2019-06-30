@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.TConfig;
+import model.TForumContent;
 import model.TForumTitle;
 import model.VForum;
 import model.VForumTitle;
@@ -187,6 +188,64 @@ public class ForumController {
 		} else {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "无数据";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("addcontent")
+	public void addContent(HttpServletRequest request,HttpServletResponse response,
+			int forumid,int photoid,String textcontent,Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		TForumContent content = new TForumContent();
+		content.setForumid(forumid);
+		content.setPicid(photoid);
+		content.setTextcontent(textcontent);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (fdao.addContent(content)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "添加成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "添加失败";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("editcontent")
+	public void editContent(HttpServletRequest request,HttpServletResponse response,
+			int contentid,int photoid,String textcontent,Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		TForumContent content = new TForumContent();
+		content.setContentid(contentid);
+		content.setPicid(photoid);
+		content.setTextcontent(textcontent);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (fdao.editContent(content)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "添加成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "添加失败";
 		}
 		Writer out;
 		try {

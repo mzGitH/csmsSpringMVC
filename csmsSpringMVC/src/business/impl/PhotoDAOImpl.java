@@ -22,12 +22,12 @@ public class PhotoDAOImpl implements PhotoDAO {
 	}
 
 	@Override
-	public boolean addPhoto(TPhoto obj) {
-		String res = (String) bdao.insert(obj);
-		if (res != null) {
-			return true;
+	public int addPhoto(TPhoto obj) {
+		int res = (int) bdao.insert(obj);
+		if (res>0) {
+			return res;
 		}
-		return false;
+		return 0;
 	}
 
 	@Override

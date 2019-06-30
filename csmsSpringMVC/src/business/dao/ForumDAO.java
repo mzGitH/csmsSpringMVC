@@ -2,6 +2,7 @@ package business.dao;
 
 import java.util.List;
 
+import model.TForumContent;
 import model.TForumTitle;
 import model.VForum;
 import model.VForumTitle;
@@ -62,12 +63,6 @@ public interface ForumDAO {
 	 */
 	public List<TForumTitle> getForumTitleByPages(String wherecondition,
 			int page, int pageSize);
-	
-	/**
-	 * 獲取文章内容數據
-	 * @return
-	 */
-	public List<VForum> getForumContent(int forumid);
 
 	/**
 	 * 获得按模糊查询实现的所有博客用户发表的文章对象列表
@@ -118,4 +113,24 @@ public interface ForumDAO {
 	 * @return
 	 */
 	public int getForumAmount(String wherecondition);
+	
+	/**
+	 * 獲取文章内容數據
+	 * @return
+	 */
+	public List<VForum> getForumContent(int forumid);
+	
+	/**
+	 * 添加文章内容
+	 * @param content 内容对象
+	 * @return boolean true为成功，false为失败
+	 */
+	public boolean addContent(TForumContent content);
+
+	/**
+	 * 编辑文章内容
+	 * @param content 内容对象
+	 * @return boolean true为成功，false为失败
+	 */
+	public boolean editContent(TForumContent content);
 }
