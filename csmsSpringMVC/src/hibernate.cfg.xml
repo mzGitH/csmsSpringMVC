@@ -11,10 +11,7 @@
 		</property>
 		<property name="connection.url">
 			<!--jdbc:sqlserver://192.168.3.60:1433;DatabaseName=CSMS-->
-<<<<<<< HEAD
 			<!-- jdbc:sqlserver://192.168.191.1:1433;DatabaseName=CSMS -->
-=======
->>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git
 			jdbc:sqlserver://localhost:1433;DatabaseName=CSMS
 		</property>
 		<property name="connection.username">sa</property>
