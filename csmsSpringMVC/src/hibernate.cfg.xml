@@ -20,7 +20,6 @@
 			com.microsoft.sqlserver.jdbc.SQLServerDriver
 		</property>
 		<property name="myeclipse.connection.profile">CSMS</property>
-		<mapping resource="model/TStudent.hbm.xml" />
 		<mapping resource="model/TScore.hbm.xml" />
 		<mapping resource="model/TScene.hbm.xml" />
 		<mapping resource="model/TRole.hbm.xml" />
@@ -36,11 +35,8 @@
 		<mapping resource="model/VMajor.hbm.xml" />
 		<mapping resource="model/VScene.hbm.xml" />
 		<mapping resource="model/VScore.hbm.xml" />
-		<mapping resource="model/VStudent.hbm.xml" />
 		<mapping resource="model/VStudentScore.hbm.xml" />
-		<mapping resource="model/VTeacher.hbm.xml" />
 		<mapping resource="model/VTeacherScore.hbm.xml" />
-		<mapping resource="model/TTeacher.hbm.xml" />
 		<mapping resource="model/VMatch.hbm.xml" />
 		<mapping resource="model/TForumContent.hbm.xml" />
 		<mapping resource="model/TPhoto.hbm.xml" />

@@ -25,9 +25,9 @@
             <property name="collegename" type="java.lang.String">
                 <column name="collegename" length="20" />
             </property>
-            <property name="userid" type="java.lang.String">
+            <!-- <property name="userid" type="java.lang.String">
                 <column name="userid" length="50" />
-            </property>
+            </property> -->
             <property name="pwd" type="java.lang.String">
                 <column name="pwd" length="50" />
             </property>
