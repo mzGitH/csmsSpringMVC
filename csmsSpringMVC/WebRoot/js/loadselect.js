@@ -106,7 +106,15 @@ function loadSelect(type,selectId, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value=''>请选择学院</option>";
+			if(type=="college"){
+				var str = "<option value=''>请选择学院</option>";
+			}if(type=="class"){
+				var str = "<option value=''>请选择班级</option>";
+			}if(type=="major")
+			{
+				var str = "<option value=''>请选择专业</option>";
+			}
+			
 			for(var i = 0; i < stageData.data.length; i++) {
 				 if(type=="college"){
 					str += '<option value=' + stageData.data[i]['collegeid'] + '>' + stageData.data[i]['collegename'] + '</option>';
@@ -143,7 +151,7 @@ function loadCollegeSelected(selectId,collegeid, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value=''>请选择</option>";
+			var str = "<option value=''>请选择学院</option>";
 			for(var i = 0; i < stageData.data.length; i++) {
 				if(collegeid==stageData.data[i]['collegeid'])
 				{
@@ -179,7 +187,7 @@ function loadMajorSelectByCollegeid(selectId,collegeid, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value=''>请选择</option>";
+			var str = "<option value=''>请选择专业</option>";
 			for(var i = 0; i < stageData.data.length; i++) {
 				str += '<option value=' + stageData.data[i]['majorid'] + '>' + stageData.data[i]['majorname'] + '</option>';
 			}
@@ -209,7 +217,7 @@ function loadClassSelectByMajor(selectId,majorid, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value=''>请选择</option>";
+			var str = "<option value=''>请选择班级</option>";
 			for(var i = 0; i < stageData.data.length; i++) {
 				str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
 			}
@@ -229,7 +237,7 @@ function loadClassSelectByMajor(selectId,majorid, form){
  * @param {Object} selectId 要加载到的select控件的id属性名称
  * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
  */
-function loadclassSelectByMajor(selectId, collegeid,form){
+function loadclassSelectByCollegeid(selectId, collegeid,form){
 	var reqType = 'post';
 	var reqURL = '../select/selectclassesbycollegeid';
 	var reqPara = {collegeid:collegeid};
@@ -237,7 +245,7 @@ function loadclassSelectByMajor(selectId, collegeid,form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value=''>请选择</option>";
+			var str = "<option value=''>请选择班级</option>";
 			for(var i = 0; i < stageData.data.length; i++) {
 				str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
 			}

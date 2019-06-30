@@ -151,4 +151,11 @@ public class ClassesDaoImpl implements ClassesDAO {
 		List<VClass> list = bdao.select(hql, para);
 		return list;
 	}
+
+	@Override
+	public int getclassIdByname(String classname) {
+		String hql = "select classid from TClass where classname=?";
+		Object[] param = { classname };
+		return bdao.selectValue(hql, param);
+	}
 }

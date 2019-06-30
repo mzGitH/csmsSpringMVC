@@ -3,6 +3,7 @@ package controller.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import util.EnCriptUtil;
 import util.Expression;
 import util.LayuiData;
 import util.ReadExcelUtils;
+import business.dao.ClassesDAO;
+import business.dao.CollegeDAO;
 import business.dao.UserDAO;
 import business.factory.DAOFactory;
 
@@ -30,7 +33,7 @@ import com.alibaba.fastjson.JSON;
 public class UserController {
 	@RequestMapping(value = "getuser")
 	public void getUserList(HttpServletRequest request, int page, int limit,
-			String opretion, Integer collegeid, Integer majorid,
+			String wherecondition, Integer collegeid, Integer majorid,
 			Integer classid, HttpServletResponse response, Model model) {
 
 		UserDAO udao = DAOFactory.getUserDAO();
@@ -49,12 +52,12 @@ public class UserController {
 
 			exp.andEqu("classid", classid, Integer.class);
 		}
-		if (opretion != null && !opretion.equals("")) {
-			exp.andLeftBraLike("username", opretion, String.class);
-			exp.orLike("userid", opretion, String.class);
-			exp.orLike("collegename", opretion, String.class);
-			exp.orLike("majorname", opretion, String.class);
-			exp.orRightBraLike("classname", opretion, String.class);
+		if (wherecondition != null && !wherecondition.equals("")) {
+			exp.andLeftBraLike("username", wherecondition, String.class);
+			exp.orLike("userid", wherecondition, String.class);
+			exp.orLike("collegename", wherecondition, String.class);
+			exp.orLike("majorname", wherecondition, String.class);
+			exp.orRightBraLike("classname", wherecondition, String.class);
 		}
 		String opreation = exp.toString();
 		System.out.println(opreation);
@@ -84,7 +87,7 @@ public class UserController {
 
 	@RequestMapping(value = "adduser")
 	public void addUser(HttpServletRequest request, Integer classid,
-			String userid, String pwd, Integer usertype,
+			String userid, String username, String pwd, Integer usertype,
 			HttpServletResponse response, Model model) {
 
 		UserDAO udao = DAOFactory.getUserDAO();
@@ -92,6 +95,7 @@ public class UserController {
 		String endPwd = EnCriptUtil.getEcriptStr(md5Str, "md5");
 		TUser user = new TUser();
 		user.setUserid(userid);
+		user.setUsername(username);
 		user.setPwd(endPwd);
 		user.setUserregion(classid);
 		user.setUsertype(usertype);
@@ -147,7 +151,7 @@ public class UserController {
 	}
 
 	// 批量添加用户
-	@RequestMapping(value = "addUserlist")
+	@RequestMapping(value = "adduserlist")
 	public void addUserByList(HttpServletRequest request, String path,
 			HttpServletResponse response, Model model) {
 		UserDAO udao = DAOFactory.getUserDAO();
@@ -170,29 +174,41 @@ public class UserController {
 
 					switch (m.getKey()) {
 					case 0:
-						user.setUserid((String) m.getValue());
-						break;
-					case 1:
-						user.setUsername((String) m.getValue());
-						break;
-					case 2:
-						String md5Str = EnCriptUtil.fix(user.getUserid(),
-								(String) m.getValue());
-						String endPwd = EnCriptUtil.getEcriptStr(md5Str, "md5");
-						user.setPwd(endPwd);
-						break;
-					case 3:
-						user.setUserregion((Integer) m.getValue());
-						break;
-					case 4:
 						Integer usertype = null;
 						if (((String) m.getValue()).equals("教师")) {
 							usertype = 1;
 						} else {
 							usertype = 0;
 						}
-						user.setUserregion(usertype);
+						user.setUsertype(usertype);
 						break;
+					case 1:
+						String userid = (String) m.getValue();
+						user.setUserid((String) new DecimalFormat("#")
+								.format(Double.parseDouble(userid)));
+						break;
+					case 2:
+						user.setUsername((String) m.getValue());
+						break;
+					case 3:
+						String md5Str = EnCriptUtil.fix(user.getUserid(),
+								(String) m.getValue());
+						String endPwd = EnCriptUtil.getEcriptStr(md5Str, "md5");
+						user.setPwd(endPwd);
+						break;
+					case 4:
+						Integer regionid = null;
+						if (user.getUsertype().equals(1)) {
+							CollegeDAO cdao = DAOFactory.getCollegeDAO();
+							regionid = cdao.getCollegeid((String) m.getValue());
+						} else {
+							ClassesDAO cdao = DAOFactory.getClassesDAO();
+							regionid = cdao.getclassIdByname((String) m
+									.getValue());
+						}
+						user.setUserregion(regionid);
+						break;
+
 					default:
 						break;
 					}
