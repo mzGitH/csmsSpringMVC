@@ -51,23 +51,26 @@
             <property name="protype" type="java.lang.Integer">
                 <column name="protype" />
             </property>
+            <property name="sportid" type="java.lang.Integer">
+                <column name="sportid" />
+            </property>
+            <property name="sportname" type="java.lang.String">
+                <column name="sportname" length="200" />
+            </property>
             <property name="userid" type="java.lang.String">
                 <column name="userid" length="20" />
             </property>
             <property name="username" type="java.lang.String">
                 <column name="username" length="50" />
             </property>
-            <property name="mobile" type="java.lang.String">
-                <column name="mobile" length="20" />
+            <property name="collegeid" type="java.lang.Integer">
+                <column name="collegeid" />
+            </property>
+            <property name="collegename" type="java.lang.String">
+                <column name="collegename" length="20" />
             </property>
             <property name="classid" type="java.lang.Integer">
                 <column name="classid" />
-            </property>
-            <property name="roleid" type="java.lang.Integer">
-                <column name="roleid" />
-            </property>
-            <property name="rolename" type="java.lang.String">
-                <column name="rolename" length="20" />
             </property>
             <property name="classname" type="java.lang.String">
                 <column name="classname" length="50" />
@@ -78,41 +81,11 @@
             <property name="majorname" type="java.lang.String">
                 <column name="majorname" length="100" />
             </property>
-            <property name="collegeid" type="java.lang.Integer">
-                <column name="collegeid" />
+            <property name="stucollegeid" type="java.lang.Integer">
+                <column name="stucollegeid" />
             </property>
-            <property name="collegename" type="java.lang.String">
-                <column name="collegename" length="20" />
-            </property>
-            <property name="teausername" type="java.lang.String">
-                <column name="teausername" length="50" />
-            </property>
-            <property name="teamobile" type="java.lang.String">
-                <column name="teamobile" length="20" />
-            </property>
-            <property name="teacollegeid" type="java.lang.Integer">
-                <column name="teacollegeid" />
-            </property>
-            <property name="tearoleid" type="java.lang.Integer">
-                <column name="tearoleid" />
-            </property>
-            <property name="tearolename" type="java.lang.String">
-                <column name="tearolename" length="20" />
-            </property>
-            <property name="teacollegename" type="java.lang.String">
-                <column name="teacollegename" length="20" />
-            </property>
-            <property name="pwd" type="java.lang.String">
-                <column name="pwd" length="20" />
-            </property>
-            <property name="agend" type="java.lang.String">
-                <column name="agend" length="2" />
-            </property>
-            <property name="teapwd" type="java.lang.String">
-                <column name="teapwd" length="20" />
-            </property>
-            <property name="teaagend" type="java.lang.String">
-                <column name="teaagend" length="2" />
+            <property name="stucollegename" type="java.lang.String">
+                <column name="stucollegename" length="20" />
             </property>
     </class>
 </hibernate-mapping>
