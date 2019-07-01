@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.TConfig;
 import model.TProject;
 import model.VNews;
+import model.VSportProject;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ import util.LayuiData;
 public class SportsController {
 
 	@RequestMapping(value = "getsportslist")
-	public void getProject(HttpServletRequest request, HttpServletResponse response, 
+	public void getSportList(HttpServletRequest request, HttpServletResponse response, 
 			int page, int limit,String wherecondition, Model model){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
 		// 查询条件
@@ -61,7 +62,7 @@ public class SportsController {
 	}
 	
 	@RequestMapping(value = "deletesports")
-	public void deleteProject(HttpServletRequest request, HttpServletResponse response, 
+	public void deleteSport(HttpServletRequest request, HttpServletResponse response, 
 			int sportid, Model model){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
 		LayuiData laydata = new LayuiData();
@@ -86,7 +87,7 @@ public class SportsController {
 	}
 	
 	@RequestMapping(value = "addsports")
-	public void addProject(HttpServletRequest request, HttpServletResponse response, Model model,
+	public void addSport(HttpServletRequest request, HttpServletResponse response, Model model,
 			String sportname,String starttime,String endtime,String reportstart, String reportend){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
 		response.setCharacterEncoding("utf-8");
@@ -117,7 +118,7 @@ public class SportsController {
 	}
 	
 	@RequestMapping(value = "editsports")
-	public void editProject(HttpServletRequest request, HttpServletResponse response, Model model,
+	public void editSport(HttpServletRequest request, HttpServletResponse response, Model model,
 			int sportid,String sportname,String starttime,String endtime,String reportstart, String reportend){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
 		response.setCharacterEncoding("utf-8");
@@ -137,6 +138,37 @@ public class SportsController {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "修改失败";
 		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "getsportprolist")
+	public void getSportProList(HttpServletRequest request, HttpServletResponse response, 
+			int page, int limit,String wherecondition, Model model){
+		SportsDAO sdao = DAOFactory.getSportsDAO();
+		// 查询条件
+		Expression exp = new Expression();
+		if (wherecondition != null && !wherecondition.equals("")) {
+			exp.andLeftBraLike("newstitle", wherecondition, String.class);
+			exp.orRightBraLike("adminuserid", wherecondition, String.class);
+		}
+		String opreation = exp.toString();
+		int allcount = sdao.getCount(opreation);
+		List<VSportProject> sportlist = sdao.selectProject(opreation, page, limit);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		laydata.code = LayuiData.SUCCESS;
+		laydata.msg = "执行成功";
+		laydata.count = allcount;
+		laydata.data = sportlist;
 		Writer out;
 		try {
 			out = response.getWriter();

@@ -3,6 +3,7 @@ package business.dao;
 import java.util.List;
 
 import model.TConfig;
+import model.VSportProject;
 /**
  * 运动会配置业务接口类
  * @author Administrator
@@ -51,4 +52,20 @@ public interface SportsDAO {
 	 * @return 数据记录数
 	 */
 	public int getCount(String where);
+
+	/**
+	 * 获取所有运动会项目对象列表
+	 * @param where 筛选条件
+	 * @param startPage 开始页面
+	 * @param pageSize 每页记录数
+	 * @return 配置对象列表
+	 */
+	public List<VSportProject> selectProject(String where,int startPage,int pageSize);
+
+	/**
+	 * 获取数据记录数
+	 * @param where 筛选条件
+	 * @return 数据记录数
+	 */
+	public int getProCount(String where);
 }

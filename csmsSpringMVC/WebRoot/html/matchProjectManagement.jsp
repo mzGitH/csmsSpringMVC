@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>赛项管理</title>
+  <title>赛事赛项管理</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -79,6 +79,14 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 				align : 'center',
 				
 			}, {
+			     field : 'sportname',
+			     align : 'center',
+			     title : '运动会名称',
+			     templet:function(data){
+			     	return '<span>'+data.sportid+'</span>'
+			     	+'<input type="hidden" value="'+data.sportname+'" />'
+			     }
+			 }, {
 			     field : 'proname',
 			     align : 'center',
 			     title : '项目名称',

@@ -56,6 +56,7 @@
 		<mapping resource="model/VUser.hbm.xml" />
 		<mapping resource="model/VMatch.hbm.xml" />
 		<mapping resource="model/VScoreSignIn.hbm.xml" />
+		<mapping resource="model/VSportProject.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>

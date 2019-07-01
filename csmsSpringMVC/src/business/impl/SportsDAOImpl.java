@@ -3,6 +3,7 @@ package business.impl;
 import java.util.List;
 
 import model.TConfig;
+import model.VSportProject;
 
 import org.springframework.stereotype.Component;
 
@@ -53,6 +54,19 @@ public class SportsDAOImpl implements SportsDAO {
 	@Override
 	public int getCount(String where) {
 		String hql = "from TConfig"+where;
+		return bdao.selectValue(hql);
+	}
+
+	@Override
+	public List<VSportProject> selectProject(String where, int startPage,
+			int pageSize) {
+		String hql = "from VSportProject"+where;
+		return bdao.selectByPage(hql, startPage, pageSize);
+	}
+
+	@Override
+	public int getProCount(String where) {
+		String hql = "from VSportProject"+where;
 		return bdao.selectValue(hql);
 	}
 
