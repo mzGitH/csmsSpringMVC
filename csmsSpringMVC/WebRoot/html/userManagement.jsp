@@ -101,10 +101,6 @@
 		        <td><span id="txtadminuserusertype"></span></td>
 		      </tr>
 		      <tr>
-		        <td class="tdbck">个性签名</td>
-		        <td colspan="4"><span id="txtadminuserdesc"></span></td>
-		      </tr>
-		      <tr>
 		        <td class="tdbck">创建时间</td>
 		        <td><span id="txtadmincreatetime"></span></td>
 		      </tr>
@@ -120,6 +116,11 @@
 			  	<div class="layui-input-inline">
 					<input type="text" name="userName" id="userName" placeholder="请输入用户名或昵称" class="layui-input" autocomplete="off">
 			    </div>
+			    <div class="layui-inline">
+					<select id="usertype"  lay-filter="usertype" lay-search>
+						<option value="">请选择用户类型</option>
+					</select>
+				</div>
 			    <div class="layui-inline">
 	     	   		<button id="btnselfrontinfo" type="button" class="layui-btn layui-bg-blue">查询</button>
 			    </div>
@@ -145,13 +146,7 @@
 							<input type="text" name="addUserName" id="addUserName"
 								lay-verify="addUserName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
 						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">昵称:</label>
-						<div class="layui-input-block">
-							<input type="text" name="nickName" id="nickName" autocomplete="off" placeholder="请输入昵称" class="layui-input">
-						</div>
-					</div>
+					</div> 
 					<div class="layui-form-item">
 						<label class="layui-form-label">真实姓名:</label>
 						<div class="layui-input-block">
@@ -186,8 +181,8 @@
 		/*加载表格*/
 		table.render({
 			elem : '#blogUser',
-			id:'blogUserid',
-			url : '../getalluser.action',
+			id:'adminUserid',
+			url : '../admin/getuser',
 			title : '博主用户数据表',
 			height: "full-160",
 			skin : 'line',
@@ -202,10 +197,6 @@
 					field : 'userid',
 					title : '用户名',
 					align : 'center'
-				}, {
-					field : 'nickname',
-					align : 'center',
-					title : '昵称',
 				}, {
 					field : 'realname',
 					align : 'center',
@@ -236,52 +227,15 @@
 		/* 点击查询对网站用户进行筛选 */
 		$("#btnselfrontinfo").click(function(){
 			var useridornickname=$("#userName").val().trim();
-			table.render({
-				elem : '#blogUser',
-				url : '../getalluser.action?useridornickname='+useridornickname,
-				title : '博主用户数据表',
-				height: "full-160",
-				skin : 'line',
-				even : true,
-				cols : [ 
-				     [ {
-						type : 'numbers',
-						title : '序号',
-						align : 'center',
-						width : 80
-					}, {
-						field : 'userid',
-						title : '用户名',
-						align : 'center'
-					}, {
-						field : 'nickname',
-						align : 'center',
-						title : '昵称',
-					}, {
-						field : 'realname',
-						align : 'center',
-						title : '真实姓名'
-					},{
-						field : 'name',
-						align : 'center',
-						title : '用户类型'
-					},{
-						field : 'createtime',
-						align : 'center',
-						title : '创建时间'
-					},{
-						title : '操作',
-						toolbar : '#barDemo',
-						align : 'center'
-					} ] 
-				 ],
-				 page: {
-					layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
-					groups: 5,
-					limit: 10,
-					limits: [10, 20, 30, 40, 50],
-					theme: '#1E9FFF',						
-				 },
+			table.reload('adminUserid', {
+				method : 'post',
+				where : {
+					'realname' : useridornickname,
+					'roleid' : '',
+						},
+				page : {
+					curr : 1
+					}
 			});
 		});
 		

@@ -51,8 +51,14 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>
-  	layui.use(['layer','upload','table'], function(){
-  		var layer = layui.layer,$=layui.jquery,upload = layui.upload,table=layui.table;
+  	layui.use(['layer','upload','layedit','table','code'], function(){
+  		var layer = layui.layer,$=layui.jquery,upload = layui.upload,table=layui.table,layedit=layui.layedit;
+  		
+  		layedit.build('content', {
+  			height: 180 //设置编辑器高度
+  			, tool: ['']
+		});
+  		
   		/*加载表格*/
 		table.render({
 			elem : '#newlist',
@@ -71,12 +77,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				}, {
 				     field : 'newstitle',
 				     align : 'center',
-				     title : '公告标题',
-				     templet:function(data){
-				     	return '<span>'+data.newstitle+'</span>'
-				     	+'<input type="hidden" value="'+data.newscontent+'" />'
-				     }
-				   
+				     title : '公告标题'
 				    }, {
 				     field : 'realname',
 				     align : 'center',
@@ -105,20 +106,19 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			var data = obj.data;
 			//alert(data.newid);
 			switch (obj.event) {
-				//查询按钮操作
+				//查看按钮操作
 				case 'query':
-					var content = $(this).parent().parent().prev().prev().prev().children().find("input").text();
-					var title = $(this).parent().parent().prev().prev().prev().children().find("span").text();
-					$("#title").val(title);
-					$("#content").val(content);
-					layer.open({
-						title:"展示公告内容",
-						type: 1,
-						area: ['500px'],
-						skin: 'demo-class',
-						maxmin: true,//显示最大化最小化按钮
-						content: $('#div_content')
-					});
+				
+				$("#newstitle").val(data.newstitle);
+				 $("#content").text(data.newscontent);
+				 layer.open({
+						 title:"展示公告内容",
+						 type: 1,
+						 area: ['500px','500px'],
+						 skin: 'demo-class',
+						 maxmin: true,//显示最大化最小化按钮
+						 content: $('#div_content')
+				  });  
 				break;
 				//删除按钮操作
 				case 'del':
@@ -197,14 +197,14 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">公告标题</label>
 						<div class="layui-input-block">
-							<input id="title" class="layui-input" value="" disable="disable"/>
+							<input type="text"  id="newstitle"  class="layui-input"  readonly="readonly" />
 						</div>
 						<br/>
 						<label class="layui-form-label">公告内容</label>
-						<div class="layui-input-block">
-							<textarea id="content" class="layui-textarea" disable="disable"></textarea>
+							<div class="layui-input-block">
+								<textarea id="content" style="display: none;"></textarea>
+							</div>
 						</div>
-					</div>
 				</form>
 			</div>
 		</div>

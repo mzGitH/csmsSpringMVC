@@ -122,11 +122,35 @@
 				},{
 					field : 'deepth',
 					align : 'center',
-					title : '菜单层次'
+					title : '菜单层次',
+					templet: function(d){
+    					if(d.deepth==1){
+    						return "一级菜单";
+    					}else{
+    						return "二级菜单";
+    					}
+    				}
 				},{
 					field : 'parentid',
 					align : 'center',
-					title : '所属父菜单'
+					title : '所属父菜单',
+					templet: function(d){
+    					if(d.parentid==1){
+    						return "信息管理";
+    					}else if(d.parentid==2){
+    						return "赛事管理";
+    					}else if(d.parentid==3){
+    						return "赛项安排";
+    					}else if(d.parentid==4){
+    						return "基本信息";
+    					}else if(d.parentid==5){
+    						return "比赛管理";
+    					}else if(d.parentid==6){
+    						return "成绩管理";
+    					}else if(d.parentid==24){
+    						return "系统管理";
+    					}
+    				}
 				},{
 					field : 'displayorder',
 					align : 'center',
