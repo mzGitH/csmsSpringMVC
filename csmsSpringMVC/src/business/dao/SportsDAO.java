@@ -3,6 +3,7 @@ package business.dao;
 import java.util.List;
 
 import model.TConfig;
+import model.TSportProject;
 import model.VSportProject;
 /**
  * 运动会配置业务接口类
@@ -60,12 +61,33 @@ public interface SportsDAO {
 	 * @param pageSize 每页记录数
 	 * @return 配置对象列表
 	 */
-	public List<VSportProject> selectProject(String where,int startPage,int pageSize);
+	public List<VSportProject> selectTSP(String where,int startPage,int pageSize);
 
 	/**
 	 * 获取数据记录数
 	 * @param where 筛选条件
 	 * @return 数据记录数
 	 */
-	public int getProCount(String where);
+	public int getTSPCount(String where);
+	
+	/**
+	 * 获取未安排赛项的赛事列表
+	 * @return
+	 */
+	public List<TConfig> getNotExistsConfig();
+	
+
+	/**
+	 * 批量添加运动会项目配置
+	 * @param tsp 运动会项目配置对象
+	 * @return 添加结果，true为成功，false为失败
+	 */
+	public boolean insertTSP(List<TSportProject> list);
+
+	/**
+	 * 删除运动会某项目配置
+	 * @param id 运动会项目配置id
+	 * @return 删除结果，true为成功，false为失败
+	 */
+	public boolean deleteTSP(int id);
 }

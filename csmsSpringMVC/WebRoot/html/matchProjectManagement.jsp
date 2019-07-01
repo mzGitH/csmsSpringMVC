@@ -23,10 +23,19 @@
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-input-inline">
-					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入查询条件" class="layui-input" autocomplete="off">
-			    </div>
+					<select name="sport" id="sport" lay-filter="sport"
+						lay-verify="required" lay-search="">
+						<option value="">请选择或输入赛事名称</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<select name="project" id="project" lay-filter="project"
+						lay-verify="required" lay-search="">
+						<option value="">请选择或输入项目名称</option>
+					</select>
+				</div>
 				<div class="layui-inline">
-					<button id="btnselfrontinfo" type="button"
+					<button id="btnselfrontinfo" type="button" lay-filter="search"
 						class="layui-btn layui-bg-blue">查询</button>
 				</div>
 				<div class="layui-inline">
@@ -45,7 +54,6 @@
 	<img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
 </script> 
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-normal layui-btn-xs edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
@@ -61,7 +69,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 	table.render({
 		elem : '#projectlist',
 		id:'projectlist',
-		url : '../project/getprojectlist',
+		url : '../sports/getTSP',
 		title : '公告数据表',
 		height: "full-160",
 		even : true,
@@ -83,8 +91,8 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			     align : 'center',
 			     title : '运动会名称',
 			     templet:function(data){
-			     	return '<span>'+data.sportid+'</span>'
-			     	+'<input type="hidden" value="'+data.sportname+'" />'
+			     	return '<span>'+data.sportname+'</span>'
+			     	+'<input type="hidden" value="'+data.id+'" />'
 			     }
 			 }, {
 			     field : 'proname',
@@ -95,18 +103,6 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			     	+'<input type="hidden" value="'+data.proid+'" />'
 			     }
 			 }, {
-			     field : 'scenelimit',
-			     align : 'center',
-			     title : '场次人数限制',
-			 }, {
-			     field : 'collegelimit',
-			     align : 'center',
-			     title : '学院人数限制',
-			 }, {
-			     field : 'totallimit',
-			     title : '总人数限制',
-			     align : 'center',
-	   		}, {
 			     field : 'protype',
 			     title : '项目类型',
 			     align : 'center',
@@ -125,6 +121,18 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 				     	+'<input type="hidden" value="'+data.protype+'" />';
 				     }
 			     }
+	   		}, {
+			     field : 'scenelimit',
+			     align : 'center',
+			     title : '场次人数限制',
+			 }, {
+			     field : 'collegelimit',
+			     align : 'center',
+			     title : '学院人数限制',
+			 }, {
+			     field : 'totallimit',
+			     title : '总人数限制',
+			     align : 'center',
 	   		},{
 				title : '操作',
 				toolbar : '#barDemo',
@@ -132,23 +140,38 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			}] 
 		]
 	});
-	
+	/* 查询按钮事件 */
+	$("#btnselfrontinfo").click(function() {
+		var sportid = $("#sport").val();
+		var proid = $("#project").val();
+		table.reload('projectlist', {
+			method : 'post',
+			where : {
+				'sportid' : sportid,
+				'proid' : proid
+			},
+			page : {
+				curr : 1
+			}
+		});
+	});
 	//删除按钮操作
 	$(document).on('click',".del", function () {
-		var proid = $(this).parent().parent().prev().prev().prev().prev().prev().find("input").val();
+		var id = $(this).parent().parent().prev().prev().prev().prev().prev().prev().find("input").val();
 		layer.confirm('确定要删除么？', {
 		  btn: ['确定','取消'],
 		  icon:3
 		}, function(){
 			$.ajax({
         		type: 'get',
-        		url: "../project/deleteproject",
+        		url: "../sports/deleteTSP",
         		dataType: 'json',
         		data:{
-        			proid:proid
+        			id:id
         		},
         		success:function(data){
         			if(data.code == 0){
+        				getNotExistsSport();
         				layer.confirm(data.msg, {icon: 1,btn: ['确定']}, function(){
 							table.reload("projectlist", { //此处是上文提到的 初始化标识id
 				                where: {},
@@ -175,85 +198,19 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			layer.closeAll();
 		});
 	});
-	
-	/* 编辑按钮 */
-	$(document).on('click',".edit", function () {
-		var proid = $(this).parent().parent().prev().prev().prev().prev().prev().find("input").val();
-		var proname = $(this).parent().parent().prev().prev().prev().prev().prev().find("span").text();
-		var scenelimit = $(this).parent().parent().prev().prev().prev().prev().children().text();
-		var colllimit = $(this).parent().parent().prev().prev().prev().children().text();
-		var prolimit = $(this).parent().parent().prev().prev().children().text();
-		var protype = $(this).parent().parent().prev().find("input").val();
-		$("#proid").val(proid);
-		$("#proname").val(proname);
-		$("#colllimit").val(colllimit);
-		$("#scenelimit").val(scenelimit);
-		$("#prolimit").val(prolimit);
-		$("#protype").val(protype);
-		layer.open({
-			title:"文章信息编辑",
-			type: 1,
-			area: ['500px', '500px'],
-			skin: 'demo-class',
-			btn:['确认保存'],
-			maxmin: true,//显示最大化最小化按钮
-			content: $('#div_content'),
-			btn1: function(index, layero){
-				var proid = $("#proid").val();
-				var proname = $("#proname").val();
-				var colllimit = $("#colllimit").val();
-				var scenelimit = $("#scenelimit").val();
-				var prolimit = $("#prolimit").val();
-				var protype = $("#protype").val();
-				$.ajax({
-	        		type: 'get',
-	        		url: "../project/editproject",
-	        		dataType: 'json',
-	        		data:{
-	        			proid:proid,
-		        		proname:proname,
-		        		colllimit:colllimit,
-		        		scenelimit:scenelimit,
-		        		prolimit:prolimit,
-		        		protype:protype
-	        		},
-	        		success:function(data){
-	        			if(data.code == 0){
-	        				layer.confirm(data.msg, {icon: 1,btn: ['确定']}, function(){
-								table.reload("projectlist", { //此处是上文提到的 初始化标识id
-					                where: {},
-					                page: {
-					                	curr:1
-					                }
-					            });	
-								layer.closeAll();
-							});          				 
-	        			}
-	        			else{
-	        				layer.confirm(data.msg, {
-	        					  icon: 7,
-								  btn: ['确定']
-							});
-	        			}
-	        		},
-	        		error:function(){
-	        			layer.confirm('出现错误，请重试！', {
-	        				  icon: 6,
-							  btn: ['确定']
-						});
-	        		},
-	        	});  
-			}
-		});
-	});
-	
+	/* 监控复选框事件 */
+	form.on('checkbox(addproject)', function(data){
+		var prolist = JSON.parse(sessionStorage.getItem("prolists"));
+		if(data.elem.checked){
+			prolist.push(data.value);
+			sessionStorage.setItem("prolists",JSON.stringify(prolist));
+		}else{
+			prolist.splice(jQuery.inArray(data.value,prolist),1);
+			sessionStorage.setItem("prolists",JSON.stringify(prolist));
+		}
+	}); 
 	/* 添加按钮 */
 	$("#btn_add").click(function(){
-		$("#proname").val("");
-		$("#colllimit").val("");
-		$("#scenelimit").val("");
-		$("#prolimit").val("");
-		$("#protype").val("");
 		layer.open({
 			title:"文章信息编辑",
 			type: 1,
@@ -263,54 +220,199 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			maxmin: true,//显示最大化最小化按钮
 			content: $('#div_content'),
 			btn1: function(index, layero){
-				var proname = $("#proname").val();
-				var scenelimit = $("#scenelimit").val();
-				var colllimit = $("#colllimit").val();
-				var prolimit = $("#prolimit").val();
-				var protype = $("#protype").val();
-				$.ajax({
-	        		type: 'get',
-	        		url: "../project/addproject",
-	        		dataType: 'json',
-	        		data:{
-		        		proname:proname,
-		        		scenelimit:scenelimit,
-		        		colllimit:colllimit,
-		        		prolimit:prolimit,
-		        		protype:protype
-	        		},
-	        		success:function(data){
-	        			if(data.code == 0){
-	        				layer.confirm(data.msg, {
-	        				icon: 1,
-							  btn: ['确定']
-							}, function(){
-								table.reload("projectlist", { //此处是上文提到的 初始化标识id
-					                where: {},
-					                page: {
-					                	curr:1
-					                }
-					            });	
-								layer.closeAll();
-							});          				 
-	        			}
-	        			else{
-	        				layer.confirm(data.msg, {
-	        					  icon: 7,
+				var addsport = $("#addsport").val();
+				var prolistjson = JSON.parse(sessionStorage.getItem("prolists"));
+				var prolists = sessionStorage.getItem("prolists");
+				if(addsport==null || addsport == ""){
+					layer.confirm("赛事不能为空，请选择赛事", {
+		     			icon: 6,
+						btn: ['确定']
+					}); 
+				}else if(prolistjson.length<=0){
+					layer.confirm("赛项不能为空，请至少选择一个赛项", {
+		     			icon: 6,
+						btn: ['确定']
+					}); 
+				}else{
+					$.ajax({
+		        		type: 'get',
+		        		url: "../sports/addTSP",
+		        		dataType: 'json',
+		        		data:{
+			        		sportid:addsport,
+			        		prolist:prolists
+		        		},
+		        		success:function(data){
+	        				getNotExistsSport();
+	        				//$("input[name='addproid']").attr("checked", "");
+	        				var ch = $("input[name='addproid']");
+	        				for (var i = 0; i < ch.length; i++) {
+				                ch[i].checked = false;                
+				            }
+	        				form.render('checkbox');
+	        				sessionStorage.setItem("prolists", "[]");
+		        			if(data.code == 0){
+		        				layer.confirm(data.msg, {
+		        				icon: 1,
+								  btn: ['确定']
+								}, function(){
+									table.reload("projectlist", { //此处是上文提到的 初始化标识id
+						                where: {},
+						                page: {
+						                	curr:1
+						                }
+						            });
+									layer.closeAll();
+								});          				 
+		        			}
+		        			else{
+		        				layer.confirm(data.msg, {
+		        					  icon: 7,
+									  btn: ['确定']
+								});
+		        			}
+		        		},
+		        		error:function(){
+		        			layer.confirm('出现错误，请重试！', {
+		        				  icon: 6,
 								  btn: ['确定']
 							});
-	        			}
-	        		},
-	        		error:function(){
-	        			layer.confirm('出现错误，请重试！', {
-	        				  icon: 6,
-							  btn: ['确定']
-						});
-	        		},
-	        	});
-	        }
-		});
+		        		},
+		        	});
+		        }
+		    }
+	    });
 	});
+	/* 页面加载时运行 */
+	$(document).ready(function(){
+		getSport();
+		getProject();
+		getNotExistsSport();
+		sessionStorage.setItem("prolists", "[]");
+	})
+	/* 获取运动会列表，填充赛事下拉框 */
+	function getSport(){
+		$.ajax({
+			type : "post",
+			url : "../sports/getsport",
+			data : {},
+			dataType : "json",
+			success : function(succ) {
+				if (succ.code == 1) {
+					layer.confirm(succ.msg, {
+        				  icon: 6,
+						  btn: ['确定']
+					});
+				} else {
+					var tmp = '<option value="">请选择或输入赛事名称</option>';
+					for ( var i in succ.data) {
+						tmp += '<option value="' + succ.data[i].sportid +  '">'
+								+ succ.data[i].sportname
+								+ '</option>';
+					}
+					$("#sport").html(tmp);
+					form.render();
+				}
+			},
+			error : function() {
+				layer.msg('请求失败，稍后再试',{icon : 5});
+			}
+		});
+	}
+	/* 获取未分配赛事运动会列表，填充赛事下拉框 */
+	function getNotExistsSport(){
+		$.ajax({
+			type : "post",
+			url : "../sports/getnotexitsTSP",
+			data : {},
+			dataType : "json",
+			success : function(succ) {
+				if (succ.code == 1) {
+					$("#btn_add").hide();
+				} else {
+					$("#btn_add").show();
+					var tmp = '<option value="">请选择或输入赛事名称</option>';
+					for ( var i in succ.data) {
+						tmp += '<option value="' + succ.data[i].sportid +  '">'
+								+ succ.data[i].sportname
+								+ '</option>';
+					}
+					$("#addsport").html(tmp);
+					form.render();
+				}
+			},
+			error : function() {
+				layer.msg('请求失败，稍后再试',{icon : 5});
+			}
+		});
+	}
+	/* 获取项目列表，填充项目下拉框 */
+	function getProject(){
+		$.ajax({
+			type : "post",
+			url : "../project/getproject",
+			data : {},
+			dataType : "json",
+			success : function(succ) {
+				if (succ.code == 1) {
+					layer.confirm(succ.msg, {
+        				  icon: 6,
+						  btn: ['确定']
+					});
+				} else {
+					var tmp = '<option value="">请选择或输入项目名称</option>';
+					for ( var i in succ.data) {
+						if(succ.data[i].protype==1){
+							tmp += '<option value="' + succ.data[i].proid +  '">'
+								+ succ.data[i].proname
+								+ '(学生个人赛)</option>';
+						}else if(succ.data[i].protype==2){
+							tmp += '<option value="' + succ.data[i].proid +  '">'
+								+ succ.data[i].proname
+								+ '(学生团体赛)</option>';
+						}else if(succ.data[i].protype==3){
+							tmp += '<option value="' + succ.data[i].proid +  '">'
+								+ succ.data[i].proname
+								+ '(教师个人赛)</option>';
+						}else if(succ.data[i].protype==4){
+							tmp += '<option value="' + succ.data[i].proid +  '">'
+								+ succ.data[i].proname
+								+ '(教师团体赛)</option>';
+						}
+					}
+					$("#project").html(tmp);
+					var tmp1 = '',tmp2 = '',tmp3 = '',tmp4 = '';
+					for ( var i in succ.data) {
+						if(succ.data[i].protype==1){
+							tmp1 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==2){
+							tmp2 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==3){
+							tmp3 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==4){
+							tmp4 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}
+					}
+					$("#stusingle").html(tmp1);
+					$("#stuteam").html(tmp2);
+					$("#teasingle").html(tmp3);
+					$("#teateam").html(tmp4);
+					form.render();
+				}
+			},
+			error : function() {
+				layer.msg('请求失败，稍后再试',{icon : 5});
+			}
+		});
+	}
 });
 </script>
 <div class="layui-card" id="div_content" style="display: none;height:450px;">
@@ -321,50 +423,34 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 				<form class="layui-form">
 					<input type="hidden" id="proid" value="" />
 					<div class="layui-form-item">
-						<label class="layui-form-label">项目名称</label>
+						<label class="layui-form-label">赛事名称</label>
 						<div class="layui-input-block">
-							<input type="text" name="proname" id="proname" required
-								lay-verify="required" placeholder="请输入项目名称"
-								autocomplete="off" class="layui-input layui-bg-gary">
+							<select name="addsport" id="addsport" lay-filter="addsport"
+								lay-verify="required" lay-search="">
+								<option value="">请选择或输入赛事名称</option>
+							</select>
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">比赛人数限制</label>
-						<div class="layui-input-block">
-							<input type="number" name="scenelimit" id="scenelimit" required
-								lay-verify="required" placeholder="请输入每场比赛限制"
-								 autocomplete="off" class="layui-input layui-bg-gary">
+						<label class="layui-form-label">学生个人赛</label>
+						<div class="layui-input-block" id="stusingle">
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">学院人数限制</label>
-						<div class="layui-input-block">
-							<input type="number" name="colllimit" id="colllimit" required
-								lay-verify="required" placeholder="请输入学院人数限制"
-								 autocomplete="off" class="layui-input layui-bg-gary">
+						<label class="layui-form-label">学生团体赛</label>
+						<div class="layui-input-block" id="stuteam">
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">总人数限制</label>
-						<div class="layui-input-block">
-							<input type="number" name="prolimit" id="prolimit" required
-								lay-verify="required" placeholder="请输入项目总人数限制"
-								 autocomplete="off" class="layui-input layui-bg-gary">
+						<label class="layui-form-label">教师个人赛</label>
+						<div class="layui-input-block" id="teasingle">
 						</div>
 					</div>
-					<input id="protype" type="hidden" value="" />
-					<!-- <div class="layui-form-item">
-						<label class="layui-form-label">项目类型</label>
-						<div class="layui-input-block">
-							<select name="protype" id="protype" lay-verify="">
-								<option value="0">请选择一个项目类型</option>
-								<option value="1">学生个人赛</option>
-								<option value="2">学生团体赛</option>
-								<option value="3">教师个人赛</option>
-								<option value="4">教师团体赛</option>
-							</select> 
+					<div class="layui-form-item">
+						<label class="layui-form-label">教师团体赛</label>
+						<div class="layui-input-block" id="teateam">
 						</div>
-					</div> -->
+					</div>
 				</form>
 			</div>
 		</div>

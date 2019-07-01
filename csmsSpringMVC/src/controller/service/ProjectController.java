@@ -29,13 +29,17 @@ public class ProjectController {
 
 	@RequestMapping(value = "getprojectlist")
 	public void getProject(HttpServletRequest request, HttpServletResponse response, 
-			int page, int limit,String wherecondition, Model model){
+			int page, int limit, Model model){
 		ProjectDAO pdao = DAOFactory.getProjectDAO();
+		String protype = request.getParameter("protype");
+		String proname = request.getParameter("proname");
 		// 查询条件
 		Expression exp = new Expression();
-		if (wherecondition != null && !wherecondition.equals("")) {
-			exp.andLeftBraLike("newstitle", wherecondition, String.class);
-			exp.orRightBraLike("adminuserid", wherecondition, String.class);
+		if (protype != null && !protype.equals("")) {
+			exp.andEqu("protype", protype, Integer.class);
+		}
+		if (proname != null && !proname.equals("")) {
+			exp.andLike("proname", proname, String.class);
 		}
 		String opreation = exp.toString();
 		int allcount = pdao.getProCount(opreation);
@@ -136,6 +140,25 @@ public class ProjectController {
 			laydata.msg = "修改失败";
 		}
 		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value = "getproject")
+	public void getProject(HttpServletRequest request, HttpServletResponse response, Model model){
+		ProjectDAO pdao = DAOFactory.getProjectDAO();
+		LayuiData laydata = new LayuiData();
+		Writer out;
+		List<TProject> projectlist = pdao.select();
+		laydata.code = LayuiData.SUCCESS;
+		laydata.msg = "执行成功";
+		laydata.data = projectlist;
 		try {
 			out = response.getWriter();
 			out.write(JSON.toJSONString(laydata));

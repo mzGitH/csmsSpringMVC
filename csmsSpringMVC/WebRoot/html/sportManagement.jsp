@@ -100,7 +100,7 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 			}, {
 			     field : 'sportname',
 			     align : 'center',
-			     title : '项目名称',
+			     title : '赛事名称',
 			     templet:function(data){
 			     	return '<span>'+data.sportname+'</span>'
 			     	+'<input type="hidden" value="'+data.sportid+'" />'
@@ -108,11 +108,11 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 			 }, {
 			     field : 'starttime',
 			     align : 'center',
-			     title : '运动会开始时间',
+			     title : '赛事开始时间',
 			 }, {
 			     field : 'endtime',
 			     align : 'center',
-			     title : '运动会结束时间',
+			     title : '赛事结束时间',
 			 }, {
 			     field : 'reportstart',
 			     title : '报名开始时间',
@@ -139,7 +139,6 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 			}] 
 		]
 	});
-	
 	//删除按钮操作
 	$(document).on('click',".del", function () {
 		var sportid = $(this).parent().parent().prev().prev().prev().prev().prev().prev().find("input").val();
@@ -443,7 +442,7 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 				<form class="layui-form">
 					<input type="hidden" id="proid" value="" />
 					<div class="layui-form-item">
-						<label class="layui-form-label">运动会名称</label>
+						<label class="layui-form-label">赛事名称</label>
 						<div class="layui-input-block">
 							<!-- required -->
 							<input type="text" name="sportname" id="sportname"
@@ -452,18 +451,18 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">运动会开始时间</label>
+						<label class="layui-form-label">赛事开始时间</label>
 						<div class="layui-input-block">
 							<input type="text" name="starttime" class="layui-input" id="starttime"
-								lay-verify="date" placeholder="请选择运动会开始时间"
+								lay-verify="date" placeholder="请选择赛事开始时间"
 								 autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">运动会结束时间</label>
+						<label class="layui-form-label">赛事结束时间</label>
 						<div class="layui-input-block">
 							<input type="text" name="endtime" class="layui-input" id="endtime"
-								lay-verify="date" placeholder="请选择运动会结束时间"
+								lay-verify="date" placeholder="请选择赛事结束时间"
 								 autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
 					</div>

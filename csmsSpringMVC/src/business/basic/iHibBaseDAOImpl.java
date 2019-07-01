@@ -5,7 +5,12 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -710,5 +715,35 @@ public class iHibBaseDAOImpl implements iHibBaseDAO {
 				session.close();
 		}
 		return false;
+	}
+	
+	@Override
+	public List selectBysql(String sql) {
+		Session session = HibSessionFactory.getSession();
+
+		// 将会话session对象转换为jdbc的connection
+		Connection con = session.connection();
+		PreparedStatement ptmt;
+		try {
+			ptmt = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = ptmt.executeQuery();
+			// 转list
+			List list = new ArrayList();
+			ResultSetMetaData md = rs.getMetaData();
+			int columnCount = md.getColumnCount(); // Map rowData;
+			while (rs.next()) { // rowData = new HashMap(columnCount);
+				Map rowData = new HashMap();
+				for (int i = 1; i <= columnCount; i++) {
+					rowData.put(md.getColumnName(i), rs.getObject(i));
+				}
+				list.add(rowData);
+			}
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

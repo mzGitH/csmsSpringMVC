@@ -251,4 +251,12 @@ public interface iHibBaseDAO {
 	public boolean executeBatch(Object[] obj, int[] model);
 
 	public boolean executeBatch(List<Object> list, List<Integer> models);
+	
+
+	/**
+	 * 使用无参数的sql实现查询的
+	 * @param String 符合sql结构的无参数查询语句
+	 * @return List  失败返回null
+	 */
+	public List selectBysql(String sql) ;
 }

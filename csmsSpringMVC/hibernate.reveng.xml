@@ -92,8 +92,14 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
-<table name="V_SportProject" schema="dbo" catalog="CSMS"
-	class="model.VSportProject">
+	<table name="V_SportProject" schema="dbo" catalog="CSMS"
+		class="model.VSportProject">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+<table name="T_SportProject" schema="dbo" catalog="CSMS"
+	class="model.TSportProject">
 	<primary-key>
 		<generator class="identity"></generator>
 	</primary-key>

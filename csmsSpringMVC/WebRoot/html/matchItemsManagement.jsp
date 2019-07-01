@@ -23,7 +23,17 @@
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-input-inline">
-					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入查询条件" class="layui-input" autocomplete="off">
+					<select name="protype" id="protype" lay-filter="protype"
+						lay-verify="required" lay-search="">
+						<option value="">请选择或输入项目类型</option>
+						<option value="1">学生个人赛</option>
+						<option value="2">学生团体赛</option>
+						<option value="3">教师个人赛</option>
+						<option value="4">教师团体赛</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<input type="text" name="proname" id="proname" placeholder="请输入项目名称" class="layui-input" autocomplete="off">
 			    </div>
 				<div class="layui-inline">
 					<button id="btnselfrontinfo" type="button"
@@ -124,7 +134,21 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			}] 
 		]
 	});
-	
+	/* 查询按钮事件 */
+	$("#btnselfrontinfo").click(function() {
+		var protype = $("#protype").val();
+		var proname = $("#proname").val();
+		table.reload('projectlist', {
+			method : 'post',
+			where : {
+				'protype' : protype,
+				'proname' : proname
+			},
+			page : {
+				curr : 1
+			}
+		});
+	});
 	//删除按钮操作
 	$(document).on('click',".del", function () {
 		var proid = $(this).parent().parent().prev().prev().prev().prev().prev().find("input").val();
