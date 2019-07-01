@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.TScene;
 import model.VScene;
+import model.VScoreSignIn;
 
 import org.springframework.stereotype.Component;
 
@@ -49,21 +50,21 @@ public class SceneDaoImpl implements SceneDAO {
 	}
 
 	@Override
-	public List<VScene> selectByPageFinish(String wherecondition, int page,
-			int limit) {
+	public List<VScoreSignIn> selectByPageFinish(String wherecondition,
+			int page, int limit) {
 		// TODO Auto-generated method stub
-		String hql = "from VScene";
+		String hql = "from VScoreSignIn";
 		if (wherecondition != null && !wherecondition.equals("")) {
 			hql += wherecondition;
 		}
-		List<VScene> list = bdao.selectByPage(hql, page, limit);
+		List<VScoreSignIn> list = bdao.selectByPage(hql, page, limit);
 		return list;
 	}
 
 	@Override
 	public int selectByPageFinishCount(String wherecondition) {
 		// TODO Auto-generated method stub
-		String hql = "select count(*) from VScene";
+		String hql = "select count(*) from VScoreSignIn";
 		if (wherecondition != null && !wherecondition.equals("")) {
 			hql += wherecondition;
 		}

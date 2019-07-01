@@ -136,4 +136,14 @@ public class ScoreDaoImpl implements ScoreDAO {
 			return null;
 		}
 	}
+
+	@Override
+	public TScore isInScore(int matchid) {
+		// TODO Auto-generated method stub
+		TScore score = (TScore) bdao.findById(TScore.class, matchid);
+		if (score != null && score.getScorenumber().equals("")) {
+			return score;
+		}
+		return null;
+	}
 }

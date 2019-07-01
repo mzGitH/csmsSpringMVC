@@ -36,9 +36,10 @@ public class CompetitionController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "status")
-	public void StatusManagement(String wherecondition, Integer protype,
-			Integer page, Integer limit, HttpServletRequest request,
-			HttpServletResponse response, Model model) throws IOException {
+	public void StatusManagement(String wherecondition, Integer sport,
+			Integer protype, Integer page, Integer limit,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
@@ -46,8 +47,11 @@ public class CompetitionController {
 		ArrangeDAO arrdao = DAOFactory.getArrangDAO();
 
 		Expression exp = new Expression();
-		if (protype != null && !protype.equals("0")) {
+		if (protype != null && !protype.equals("0") && protype != 0) {
 			exp.andEqu("protype", protype, Integer.class);
+		}
+		if (sport != null && !sport.equals("0") && sport != 0) {
+			exp.andEqu("sportid", sport, Integer.class);
 		}
 		if (wherecondition != null && !wherecondition.equals("")
 				&& !wherecondition.equals("0")) {

@@ -37,7 +37,6 @@
 		<mapping resource="model/VScore.hbm.xml" />
 		<mapping resource="model/VStudentScore.hbm.xml" />
 		<mapping resource="model/VTeacherScore.hbm.xml" />
-		<mapping resource="model/VMatch.hbm.xml" />
 		<mapping resource="model/TForumContent.hbm.xml" />
 		<mapping resource="model/TPhoto.hbm.xml" />
 		<mapping resource="model/VForum.hbm.xml" />
@@ -55,6 +54,8 @@
 		<mapping resource="model/VForumTitle.hbm.xml" />
 		<mapping resource="model/TUser.hbm.xml" />
 		<mapping resource="model/VUser.hbm.xml" />
+		<mapping resource="model/VMatch.hbm.xml" />
+		<mapping resource="model/VScoreSignIn.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>

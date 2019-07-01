@@ -23,7 +23,12 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-inline">
-					<select id="project">
+					<select id="sport">
+						
+					</select>
+				</div>
+				<div class="layui-inline">
+					<select id="project" lay-search>
 						
 					</select>
 				</div>
@@ -73,6 +78,10 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					title : '序号',
 					align : 'center'
 				},{
+			     field : 'sportname',
+			     align : 'center',
+			     title : '运动会名称',
+			    },{
 			     field : 'arrname',
 			     align : 'center',
 			     title : '场次名称',
@@ -81,6 +90,24 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			     align : 'center',
 			     title : '比赛项目',
 			    }, {
+					field : '',
+					title : '赛项类型',
+					align : 'center',
+					templet : function(data) {
+						if(data.protype==1){
+							return "学生个人赛";
+						}
+						if(data.protype==2){
+							return "学生团体赛";
+						}
+						if(data.protype==3){
+							return "教师个人赛";
+						}
+						if(data.protype==4){
+							return "教师团体赛";
+						}
+					}
+				},{
 			     field : 'starttime',
 			     align : 'center',
 			     title : '开始时间',
@@ -92,14 +119,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			     field : 'addr',
 			     align : 'center',
 			     title : '比赛地点',
-			    }, {
-					field : '',
-					title : '赛项级别',
-					align : 'center',
-					templet : function(data) {
-						return data.leveltype==1 ? "决赛":"预赛";
-					}
-				},{
+			    },{
 			     field : '',
 			     title : '操作',
 			     toolbar: '#scoreIn',
@@ -119,7 +139,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			var data = obj.data;
 			switch (obj.event) {
 				case 'signIn':
-					//alert(data.arrid);
+					$("#username").text(data.username);
 					layer.open({
   						title:"比赛状态编辑",
   						type: 1,
@@ -130,14 +150,15 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   						//offset: 'b', 弹框的位置
   						content: $('#div_editcollege'),
   						btn1: function(index, layero){
-  							var state = $('input:radio[name="sex"]:checked').val();
+  							var scorenum = $('#scoreInput').val();
+  							//layer.msg(state);
     						$.ajax({
 			        		type: 'get',
-			        		url: "../score/getscore",
+			        		url: "../score/addscore",
 			        		dataType: 'json',
 			        		data:{
-			        			state:state,
-			        			arrid:data.arrid,
+			        			scorenum:scorenum,
+			        			matchid:data.matchid,
 			        		},
 			        		success:function(data){
 			        			if(data.code == 0){
@@ -145,12 +166,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
-										table.reload("satustable", { //此处是上文提到的 初始化标识id
-							                where: {
-							                },page: {
-							                curr:1
-							                }
-							            });	
+										$('#scoreInput').val("");
 										layer.closeAll();
 									});          				 
 			        			}
@@ -162,10 +178,10 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        			}
 			        		},
 			        		error:function(){
-			        			layer.confirm('出现错误，请重试！', {
-			        				  icon: 6,
-									  btn: ['确定']
-								});
+			        			//layer.confirm('出现错误，请重试！', {
+			        				  //icon: 6,
+									  //btn: ['确定']
+								//});
 			        		},
 			        	});  
   						},
@@ -193,6 +209,28 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		});
 		//下拉框加载
 		$(function() {
+			$.ajax({
+				url : "../score/getsport",
+				type : "POST",
+				data : null,
+				dataType : 'json',
+				contentType : 'application/json;charset=UTF-8',//contentType 很重要
+				success : function(e) {
+					//alert(e.data[0].collegeid);
+					var s = $("#sport").html();
+					var str = "<option value='0'>请选择运动会名称</option>";
+					//var str;
+					for(var i=0;i<e.resultObject.length;i++){
+						str += "<option value="+e.resultObject[i].sportid+">"+e.resultObject[i].sportname+"</option>"
+					}
+					$("#sport").append(str);
+					form.render("select");
+				},
+				error : function(e) {
+					layer.alert("error:"+e.msg);
+				}
+	
+			})
 			//$(".search").hide();
 			$.ajax({
 				url : "../score/getproject",
@@ -234,58 +272,12 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 	<div id="div_editcollege"
 		style="display: none;text-align: center; margin-top: 10%;">
 		<form action="">
-		<div class="layui-form-item">
-			<label class="layui-form-label">张三</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" placeholder="请输入分数"  autocomplete="off" class="layui-input">
+			<div class="layui-form-item">
+				<label class="layui-form-label" id="username"></label>
+				<div class="layui-input-inline">
+					<input type="text" name="title" placeholder="请输入分数" id="scoreInput" autocomplete="off" class="layui-input">
+				</div>
 			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">李四:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" 
-					placeholder="请输入分数" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">张三</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" placeholder="请输入分数"  autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">李四:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" 
-					placeholder="请输入分数" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">张三</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" placeholder="请输入分数"  autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">李四:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" 
-					placeholder="请输入分数" autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">张三</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" placeholder="请输入分数"  autocomplete="off" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">李四:</label>
-			<div class="layui-input-inline">
-				<input type="text" name="title" 
-					placeholder="请输入分数" autocomplete="off" class="layui-input">
-			</div>
-		</div>
 		</form>
 	</div>
 </body>
