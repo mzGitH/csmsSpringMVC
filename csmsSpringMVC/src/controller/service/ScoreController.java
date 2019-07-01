@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.TConfig;
 import model.TProject;
 import model.TScore;
+import model.VScene;
 import model.VScoreSignIn;
 
 import org.springframework.stereotype.Controller;
@@ -121,6 +122,29 @@ public class ScoreController {
 		} else {
 			data.code = LayuiData.ERRR;
 			data.msg = "该运动员已记录过成绩";
+		}
+		out.write(JSON.toJSONString(data));
+		out.flush();
+		out.close();
+	}
+
+	@RequestMapping(value = "getuser")
+	public void GetUser(Integer arrid, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+
+		SceneDAO sdao = DAOFactory.getSceneDAO();
+		List<VScene> list = sdao.getSceneUser(arrid);
+		LayuiData data = new LayuiData();
+		if (list != null) {
+			data.code = LayuiData.SUCCESS;
+			data.msg = "查询成功，共查出" + list.size() + "条数据";
+			data.data = list;
+		} else {
+			data.code = LayuiData.ERRR;
+			data.msg = "该场次无运动员";
 		}
 		out.write(JSON.toJSONString(data));
 		out.flush();

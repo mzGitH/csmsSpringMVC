@@ -60,8 +60,8 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			style="display: none;text-align: center; margin-top: 15%;">
 	    	<form class="layui-form">
 				<label class="layui-form-label">选择状态</label>
-				<div class="layui-input-block">
-					<input type="radio" lay-filter="erweima" name="sex" value="0" title="未比赛" id="btnradio">
+				<div class="layui-input-block" lay-filter="test2">
+					<input type="radio" lay-filter="erweima" name="sex" value="0" title="未比赛">
 					<input type="radio" lay-filter="erweima" name="sex" value="1" title="比赛中">
 					<input type="radio" lay-filter="erweima" name="sex" value="2" title="比赛完成">
 				</div>
@@ -184,12 +184,14 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
+										$("input[type='radio']").removeAttr('checked');
 										table.reload("satustable", { //此处是上文提到的 初始化标识id
 							                where: {
 							                },page: {
 							                curr:1
 							                }
 							            });	
+							            //form.render('radio', 'test2');
 										layer.closeAll();
 									});          				 
 			        			}
@@ -197,6 +199,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				layer.confirm(data.msg, {
 			        					  icon: 7,
 										  btn: ['确定']
+									}, function(){
+										$("input[type='radio']").removeAttr('checked');
+										//form.render('radio', 'test2')
 									});
 			        			}
 			        		},
@@ -204,12 +209,15 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        			layer.confirm('出现错误，请重试！', {
 			        				  icon: 6,
 									  btn: ['确定']
+								}, function(){
+									//form.render('radio', 'test2')
+									$("input[type='radio']").removeAttr('checked');
 								});
 			        		},
 			        	});  
   						},
   						cancel: function(){ 
-  							$("#newcollegename").val("");
+  							$("input").removeAttr('checked');
   						}
 					});
 				break;

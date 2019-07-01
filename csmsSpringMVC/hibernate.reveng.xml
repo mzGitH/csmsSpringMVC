@@ -98,8 +98,8 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
-<table name="T_SportProject" schema="dbo" catalog="CSMS"
-	class="model.TSportProject">
+<table name="VScoreSignIn" schema="dbo" catalog="CSMS"
+	class="model.VScoreSignIn">
 	<primary-key>
 		<generator class="identity"></generator>
 	</primary-key>

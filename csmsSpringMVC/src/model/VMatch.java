@@ -6,7 +6,7 @@ package model;
 
 public class VMatch implements java.io.Serializable {
 
-	private Integer matchid;
+	private String id;
 	private String proname;
 	private Integer scenelimit;
 	private Integer collegelimit;
@@ -34,10 +34,9 @@ public class VMatch implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public VMatch(Integer matchid, String proname, Integer scenelimit,
-			Integer collegelimit, Integer totallimit, Integer protype,
-			Integer proid, Integer currentnum, String userid) {
-		this.matchid = matchid;
+	public VMatch(String proname, Integer scenelimit, Integer collegelimit,
+			Integer totallimit, Integer protype, Integer proid,
+			Integer currentnum, String userid) {
 		this.proname = proname;
 		this.scenelimit = scenelimit;
 		this.collegelimit = collegelimit;
@@ -49,14 +48,14 @@ public class VMatch implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public VMatch(Integer matchid, String proname, Integer scenelimit,
+	public VMatch(String id, String proname, Integer scenelimit,
 			Integer collegelimit, Integer totallimit, Integer protype,
 			Integer proid, Integer currentnum, Integer sportid,
 			String sportname, String userid, String username,
 			Integer collegeid, String collegename, Integer classid,
 			String classname, Integer majorid, String majorname,
 			Integer stucollegeid, String stucollegename) {
-		this.matchid = matchid;
+		this.id = id;
 		this.proname = proname;
 		this.scenelimit = scenelimit;
 		this.collegelimit = collegelimit;
@@ -80,12 +79,12 @@ public class VMatch implements java.io.Serializable {
 
 	// Property accessors
 
-	public Integer getMatchid() {
-		return this.matchid;
+	public String getId() {
+		return this.id;
 	}
 
-	public void setMatchid(Integer matchid) {
-		this.matchid = matchid;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getProname() {
@@ -249,9 +248,9 @@ public class VMatch implements java.io.Serializable {
 			return false;
 		VMatch castOther = (VMatch) other;
 
-		return ((this.getMatchid() == castOther.getMatchid()) || (this
-				.getMatchid() != null && castOther.getMatchid() != null && this
-				.getMatchid().equals(castOther.getMatchid())))
+		return ((this.getId() == castOther.getId()) || (this.getId() != null
+				&& castOther.getId() != null && this.getId().equals(
+				castOther.getId())))
 				&& ((this.getProname() == castOther.getProname()) || (this
 						.getProname() != null && castOther.getProname() != null && this
 						.getProname().equals(castOther.getProname())))
@@ -327,8 +326,7 @@ public class VMatch implements java.io.Serializable {
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result
-				+ (getMatchid() == null ? 0 : this.getMatchid().hashCode());
+		result = 37 * result + (getId() == null ? 0 : this.getId().hashCode());
 		result = 37 * result
 				+ (getProname() == null ? 0 : this.getProname().hashCode());
 		result = 37
