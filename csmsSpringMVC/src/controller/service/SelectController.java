@@ -139,7 +139,13 @@ public class SelectController {
 	public void selectMajorByCollegeid(HttpServletRequest request,
 			Integer collegeid, HttpServletResponse response, Model model) {
 		MajorDAO mdao = DAOFactory.getMajorDAO();
-		List<VMajor> majorlist = mdao.selectByColl(collegeid);
+		List<VMajor> majorlist = null;
+		if (collegeid == null || collegeid.equals("")) {
+			majorlist = mdao.select();
+		} else {
+			majorlist = mdao.selectByColl(collegeid);
+		}
+
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 
@@ -172,7 +178,13 @@ public class SelectController {
 	public void selectClassesByMajor(HttpServletRequest request,
 			Integer majorid, HttpServletResponse response, Model model) {
 		ClassesDAO cdao = DAOFactory.getClassesDAO();
-		List<TClass> classlist = cdao.selectByMajor(majorid);
+
+		List<TClass> classlist = null;
+		if (majorid == null || majorid.equals("")) {
+			classlist = cdao.select();
+		} else {
+			classlist = cdao.selectByMajor(majorid);
+		}
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 
@@ -205,14 +217,26 @@ public class SelectController {
 	public void selectClassesByCollegeId(HttpServletRequest request,
 			Integer collegeid, HttpServletResponse response, Model model) {
 		ClassesDAO cdao = DAOFactory.getClassesDAO();
-		List<VClass> classlist = cdao.selectByCollegeid(collegeid);
+		List<VClass> vclasslist = null;
+		List<TClass> classlist = null;
+		if (collegeid == null || collegeid.equals("")) {
+			classlist = cdao.select();
+		} else {
+			vclasslist = cdao.selectByCollegeid(collegeid);
+		}
+
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 
 		LayuiData laydata = new LayuiData();
-		if (classlist != null) {
+		if (classlist != null || vclasslist != null) {
 			laydata.code = LayuiData.SUCCESS;
-			laydata.data = classlist;
+			if (vclasslist != null) {
+				laydata.data = vclasslist;
+			} else {
+				laydata.data = classlist;
+			}
+
 			laydata.msg = "≤È—Ø≥…π¶";
 		} else {
 			laydata.code = LayuiData.ERRR;

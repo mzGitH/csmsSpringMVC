@@ -88,7 +88,8 @@
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-normal layui-btn-lg edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-normal layui-btn-md edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-warm layui-btn-md del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 <script>
 layui.use(['layer','upload','table','jquery','form'], function(){
@@ -108,7 +109,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 		     [ {
 				type : 'numbers',
 				title : '序号',
-				align : 'center',
+				align : 'center'
 			}, {
 			    field : 'picpath',
 			    align : 'center',
@@ -116,7 +117,9 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 			    style:'height:100px;',
 				templet:function(data){
 					return '<img style="width: 150px;height:100%" src= "'+data.picpath+'">'
-					+'<input type="hidden" value="'+data.picpath+'" />'
+					+'<input type="hidden" class="picid" value="'+data.picid+'" />'
+					+'<input type="hidden" class="picpath" value="'+data.picpath+'" />'
+					+'<input type="hidden" class="contentid" value="'+data.contentid+'" />'
 				}
 			}, {
 			    field : 'textcontent',
@@ -135,9 +138,6 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 				title : '操作',
 				toolbar : '#barDemo',
 				align : 'center'
-			},{
-				field :'contentid',
-				hide: true
 			}]
 		]
 	});
@@ -166,7 +166,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 					success : function(succ) {
 						layer.msg(succ.msg);
 						if (succ.code == 0) {
-							window.location.href="../forum/getforum?forumid=${forum.forumid}"
+							window.location.reload();
 						}
 					},
 					error : function() {
@@ -177,7 +177,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 			},
 			cancel: function(){ 
 				$("#contentid").val("");
-	            $("#contentimg").attr("src","../image/defaultuser.jpg");
+	            $("#photopath").attr("src","../image/defaultuser.jpg");
 	            $("#contenttext").text("");
 	            $("#photoid").val("");
 			}
@@ -185,11 +185,13 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 	})
 	/* 文章内容编辑按钮 */
 	$(document).on('click',".edit", function () {
-            var contentid = $(this).parent().parent().next().children().text();
+            var contentid = $(this).parent().parent().prev().prev().find(".contentid").val();
             var content = $(this).parent().parent().prev().children().text();
-            var contentimg = $(this).parent().parent().prev().prev().find("input").val();
+            var photoid = $(this).parent().parent().prev().prev().find(".picid").val();
+            var photopath = $(this).parent().parent().prev().prev().find(".picpath").val();
             $("#contentid").val(contentid);
-            $("#contentimg").attr("src",contentimg);
+            $("#photoid").val(photoid);
+            $("#photopath").attr("src",photopath);
             $("#contenttext").text(content);
 	        layer.open({
 				title:"编写一个博文内容",
@@ -216,7 +218,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 						success : function(succ) {
 							layer.msg(succ.msg);
 							if (succ.code == 0) {
-								window.location.href="../forum/getforum?forumid=${forum.forumid}"
+								window.location.reload();
 							}
 						},
 						error : function() {
@@ -227,11 +229,39 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 				},
 				cancel: function(){ 
 					$("#contentid").val("");
-		            $("#contentimg").attr("src","../image/defaultuser.jpg");
+		            $("#photopath").attr("src","../image/defaultuser.jpg");
 		            $("#contenttext").text("");
 		            $("#photoid").val("");
 				}
 			});
+    });
+    /* 文章内容删除按钮 */
+	$(document).on('click',".del", function () {
+		var contentid = $(this).parent().parent().prev().prev().find(".contentid").val();
+		layer.open({
+			title: '温馨提示',
+			content: '确定要删除这条内容吗？',
+			yes:function(index,layero){
+				$.ajax({
+						type : "post",
+						url : "../forum/delcontent",
+						data : {
+							contentid : contentid
+						},
+						dataType : "json",
+						success : function(succ) {
+							layer.msg(succ.msg);
+							if (succ.code == 0) {
+								window.location.reload();
+							}
+						},
+						error : function() {
+							layer.msg('请求失败，稍后再试',{icon : 5});
+						}
+		
+					});
+			}
+		});
     });
 	//监听提交
      form.on('submit(formDemo)', function(data) {
@@ -245,7 +275,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
          url: '../file/springUpload',
          before: function(obj) {
              obj.preview(function(index, file, result) {
-                 $('#contentimg').attr('src', result); //图片链接（base64）
+                 $('#photopath').attr('src', result); //图片链接（base64）
              });
              layer.load(); //上传loading
          },
@@ -273,7 +303,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 					<div class="layui-form-item">
 						<label class="layui-form-label">图片名称</label>
 						<div class="layui-input-block">
-							<input type="text" name="photoid" id="photoid" required
+							<input type="text" name="photoid" disabled="disabled" id="photoid" required
 								lay-verify="required" placeholder="请选择上传的文章内容图片"
 								autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
@@ -288,7 +318,7 @@ layui.use(['layer','upload','table','jquery','form'], function(){
 					<div class="layui-form-item">
 						<label class="layui-form-label">图片预览</label>
 						<div class="layui-input-block">
-							<img class="layui-upload-img" src="../image/defaultuser.jpg" id="contentimg" width="150px">
+							<img class="layui-upload-img" src="../image/defaultuser.jpg" id="photopath" width="150px">
 						</div>
 					</div>
 

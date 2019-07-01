@@ -69,7 +69,7 @@ public interface ProjectDAO {
 	 * @param pagesize
 	 * @return
 	 */
-	public List<TProject> selectByPage(int roletype, int startPage, int pageSize);
+	public List<TProject> selectByPage(String where, int startPage, int pageSize);
 
 	/**
 	 * 获取比赛项目数
@@ -78,5 +78,5 @@ public interface ProjectDAO {
 	 *            角色类型
 	 * @return 返回比赛项目数
 	 */
-	public int getProCount(int roletype);
+	public int getProCount(String where);
 }

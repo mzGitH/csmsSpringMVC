@@ -124,4 +124,11 @@ public interface ClassesDAO {
 	 */
 	public List<VClass> selectByPage(String wherecondition, int page,
 			int pageSize);
+
+	/**
+	 * 根据班级名称获取班级id
+	 * 
+	 * @return
+	 */
+	public int getclassIdByname(String classname);
 }

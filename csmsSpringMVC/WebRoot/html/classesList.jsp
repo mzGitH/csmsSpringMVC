@@ -403,7 +403,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		var uploadInst = upload.render({
 			elem : '#upfile' //绑定元素
 			,//auto: false, //不自动上传
-			url : '../file/springUpload', //上传接口
+			url : '../file/springimport', //上传接口
 			//bindAction:'#btn_upload',
 			//accept : 'file'//上传所有格式文件,
 			exts : 'xls|xlsx',

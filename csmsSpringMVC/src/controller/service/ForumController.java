@@ -242,10 +242,35 @@ public class ForumController {
 		LayuiData laydata = new LayuiData();
 		if (fdao.editContent(content)) {
 			laydata.code = LayuiData.SUCCESS;
-			laydata.msg = "添加成功";
+			laydata.msg = "修改成功";
 		} else {
 			laydata.code = LayuiData.ERRR;
-			laydata.msg = "添加失败";
+			laydata.msg = "修改失败";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("delcontent")
+	public void delContent(HttpServletRequest request,HttpServletResponse response,
+			int contentid,Model model) {
+		ForumDAO fdao = DAOFactory.getForumDAO();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (fdao.delContent(contentid)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "删除成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "删除失败";
 		}
 		Writer out;
 		try {

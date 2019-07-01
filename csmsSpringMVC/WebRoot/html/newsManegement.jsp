@@ -43,18 +43,16 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
         <script type="text/html" id="barDemo" >
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="query"><i class="layui-icon layui-icon-search"></i>查看</a>
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
       </div>
     </div>
-
-  <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
-	
-	<script src="../layui/layui.js" charset="utf-8"></script>
-  <script>
+<script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
   	layui.use(['layer','upload','table'], function(){
   		var layer = layui.layer,$=layui.jquery,upload = layui.upload,table=layui.table;
-  		
   		/*加载表格*/
 		table.render({
 			elem : '#newlist',
@@ -71,21 +69,25 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					align : 'center',
 					
 				}, {
-     field : 'newstitle',
-     align : 'center',
-     title : '公告标题',
-   
-    }, {
-     field : 'realname',
-     align : 'center',
-     title : '发布人',
-    
-    }, {
-     field : 'datetime',
-     title : '发布时间',
-     align : 'center',
-    		},{
-			title : '操作',
+				     field : 'newstitle',
+				     align : 'center',
+				     title : '公告标题',
+				     templet:function(data){
+				     	return '<span>'+data.newstitle+'</span>'
+				     	+'<input type="hidden" value="'+data.newscontent+'" />'
+				     }
+				   
+				    }, {
+				     field : 'realname',
+				     align : 'center',
+				     title : '发布人',
+				    
+				    }, {
+				     field : 'datetime',
+				     title : '发布时间',
+				     align : 'center',
+	    		},{
+					title : '操作',
 					toolbar : '#barDemo',
 					align : 'center'
 				}] ],
@@ -101,9 +103,23 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		//表格工具栏事件 
 		table.on('tool(tool)', function(obj) {
 			var data = obj.data;
-			alert(data.newid);
-			
+			//alert(data.newid);
 			switch (obj.event) {
+				//查询按钮操作
+				case 'query':
+					var content = $(this).parent().parent().prev().prev().prev().children().find("input").text();
+					var title = $(this).parent().parent().prev().prev().prev().children().find("span").text();
+					$("#title").val(title);
+					$("#content").val(content);
+					layer.open({
+						title:"展示公告内容",
+						type: 1,
+						area: ['500px'],
+						skin: 'demo-class',
+						maxmin: true,//显示最大化最小化按钮
+						content: $('#div_content')
+					});
+				break;
 				//删除按钮操作
 				case 'del':
 					layer.confirm('确定要删除么？', {
@@ -153,7 +169,6 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			;
 		});
 		
-		
 		/* 点击查询对网站用户进行筛选 */
 		$("#btnselfrontinfo").click(function() {
 			table.reload('newlist', {
@@ -171,10 +186,30 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   		$(".btn_del").click(function(){
   			layer.alert("查看详情");
   		})
-  		
- 		
 	}); 
-  </script>
+</script>
+<div class="layui-card" id="div_content" style="display: none;height:250px;">
+	<div class="layui-card-body">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<!--表单开始-->
+				<form class="layui-form">
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label">公告标题</label>
+						<div class="layui-input-block">
+							<input id="title" class="layui-input" value="" disable="disable"/>
+						</div>
+						<br/>
+						<label class="layui-form-label">公告内容</label>
+						<div class="layui-input-block">
+							<textarea id="content" class="layui-textarea" disable="disable"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 		   
 </html>

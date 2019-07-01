@@ -34,7 +34,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		<label>公告内容:</label>
 			<center>
 				<textarea class="layui-textarea" id="LAY_demo1"style="display: none">  
-  				把编辑器的初始内容放在这textarea即可
+  				
 				</textarea>
 			</center>
 			<div class="site-demo-button" style="margin-top: 20px;">
@@ -70,27 +70,27 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				return;
      }
       $.ajax({
-			type: 'Post',
-			url: "../news/addnews",
-			dataType: 'json',
-			data:{
-				newstitle:$("#newstitle").val().trim(),
-				newscontent:newscontent
-			},
-			success:function(data){
-			     if(data.code == 0){
-				     layer.alert('添加成功', {icon: 1})
-			     }
-			     else{
-			         layer.confirm('出现错误,请重试！', {btn: ['确定']});
-			     }
-			 },
-			error:function(){
-			    layer.confirm('出现错误，请重试！', {btn: ['确定']});
-			        		},
-		});
+		type: 'Post',
+		url: "../news/addnews",
+		dataType: 'json',
+		data:{
+			newstitle:$("#newstitle").val().trim(),
+			newscontent:newscontent
+		},
+		success:function(data){
+		     if(data.code == 0){
+			     layer.alert('添加成功', {icon: 1})
+			     window.loaction.href="../html/newsManegement.jsp";
+		     }
+		     else{
+		         layer.confirm('出现错误,请重试！', {btn: ['确定']});
+		     }
+		 },
+		error:function(){
+		    layer.confirm('出现错误，请重试！', {btn: ['确定']});
+		},
+	});
   });
-  
 }); 
   </script>
 </body>

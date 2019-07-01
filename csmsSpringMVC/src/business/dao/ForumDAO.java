@@ -133,4 +133,11 @@ public interface ForumDAO {
 	 * @return boolean true为成功，false为失败
 	 */
 	public boolean editContent(TForumContent content);
+	
+	/**
+	 * 删除文章内容
+	 * @param content 内容id
+	 * @return boolean true为成功，false为失败
+	 */
+	public boolean delContent(int contentid);
 }

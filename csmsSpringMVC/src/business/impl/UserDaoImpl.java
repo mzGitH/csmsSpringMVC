@@ -22,6 +22,7 @@ public class UserDaoImpl implements UserDAO {
 		bdao = new iHibBaseDAOImpl();
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public TUser loginStu(String userid, String pwd) {
 		TUser user2 = (TUser) bdao.findById(TUser.class, userid);
@@ -63,12 +64,14 @@ public class UserDaoImpl implements UserDAO {
 		return bdao.delete(user);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public TUser getTUserByUserId(String userid) {
 		// TODO Auto-generated method stub
 		return (TUser) bdao.findById(TUser.class, userid);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<VUser> selectUserByColl(String collegeid) {
 		String hql = "from VUser where collegeid=?";
@@ -77,6 +80,7 @@ public class UserDaoImpl implements UserDAO {
 		return bdao.select(hql, param);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<VUser> selectUserByMajor(String majorid) {
 		String hql = "from VUser where majorid=?";
@@ -85,6 +89,7 @@ public class UserDaoImpl implements UserDAO {
 		return bdao.select(hql, param);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<VUser> selectUserByClass(String classid) {
 		String hql = "from VUser where classid=?";
@@ -93,15 +98,17 @@ public class UserDaoImpl implements UserDAO {
 		return bdao.select(hql, param);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<VUser> selectUserByClassPage(int classid, int page, int limit) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public int getUserAmount(String opretion) {
-		String hql = "from VUser ";
+		String hql = "select count(*) from VUser ";
 		if (opretion != null && !opretion.equals("")) {
 			hql += opretion;
 		}
@@ -114,6 +121,7 @@ public class UserDaoImpl implements UserDAO {
 		return bdao.insertList(classeslist);
 	}
 
+	@Log(isSaveLog = false)
 	@Override
 	public List<VUser> selectUserByPage(String opretion, int page, int limit) {
 		String hql = "from VUser ";

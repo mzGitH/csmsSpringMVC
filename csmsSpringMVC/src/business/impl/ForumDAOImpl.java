@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.TForumContent;
 import model.TForumTitle;
+import model.TPhoto;
 import model.VForum;
 import model.VForumTitle;
 
@@ -118,7 +119,7 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 	}
 
-	@Log(isSaveLog = true)
+	@Log(isSaveLog = true,operationType = OperType.ADD, operationName = "Ìí¼ÓÎÄÕÂÄÚÈİ")
 	@Override
 	public boolean addContent(TForumContent content) {
 		int row = (Integer)bdao.insert(content);
@@ -129,13 +130,25 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 	}
 
-	@Log(isSaveLog = true)
+	@Log(isSaveLog = true,operationType = OperType.MODIFY, operationName = "±à¼­ÎÄÕÂÄÚÈİ")
 	@Override
 	public boolean editContent(TForumContent content) {
 		TForumContent newContent = (TForumContent)bdao.findById(TForumContent.class, content.getContentid());
 		newContent.setPicid(content.getPicid());
 		newContent.setTextcontent(content.getTextcontent());
 		return bdao.update(newContent);
+	}
+
+	@Log(isSaveLog = true,operationType = OperType.DELETE, operationName = "É¾³ıÎÄÕÂÄÚÈİ")
+	@Override
+	public boolean delContent(int contentid) {
+		Object[] param = {contentid};
+		int row = (Integer)bdao.executeProduce("up_deleteContent(?)", param);
+		if(row>0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }
