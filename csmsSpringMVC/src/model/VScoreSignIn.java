@@ -15,6 +15,7 @@ public class VScoreSignIn implements java.io.Serializable {
 	private String addr;
 	private Integer leveltype;
 	private Integer state;
+	private Integer proid;
 	private String proname;
 	private Integer protype;
 	private Integer sportid;
@@ -41,8 +42,8 @@ public class VScoreSignIn implements java.io.Serializable {
 	/** full constructor */
 	public VScoreSignIn(String id, Integer arrid, String arrname,
 			String starttime, String endtime, String addr, Integer leveltype,
-			Integer state, String proname, Integer protype, Integer sportid,
-			String sportname) {
+			Integer state, Integer proid, String proname, Integer protype,
+			Integer sportid, String sportname) {
 		this.id = id;
 		this.arrid = arrid;
 		this.arrname = arrname;
@@ -51,6 +52,7 @@ public class VScoreSignIn implements java.io.Serializable {
 		this.addr = addr;
 		this.leveltype = leveltype;
 		this.state = state;
+		this.proid = proid;
 		this.proname = proname;
 		this.protype = protype;
 		this.sportid = sportid;
@@ -123,6 +125,14 @@ public class VScoreSignIn implements java.io.Serializable {
 		this.state = state;
 	}
 
+	public Integer getProid() {
+		return this.proid;
+	}
+
+	public void setProid(Integer proid) {
+		this.proid = proid;
+	}
+
 	public String getProname() {
 		return this.proname;
 	}
@@ -190,6 +200,9 @@ public class VScoreSignIn implements java.io.Serializable {
 				&& ((this.getState() == castOther.getState()) || (this
 						.getState() != null && castOther.getState() != null && this
 						.getState().equals(castOther.getState())))
+				&& ((this.getProid() == castOther.getProid()) || (this
+						.getProid() != null && castOther.getProid() != null && this
+						.getProid().equals(castOther.getProid())))
 				&& ((this.getProname() == castOther.getProname()) || (this
 						.getProname() != null && castOther.getProname() != null && this
 						.getProname().equals(castOther.getProname())))
@@ -223,6 +236,8 @@ public class VScoreSignIn implements java.io.Serializable {
 				+ (getLeveltype() == null ? 0 : this.getLeveltype().hashCode());
 		result = 37 * result
 				+ (getState() == null ? 0 : this.getState().hashCode());
+		result = 37 * result
+				+ (getProid() == null ? 0 : this.getProid().hashCode());
 		result = 37 * result
 				+ (getProname() == null ? 0 : this.getProname().hashCode());
 		result = 37 * result

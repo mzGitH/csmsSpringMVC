@@ -30,6 +30,9 @@
             <property name="state" type="java.lang.Integer">
                 <column name="state" />
             </property>
+            <property name="proid" type="java.lang.Integer">
+                <column name="proid" />
+            </property>
             <property name="proname" type="java.lang.String">
                 <column name="proname" length="100" />
             </property>
