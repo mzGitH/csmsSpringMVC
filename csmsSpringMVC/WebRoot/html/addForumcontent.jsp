@@ -88,8 +88,8 @@
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-normal layui-btn-lg edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-	<a class="layui-btn layui-btn-warm layui-btn-lg del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+	<a class="layui-btn layui-btn-normal layui-btn-md edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-warm layui-btn-md del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
 </script>
 <script>
 layui.use(['layer','upload','table','jquery','form'], function(){

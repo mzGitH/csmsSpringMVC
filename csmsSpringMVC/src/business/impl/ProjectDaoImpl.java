@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ProjectDAO;
-
 import common.properties.RoleType;
 
 @Component("projectdao")
@@ -22,8 +21,8 @@ public class ProjectDaoImpl implements ProjectDAO {
 
 	@Override
 	public boolean insert(TProject project) {
-		String res = (String) bdao.insert(project);
-		if (res != null) {
+		int res = (int) bdao.insert(project);
+		if (res > 0) {
 			return true;
 		}
 		return false;
@@ -61,27 +60,17 @@ public class ProjectDaoImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<TProject> selectByPage(int roletype, int startPage, int pageSize) {
+	public List<TProject> selectByPage(String where, int startPage, int pageSize) {
 		String hql = null;
-		if (roletype == RoleType.Student || roletype == RoleType.Committee) {
-			hql = "from TProject where protype=1 or protype=2";
-		} else if (roletype == RoleType.Teacher
-				|| roletype == RoleType.Organization) {
-			hql = "from TProject where protype=3 or protype=4";
-		}
+		hql = "from TProject"+where;
 		List<TProject> list = bdao.selectByPage(hql, startPage, pageSize);
 		return list;
 	}
 
 	@Override
-	public int getProCount(int roletype) {
+	public int getProCount(String where) {
 		String hql = null;
-		if (roletype == RoleType.Student || roletype == RoleType.Committee) {
-			hql = "select count(proid) from TProject where protype=1 or protype=2";
-		} else if (roletype == RoleType.Teacher
-				|| roletype == RoleType.Organization) {
-			hql = "select count(proid) from TProject where protype=3 or protype=4";
-		}
+		hql = "select count(proid) from TProject"+where;
 		int count = bdao.selectValue(hql);
 		return count;
 	}
