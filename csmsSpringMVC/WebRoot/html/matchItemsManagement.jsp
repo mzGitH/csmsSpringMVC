@@ -39,31 +39,15 @@
       <div class="layui-card-body">
       	<table id="projectlist" style="text-align: center;" class="layui-table" lay-filter="tool">
       	</table>
-        <!-- <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	<thead>
-        		<tr>
-        			<td>序号</td>
-        			<td>赛项名称</td>
-        			<td>操作</td>
-        		</tr>
-        	</thead>
-        	<tbody>
-        		<tr>
-        			<td>1</td>
-        			<td>跳远</td>
-        			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑</button></td>
-        		</tr>
-        	</tbody>
-        </table> -->
-        <script type="text/html" id="imgTpl"> 
-          <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
-        </script> 
-        <script type="text/html" id="barDemo">
-          <a class="layui-btn layui-btn-normal layui-btn-xs edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-          <a class="layui-btn layui-btn-danger layui-btn-xs del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
-		</script>
 	</div>
 </div>
+<script type="text/html" id="imgTpl"> 
+	<img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
+</script> 
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-normal layui-btn-xs edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>

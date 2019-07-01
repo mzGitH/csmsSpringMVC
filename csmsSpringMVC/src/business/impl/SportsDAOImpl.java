@@ -32,11 +32,28 @@ public class SportsDAOImpl implements SportsDAO {
 	public boolean update(TConfig config) {
 		return bdao.update(config);
 	}
+	
+	@Override
+	public boolean delete(int sportid) {
+		return bdao.delete(TConfig.class, sportid);
+	}
 
 	@Override
 	public List<TConfig> select() {
 		String hql = "from TConfig";
 		return bdao.select(hql);
+	}
+
+	@Override
+	public List<TConfig> selectByPage(String where, int startPage, int pageSize) {
+		String hql = "from TConfig"+where;
+		return bdao.selectByPage(hql, startPage, pageSize);
+	}
+
+	@Override
+	public int getCount(String where) {
+		String hql = "from TConfig"+where;
+		return bdao.selectValue(hql);
 	}
 
 }
