@@ -72,4 +72,20 @@ public class SceneDaoImpl implements SceneDAO {
 		return count;
 	}
 
+	@Override
+	public List<VScene> getSceneUser(int arrid) {
+		// TODO Auto-generated method stub
+		String hql = "from VScene where arrid=?";
+		Object[] para = { arrid };
+		List<VScene> list = bdao.select(hql, para);
+		return list;
+	}
+
+	public static void main(String[] args) {
+		SceneDAO sdao = new SceneDaoImpl();
+		List<VScene> list = sdao.getSceneUser(10);
+		for (VScene vs : list) {
+			System.out.println(vs.getUsername());
+		}
+	}
 }

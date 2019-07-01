@@ -6,16 +6,19 @@
 -->
 <hibernate-mapping>
     <class name="model.VScoreSignIn" table="V_ScoreSignIn" schema="dbo" catalog="CSMS">
-            <id name="arrid" type="java.lang.Integer">
-                <column name="arrid" />
+            <id name="id" type="java.lang.String">
+                <column name="id" length="36" />
             </id>
+            <property name="arrid" type="java.lang.Integer">
+                <column name="arrid" />
+            </property>
             <property name="arrname" type="java.lang.String">
                 <column name="arrname" length="100" />
             </property>
-            <property name="starttime" type="java.sql.Timestamp">
+            <property name="starttime" type="java.lang.String">
                 <column name="starttime" length="23" />
             </property>
-            <property name="endtime" type="java.sql.Timestamp">
+            <property name="endtime" type="java.lang.String">
                 <column name="endtime" length="23" />
             </property>
             <property name="addr" type="java.lang.String">

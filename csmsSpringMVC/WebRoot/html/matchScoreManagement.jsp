@@ -139,7 +139,32 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			var data = obj.data;
 			switch (obj.event) {
 				case 'signIn':
-					$("#username").text(data.username);
+					//alert(data.arrid);
+					$.ajax({
+			        	type: 'get',
+			        	url: "../score/getuser",
+			        	dataType: 'json',
+			        	data:{
+			        		arrid:data.arrid,
+			        	},
+						success : function(e) {
+							if(e.code==0){
+								var s = $("#userScore").html();
+								var str="";
+								for(var i=0;i<e.data.length;i++){
+									str += '<div class="layui-form-item userScureNum"><label class="layui-form-label">'+e.data[i].username+'</label><div class="layui-input-inline"><input id="matchid" type="hidden" value="'+e.data[i].matchid+'" /><input type="text" name="title" placeholder="请输入分数" id="scoreInput" autocomplete="off" class="layui-input"></div></div>';
+								}
+								$("#userScore").append(str);
+								//form.render("select");
+							}
+							//layer.alert(e.msg);
+						},
+						error : function(e) {
+							layer.alert("error:"+e.msg);
+						}
+			
+					})
+					//$("#username").text(data.username);
 					layer.open({
   						title:"比赛状态编辑",
   						type: 1,
@@ -151,14 +176,16 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   						content: $('#div_editcollege'),
   						btn1: function(index, layero){
   							var scorenum = $('#scoreInput').val();
+  							var matchid=$("#matchid").val();
   							//layer.msg(state);
+  							//alert(matchid);
     						$.ajax({
 			        		type: 'get',
 			        		url: "../score/addscore",
 			        		dataType: 'json',
 			        		data:{
 			        			scorenum:scorenum,
-			        			matchid:data.matchid,
+			        			matchid:matchid,
 			        		},
 			        		success:function(data){
 			        			if(data.code == 0){
@@ -166,7 +193,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
-										$('#scoreInput').val("");
+										$('.userScureNum').remove();
 										layer.closeAll();
 									});          				 
 			        			}
@@ -174,6 +201,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				layer.confirm(data.msg, {
 			        					  icon: 7,
 										  btn: ['确定']
+									},function(){
+										$('.userScureNum').remove();
+										layer.closeAll();
 									});
 			        			}
 			        		},
@@ -186,7 +216,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        	});  
   						},
   						cancel: function(){ 
-  							$("#newcollegename").val("");
+  							$('.userScureNum').remove();
   						}
 					});
 				break;
@@ -271,13 +301,8 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
    <!--学院编辑div  -->
 	<div id="div_editcollege"
 		style="display: none;text-align: center; margin-top: 10%;">
-		<form action="">
-			<div class="layui-form-item">
-				<label class="layui-form-label" id="username"></label>
-				<div class="layui-input-inline">
-					<input type="text" name="title" placeholder="请输入分数" id="scoreInput" autocomplete="off" class="layui-input">
-				</div>
-			</div>
+		<form action="" id="userScore">
+			
 		</form>
 	</div>
 </body>
