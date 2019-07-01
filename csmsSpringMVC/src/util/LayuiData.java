@@ -1,6 +1,5 @@
 package util;
 
-
 /**
  * 用于储存Layui table加载的json数据格式
  * 
@@ -23,6 +22,8 @@ public class LayuiData {
 	public String msg;
 	public int count;
 	public Object data;
+	public String result;
+	public String result2;
 
 	public LayuiData(int code, String msg, int count, Object data) {
 		super();
@@ -30,6 +31,17 @@ public class LayuiData {
 		this.msg = msg;
 		this.count = count;
 		this.data = data;
+	}
+
+	public LayuiData(int code, String msg, int count, Object data,
+			String result, String result2) {
+		super();
+		this.code = code;
+		this.msg = msg;
+		this.count = count;
+		this.data = data;
+		this.result = result;
+		this.result2 = result2;
 	}
 
 	public LayuiData() {

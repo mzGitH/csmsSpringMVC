@@ -88,15 +88,16 @@ public class SystemLogAspect {
 			for (int i = 0; i < args.length; i++) {
 				param += gson.toJson(args[i]);
 			}
-			System.out.println("ClassName=" + targetName);
-			System.out.println("methodName=" + methodName);
-			System.out.println("isSaveLog=" + isSaveLog);
-			System.out.println("operationType=" + operationType);
-			System.out.println("operationName=" + operationName);
-			System.out.println("param=" + param);
-			System.out.println("return=" + rvt);
-			System.out.println("user=" + user.getUserid());
-
+			/*
+			 * System.out.println("ClassName=" + targetName);
+			 * System.out.println("methodName=" + methodName);
+			 * System.out.println("isSaveLog=" + isSaveLog);
+			 * System.out.println("operationType=" + operationType);
+			 * System.out.println("operationName=" + operationName);
+			 * System.out.println("param=" + param);
+			 * System.out.println("return=" + rvt); System.out.println("user=" +
+			 * user.getUserid());
+			 */
 			if (rvt == null) {
 				return; // 不做日志管理
 			} else if (rvt instanceof Boolean) {

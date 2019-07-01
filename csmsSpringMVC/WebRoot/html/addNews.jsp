@@ -57,7 +57,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     $("#content").click( function(){
        //获取编辑器内容
      var newstitle= $("#newstitle").val().trim();
-     var newscontent=layedit.getContent(index);
+     var newscontent=layedit.getContent(index).trim();
      if(newstitle==null||newstitle==""){
      layer.tips('文章标题不能为空！', '#newstitle', {
 					tips : [ 1, '#3595CC' ],

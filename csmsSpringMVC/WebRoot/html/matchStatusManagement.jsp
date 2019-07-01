@@ -23,6 +23,11 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-inline">
+					<select id="sport">
+						
+					</select>
+				</div>
+				<div class="layui-inline">
 					<select id="protype">
 						<option value="0">请选择项目类型</option>
 						<option value="1">学生个人赛</option>
@@ -210,7 +215,31 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				break;
 			};
 		});
-		
+		//下拉框加载
+		$(function() {
+			$.ajax({
+				url : "../score/getsport",
+				type : "POST",
+				data : null,
+				dataType : 'json',
+				contentType : 'application/json;charset=UTF-8',//contentType 很重要
+				success : function(e) {
+					//alert(e.data[0].collegeid);
+					var s = $("#sport").html();
+					var str = "<option value='0'>请选择运动会名称</option>";
+					//var str;
+					for(var i=0;i<e.resultObject.length;i++){
+						str += "<option value="+e.resultObject[i].sportid+">"+e.resultObject[i].sportname+"</option>"
+					}
+					$("#sport").append(str);
+					form.render("select");
+				},
+				error : function(e) {
+					layer.alert("error:"+e.msg);
+				}
+	
+			})
+		});
 		/* 点击查询对网站用户进行筛选 */
 		$("#btnselfrontinfo").click(function() {
 			table.reload('satustable', {
@@ -218,13 +247,13 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				where : {
 					'wherecondition' : $("#sysmothed").val().trim(),
 					'protype':$("#protype").val(),
+					'sport':$("#sport").val(),
 						},
 				page : {
 					curr : 1
 					}
 			});
 		});
-		
 	});
 </script>
 </body>

@@ -74,9 +74,22 @@
 			<generator class="assigned"></generator>
 		</primary-key>
 	</table>
-<table name="V_User" schema="dbo" catalog="CSMS" class="model.VUser">
+	<table name="V_User" schema="dbo" catalog="CSMS"
+		class="model.VUser">
+		<primary-key>
+			<generator class="assigned"></generator>
+		</primary-key>
+	</table>
+	<table name="V_Match" schema="dbo" catalog="CSMS"
+		class="model.VMatch">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+<table name="V_ScoreSignIn" schema="dbo" catalog="CSMS"
+	class="model.VScoreSignIn">
 	<primary-key>
-		<generator class="assigned"></generator>
+		<generator class="identity"></generator>
 	</primary-key>
 </table>
 </hibernate-reverse-engineering>

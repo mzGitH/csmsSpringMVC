@@ -41,4 +41,12 @@ public class ConfigDaoImpl implements ConfigDAO {
 		}
 		return config;
 	}
+
+	@Override
+	public List<TConfig> getAllConfig() {
+		// TODO Auto-generated method stub
+		String hql = "from TConfig";
+		List<TConfig> list = hdao.select(hql);
+		return list;
+	}
 }

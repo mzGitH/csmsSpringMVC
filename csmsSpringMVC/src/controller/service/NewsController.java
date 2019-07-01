@@ -38,14 +38,14 @@ public class NewsController {
 		if (wherecondition != null && !wherecondition.equals("")) {
 
 			exp.andLeftBraLike("newstitle", wherecondition, String.class);
-			exp.orRightBraLike("adminuserid", wherecondition, String.class);
+			exp.orRightBraLike("realname", wherecondition, String.class);
 		}
 
 		String opreation = exp.toString();
 		// System.out.println(opreation);
 		int allcount = ndao.getNewsAmount(opreation);
 
-		List<VNews> newslist = ndao.getAllNewsNoContent(opreation, page, limit);
+		List<VNews> newslist = ndao.getAllNews(opreation, page, limit);
 
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");

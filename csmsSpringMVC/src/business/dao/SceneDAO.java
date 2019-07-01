@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.TScene;
 import model.VScene;
+import model.VScoreSignIn;
 
 /**
  * 比赛场次信息接口类
@@ -54,8 +55,8 @@ public interface SceneDAO {
 	 * @param limit
 	 * @return
 	 */
-	public List<VScene> selectByPageFinish(String wherecondition, int page,
-			int limit);
+	public List<VScoreSignIn> selectByPageFinish(String wherecondition,
+			int page, int limit);
 
 	/**
 	 * 获取已比赛完成项目数量

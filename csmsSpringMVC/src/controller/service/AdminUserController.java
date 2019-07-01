@@ -49,7 +49,7 @@ public class AdminUserController {
 			exp.andEqu("roleid", roleid, Integer.class);
 		}
 		String opreation = exp.toString();
-		System.out.println(opreation);
+		// System.out.println(opreation);
 		int allcount = audao.getAdaminUserAmount(opreation);
 
 		List list = audao.getaAdminUserList(opreation, page, limit);

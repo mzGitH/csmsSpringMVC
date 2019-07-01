@@ -18,4 +18,11 @@ public interface ConfigDAO {
 	 * @return Config
 	 */
 	public TConfig getNowTConfig();
+
+	/**
+	 * 获取所有运动会信息
+	 * 
+	 * @return
+	 */
+	public List<TConfig> getAllConfig();
 }
