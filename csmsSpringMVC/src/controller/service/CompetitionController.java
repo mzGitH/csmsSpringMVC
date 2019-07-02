@@ -63,7 +63,7 @@ public class CompetitionController {
 		String strwhere = exp.toString();
 		List<VArrange> list = arrdao.selectByPage(strwhere, page, limit);
 		int count = arrdao.getCount(strwhere);
-		LayuiData data = new LayuiData(0, "成功", count, list);
+		LayuiData data = new LayuiData(0, "成功", count, list,null);
 		out.write(JSON.toJSONString(data));
 		out.flush();
 		out.close();

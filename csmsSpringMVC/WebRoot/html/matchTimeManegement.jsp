@@ -43,30 +43,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
       
       <div class="layui-card-body">
         <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	<thead>
-        		<tr>
-        			<td>序号</td>
-        			<td>场次名称</td>
-        			<td>比赛项目</td>
-        			<td>开始时间</td>
-        			<td>结束时间</td>
-        			<td>比赛地点</td>
-        			<td>比赛等级</td>
-        			<td>比赛人数(人)</td>
-        		</tr>
-        	</thead>
-        	<tbody>
-        		<tr>
-        			<td>1</td>
-        			<td>男子跳高预赛第一场</td>
-        			<td>跳高</td>
-        			<td>2018-03-15 14:00:00</td>
-        			<td>2018-03-15 14:10:00</td>
-        			<td>田径场跳远场地二</td>
-        			<td>预赛</td>
-        			<td>8</td>
-        		</tr>
-        	</tbody>
+        	
         </table>
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
@@ -82,18 +59,216 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 	
 	<script src="../layui/layui.js" charset="utf-8"></script>
   <script>
-  	layui.use(['layer','upload','table'], function(){
-  		var layer = layui.layer,$=layui.jquery,upload = layui.upload;
-  		
-  		
+  	layui.use(['layer','upload','jquery','form','table','laydate'], function(){
+		var layer = layui.layer,
+		$=layui.jquery,
+		upload = layui.upload;
+		form = layui.form;
+		table = layui.table;
+		laydate = layui.laydate;
+		
+		/* 加载时间选择器 */
+		laydate.render({
+		    elem: '#starttime',
+		    format:'yyyy-MM-dd',
+	        type:'date',
+	        trigger: 'click'
+		});
+		laydate.render({
+		    elem: '#endtime',
+		    format:'yyyy-MM-dd',
+	        type:'date',
+	        trigger: 'click'
+		});
+		
+		/*加载表格*/
+		table.render({
+			elem : '#matchstatus',
+			id:'satustable',
+			url : '../match/getmatch',
+			title : '后台用户数据表',
+			height: "full-160",
+			skin : 'line',
+			even : true,
+			cols : [ 
+			     [ {
+					type : 'numbers',
+					title : '序号',
+					align : 'center'
+				},{
+			     field : 'arrname',
+			     align : 'center',
+			     title : '场次名称',
+			    }, {
+			     field : 'proname',
+			     align : 'center',
+			     title : '赛项名称',
+			    },{
+			     field : 'starttime',
+			     align : 'center',
+			     title : '开始时间',
+			    },{
+			     field : 'endtime',
+			     align : 'center',
+			     title : '结束时间',
+			    }, {
+					field : 'arr',
+					title : '学院',
+					align : 'center',
+				},{
+			     field : '',
+					title : '比赛状态',
+					align : 'center',
+					templet : function(data) {
+						if (data.classname == ""||data.classname==null) {
+							return "教职工没有班级"
+						} else {
+							return data.classname;
+						} 
+						
+					}
+			    }] 
+			 ],
+			 page: {
+					layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+					groups: 5,
+					limit: 10,
+					limits: [1, 4, 5, 10, 50],
+					theme: '#1E9FFF',						
+			 },
+		});	
+		
   		//编辑按钮点击事件
   		$(".layui-btn").click(function(){
-  			layer.alert("查看详情");
+  			layer.open({
+  						title:"比赛状态编辑",
+  						type: 1,
+  						area: ['500px', '500px'],
+  						skin: 'demo-class',
+  						btn:['确认保存'],
+  						maxmin: true,//显示最大化最小化按钮
+  						//offset: 'b', 弹框的位置
+  						content: $('#div_content'),
+  						btn1: function(index, layero){
+  							var state = $('input:radio[name="sex"]:checked').val();
+    						$.ajax({
+			        		type: 'get',
+			        		url: "../compelition/updatestate",
+			        		dataType: 'json',
+			        		data:{
+			        			state:state,
+			        			arrid:data.arrid,
+			        		},
+			        		success:function(data){
+			        			if(data.code == 0){
+			        				layer.confirm(data.msg, {
+			        				icon: 1,
+									  btn: ['确定']
+									}, function(){
+										$("input[type='radio']").removeAttr('checked');
+										table.reload("satustable", { //此处是上文提到的 初始化标识id
+							                where: {
+							                },page: {
+							                curr:1
+							                }
+							            });	
+							            //form.render('radio', 'test2');
+										layer.closeAll();
+									});          				 
+			        			}
+			        			else{
+			        				layer.confirm(data.msg, {
+			        					  icon: 7,
+										  btn: ['确定']
+									}, function(){
+										$("input[type='radio']").removeAttr('checked');
+										//form.render('radio', 'test2')
+									});
+			        			}
+			        		},
+			        		error:function(){
+			        			layer.confirm('出现错误，请重试！', {
+			        				  icon: 6,
+									  btn: ['确定']
+								}, function(){
+									//form.render('radio', 'test2')
+									$("input[type='radio']").removeAttr('checked');
+								});
+			        		},
+			        	});  
+  						},
+  						cancel: function(){ 
+  							$("input").removeAttr('checked');
+  						}
+					});
   		})
   		
  		
 	}); 
   </script>
+  <!-- 添加模态框 -->
+  <div class="layui-card" id="div_content" style="display: none;height:450px;">
+	<div class="layui-card-body">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<!--表单开始-->
+				<form class="layui-form">
+					<input type="hidden" id="proid" value="" />
+					<div class="layui-form-item">
+						<label class="layui-form-label">场次名称</label>
+						<div class="layui-input-block">
+							<!-- required -->
+							<input type="text" name="sportname" id="sportname"
+								lay-verify="required" placeholder="请输入场次名称"
+								autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">场次名称</label>
+						<div class="layui-input-block">
+							<select id="systemtype">
+								<option value="0">请选择比赛项目</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">开始时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="starttime" class="layui-input" id="starttime"
+								lay-verify="date" placeholder="请选择赛事开始时间"
+								 autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">结束时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="endtime" class="layui-input" id="endtime"
+								lay-verify="date" placeholder="请选择赛事结束时间"
+								 autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">比赛地点</label>
+						<div class="layui-input-block">
+							<input type="text" name="sportname" id="addrname"
+								lay-verify="required" placeholder="请输入比赛地点"
+								autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">比赛级别</label>
+						<div class="layui-input-block">
+							<select id="systemtype">
+								<option value="0">请选择比赛级别</option>
+							</select>
+						</div>
+					</div>
+					<input type="hidden" id="sportid" value="" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 		   
 </html>

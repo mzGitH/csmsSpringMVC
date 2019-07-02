@@ -56,7 +56,12 @@
 		<mapping resource="model/VUser.hbm.xml" />
 		<mapping resource="model/VMatch.hbm.xml" />
 		<mapping resource="model/VScoreSignIn.hbm.xml" />
+<<<<<<< HEAD
 		<mapping resource="model/TRoleSysModel.hbm.xml" />
+=======
+		<mapping resource="model/VSportProject.hbm.xml" />
+		<mapping resource="model/TSportProject.hbm.xml" />
+>>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git
 	</session-factory>
 
 </hibernate-configuration>

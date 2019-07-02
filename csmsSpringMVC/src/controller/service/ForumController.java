@@ -69,11 +69,10 @@ public class ForumController {
 		Expression exp = new Expression();
 
 		if (wherecondition != null && !wherecondition.equals("")) {
-
 			exp.andLeftBraLike("author", wherecondition, String.class);
 			exp.orRightBraLike("title", wherecondition, String.class);
 		}
-
+		exp.orderByDesc("createtime");
 		String opreation = exp.toString();
 		List<TForumTitle> forumlist = fdao.getForumTitleByPages(opreation,
 				page, limit);

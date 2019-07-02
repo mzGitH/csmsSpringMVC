@@ -65,4 +65,12 @@ public interface SceneDAO {
 	 * @return
 	 */
 	public int selectByPageFinishCount(String wherecondition);
+
+	/**
+	 * 通过场次id获取该场次人员
+	 * 
+	 * @param arrid
+	 * @return
+	 */
+	public List<VScene> getSceneUser(int arrid);
 }

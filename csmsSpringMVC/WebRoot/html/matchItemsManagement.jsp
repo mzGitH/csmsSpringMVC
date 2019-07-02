@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>比赛时间地点安排</title>
+  <title>赛项管理</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -23,7 +23,17 @@
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-input-inline">
-					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入查询条件" class="layui-input" autocomplete="off">
+					<select name="protype" id="protype" lay-filter="protype"
+						lay-verify="required" lay-search="">
+						<option value="">请选择或输入项目类型</option>
+						<option value="1">学生个人赛</option>
+						<option value="2">学生团体赛</option>
+						<option value="3">教师个人赛</option>
+						<option value="4">教师团体赛</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<input type="text" name="proname" id="proname" placeholder="请输入项目名称" class="layui-input" autocomplete="off">
 			    </div>
 				<div class="layui-inline">
 					<button id="btnselfrontinfo" type="button"
@@ -39,31 +49,15 @@
       <div class="layui-card-body">
       	<table id="projectlist" style="text-align: center;" class="layui-table" lay-filter="tool">
       	</table>
-        <!-- <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	<thead>
-        		<tr>
-        			<td>序号</td>
-        			<td>赛项名称</td>
-        			<td>操作</td>
-        		</tr>
-        	</thead>
-        	<tbody>
-        		<tr>
-        			<td>1</td>
-        			<td>跳远</td>
-        			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">编辑</button></td>
-        		</tr>
-        	</tbody>
-        </table> -->
-        <script type="text/html" id="imgTpl"> 
-          <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
-        </script> 
-        <script type="text/html" id="barDemo">
-          <a class="layui-btn layui-btn-normal layui-btn-xs edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-          <a class="layui-btn layui-btn-danger layui-btn-xs del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
-		</script>
 	</div>
 </div>
+<script type="text/html" id="imgTpl"> 
+	<img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
+</script> 
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-normal layui-btn-xs edit" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs del" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
 <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>
@@ -140,7 +134,21 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			}] 
 		]
 	});
-	
+	/* 查询按钮事件 */
+	$("#btnselfrontinfo").click(function() {
+		var protype = $("#protype").val();
+		var proname = $("#proname").val();
+		table.reload('projectlist', {
+			method : 'post',
+			where : {
+				'protype' : protype,
+				'proname' : proname
+			},
+			page : {
+				curr : 1
+			}
+		});
+	});
 	//删除按钮操作
 	$(document).on('click',".del", function () {
 		var proid = $(this).parent().parent().prev().prev().prev().prev().prev().find("input").val();
