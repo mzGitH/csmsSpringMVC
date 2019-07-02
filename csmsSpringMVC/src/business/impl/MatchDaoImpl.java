@@ -120,4 +120,13 @@ public class MatchDaoImpl implements MatchDAO {
 		int count = bdao.selectValue(hql, para);
 		return count;
 	}
+
+	@Override
+	public List<VMatch> getMatchByProid(int proid) {
+		// TODO Auto-generated method stub
+		String hql = "from VMatch where proid=?";
+		Object[] para = { proid };
+		List<VMatch> list = bdao.select(hql, para);
+		return list;
+	}
 }

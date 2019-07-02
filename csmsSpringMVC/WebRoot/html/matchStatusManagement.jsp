@@ -92,53 +92,33 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					title : '序号',
 					align : 'center'
 				}, {
+			     field : 'arrname',
+			     align : 'center',
+			     title : '场次名称',
+			    },{
 			     field : 'proname',
 			     align : 'center',
-			     title : '赛项名称',
+			     title : '比赛项目',
 			    }, {
-					field : '',
-					title : '赛项类型',
-					align : 'center',
-					templet : function(data) {
-						if(data.protype==1){
-							return "学生个人赛";
-						}
-						if(data.protype==2){
-							return "学生团体赛";
-						}
-						if(data.protype==3){
-							return "教师个人赛";
-						}
-						if(data.protype==4){
-							return "教师团体赛";
-						}
-					}
-				},{
+			     field : 'starttime',
+			     align : 'center',
+			     title : '开始时间',
+			    },{
+			     field : 'endtime',
+			     align : 'center',
+			     title : '结束时间',
+			    },{
 			     field : 'addr',
 			     align : 'center',
 			     title : '比赛地点',
-			    }, {
+			    },{
 					field : '',
-					title : '赛项级别',
+					title : '比赛级别',
 					align : 'center',
 					templet : function(data) {
 						return data.leveltype==1 ? "决赛":"预赛";
 					}
 				},{
-			     field : '',
-					title : '比赛状态',
-					align : 'center',
-					templet : function(data) {
-						if (data.state == 0) {
-							return "未比赛"
-						} else if (data.state == 1) {
-							return "比赛中"
-						} 
-						else if (data.state == 2) {
-							return "比赛完成"
-						} 
-					}
-			    },{
 			     field : 'createdate',
 			     title : '操作',
 			     toolbar: '#edit',

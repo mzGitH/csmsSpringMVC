@@ -82,4 +82,13 @@ public interface MatchDAO {
 	 * @return
 	 */
 	public int countUser(int proid, String userid);
+
+	/**
+	 * 根据项目id获取报名信息
+	 * 
+	 * @param proid
+	 * @param sportid
+	 * @return
+	 */
+	public List<VMatch> getMatchByProid(int proid);
 }
