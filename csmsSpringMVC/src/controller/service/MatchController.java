@@ -69,7 +69,7 @@ public class MatchController {
 		String strwhere = exp.toString();
 		List<VMatch> list = mdao.selectByPage(strwhere, page, limit);
 		int count = mdao.getPageCount(strwhere);
-		LayuiData data = new LayuiData(0, null, count, list);
+		LayuiData data = new LayuiData(0, "", count, list, null);
 		out.write(JSON.toJSONString(data));
 		out.flush();
 		out.close();
