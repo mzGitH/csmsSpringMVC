@@ -425,6 +425,161 @@ public class Expression {
 	}
 
 	/**
+	 * 添加一个带有或者（or）的左边模糊查询的条件，如"where (paraName = paraValue" 或 or
+	 * "(paraName = paraValue" 调用该方法后必须调用andRightBraLike()方法结束
+	 * 
+	 * @param paraName
+	 *            数据库中字段的名称（条件名）
+	 * @param paraValue
+	 *            参数名称（条件值）
+	 * @param valueClz
+	 *            参数类型
+	 */
+	public void orLeftBraAnd(String paraName, Object paraValue, Class valueClz) {
+		if (leftbra == false) {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append("( " + paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" or ");
+				exp.append("( " + paraName + " = ");
+				appendValue(paraValue, valueClz);
+			}
+			count++;
+			leftbra = true;
+		} else {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" or ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			}
+			count++;
+		}
+	}
+
+	/**
+	 * 添加一个带有或者（or）的右边模糊查询的条件，如"where paraName = paraValue)" 或 or
+	 * "paraName = paraValue)" 调用该方法前必须先调用andLeftBraLike()方法开始
+	 * 
+	 * @param paraName
+	 *            数据库中字段的名称（条件名）
+	 * @param paraValue
+	 *            参数名称（条件值）
+	 * @param valueClz
+	 *            参数类型
+	 */
+	public void orRightBraAnd(String paraName, Object paraValue, Class valueClz) {
+		if (leftbra == true) {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" or ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+				exp.append(" )");
+			}
+			count++;
+			leftbra = false;
+		} else {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" or ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			}
+			count++;
+		}
+	}
+
+	/**
+	 * 添加一个带有并且（and）的左边模糊查询条件，如"where (paraName = paraValue" 或 and
+	 * "(paraName = paraValue" 调用该方法后必须调用andRightBraLike()方法结束
+	 * 
+	 * @param paraName
+	 *            数据库中字段的名称（条件名）
+	 * @param paraValue
+	 *            参数名称（条件值）
+	 * @param valueClz
+	 *            参数类型
+	 */
+	public void andLeftBraAnd(String paraName, Object paraValue, Class valueClz) {
+		if (leftbra == false) {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append("( " + paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" and ");
+				exp.append("( " + paraName + " = ");
+				appendValue(paraValue, valueClz);
+			}
+			count++;
+			leftbra = true;
+		} else {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" and ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			}
+			count++;
+		}
+	}
+
+	/**
+	 * 添加一个带有并且（and）的右边模糊查询条件，如"where paraName = paraValue" 或 and
+	 * "paraName = paraValue)" 调用该方法前必须先调用andLeftBraLike()方法开始
+	 * 
+	 * @param paraName
+	 *            数据库中字段的名称（条件名）
+	 * @param paraValue
+	 *            参数名称（条件值）
+	 * @param valueClz
+	 *            参数类型
+	 */
+	public void andRightBraAnd(String paraName, Object paraValue, Class valueClz) {
+		if (leftbra == true) {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" and ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+				exp.append(" )");
+			}
+			count++;
+			leftbra = false;
+		} else {
+			if (count <= 0) {
+				exp.append(" where ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			} else {
+				exp.append(" and ");
+				exp.append(paraName + " = ");
+				appendValue(paraValue, valueClz);
+			}
+			count++;
+		}
+
+	}
+
+	/**
 	 * 将所有的条件生成字符串并返回
 	 */
 	public String toString() {
@@ -458,8 +613,10 @@ public class Expression {
 		 */
 		// select * from T_User
 		// where (userid = 'zhangjs' and pwd = '123456') or isdelete = false
-		exp.andLeftBraLike("userid", "zhangjs", String.class);
-		exp.andRightBraLike("pwd", "123456", String.class);
+		exp.andLeftBraAnd("userid", "zhangjs", String.class);
+		exp.orRightBraAnd("pwd", "123456", String.class);
+		exp.andLeftBraAnd("userid", "zhangjs", String.class);
+		exp.orRightBraAnd("pwd", "123456", String.class);
 		exp.orEqu("isdelete", "true", Boolean.class);
 		exp.orderByAsc("createtime");
 		System.out.println(exp.toString());

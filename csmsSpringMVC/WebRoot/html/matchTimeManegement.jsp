@@ -43,30 +43,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
       
       <div class="layui-card-body">
         <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	<thead>
-        		<tr>
-        			<td>序号</td>
-        			<td>场次名称</td>
-        			<td>比赛项目</td>
-        			<td>开始时间</td>
-        			<td>结束时间</td>
-        			<td>比赛地点</td>
-        			<td>比赛等级</td>
-        			<td>比赛人数(人)</td>
-        		</tr>
-        	</thead>
-        	<tbody>
-        		<tr>
-        			<td>1</td>
-        			<td>男子跳高预赛第一场</td>
-        			<td>跳高</td>
-        			<td>2018-03-15 14:00:00</td>
-        			<td>2018-03-15 14:10:00</td>
-        			<td>田径场跳远场地二</td>
-        			<td>预赛</td>
-        			<td>8</td>
-        		</tr>
-        	</tbody>
+        	
         </table>
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
@@ -94,6 +71,61 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
  		
 	}); 
   </script>
+  <!-- 添加模态框 -->
+  <div class="layui-card" id="div_content" style="display: none;height:450px;">
+	<div class="layui-card-body">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<!--表单开始-->
+				<form class="layui-form">
+					<input type="hidden" id="proid" value="" />
+					<div class="layui-form-item">
+						<label class="layui-form-label">赛事名称</label>
+						<div class="layui-input-block">
+							<!-- required -->
+							<input type="text" name="sportname" id="sportname"
+								lay-verify="required" placeholder="请输入项目名称"
+								autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">赛事开始时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="starttime" class="layui-input" id="starttime"
+								lay-verify="date" placeholder="请选择赛事开始时间"
+								 autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">赛事结束时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="endtime" class="layui-input" id="endtime"
+								lay-verify="date" placeholder="请选择赛事结束时间"
+								 autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">报名开始时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="reportstart" class="layui-input" id="reportstart"
+								lay-verify="date" placeholder="请选择报名开始时间"
+								 autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">报名结束时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="reportend" class="layui-input" id="reportend"
+								lay-verify="date" placeholder="请选择报名结束时间"
+								 autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<input type="hidden" id="sportid" value="" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 		   
 </html>
