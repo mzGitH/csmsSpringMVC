@@ -25,4 +25,11 @@ public interface ConfigDAO {
 	 * @return
 	 */
 	public List<TConfig> getAllConfig();
+
+	/**
+	 * 根据运动会id获取所有运动会信息
+	 * 
+	 * @return
+	 */
+	public List<TConfig> getAllConfigByid(int sportid);
 }
