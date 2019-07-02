@@ -45,4 +45,13 @@ public interface AdminUserDAO {
 	 * @param user
 	 */
 	public VAdminUser login(VAdminUser user);
+
+	/**
+	 * 实现一个管理员用户的添加
+	 * 
+	 * @param user
+	 */
+
+	public boolean delAdminUser(TAdminUser user);
+
 }

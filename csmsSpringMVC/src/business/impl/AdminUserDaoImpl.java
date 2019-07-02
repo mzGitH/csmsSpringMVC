@@ -79,4 +79,13 @@ public class AdminUserDaoImpl implements AdminUserDAO {
 		return null;
 	}
 
+	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "删除管理员用户")
+	@Override
+	public boolean delAdminUser(TAdminUser user) {
+		TAdminUser adminuser = (TAdminUser) hdao.findById(TAdminUser.class,
+				user.getUserid());
+		return hdao.delete(adminuser);
+
+	}
+
 }

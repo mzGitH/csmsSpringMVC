@@ -114,7 +114,7 @@
 		<blockquote class="layui-elem-quote not_border_left">
 			<form class="layui-form" action="">
 			  	<div class="layui-input-inline">
-					<input type="text" name="userName" id="userName" placeholder="请输入用户名或昵称" class="layui-input" autocomplete="off">
+					<input type="text" name="userName" id="userName" placeholder="请输入用户名或真实姓名" class="layui-input" autocomplete="off">
 			    </div>
 			    <div class="layui-inline">
 					<select id="usertype"  lay-filter="usertype" lay-search>
@@ -140,29 +140,34 @@
 		<div id="add-blogUser">
 			<div class="artTypeLayer">
 				<form class="layui-form" action="">
+				<div class="layui-form-item">
+				      <label class="layui-form-label">用户类型:</label>
+				      <div class="layui-input-block">
+				       	<select id="addusertype">
+						  <option value="">请选择用户类型</option> 
+						</select> 
+				      </div>
+				    </div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">用户名:</label>
 						<div class="layui-input-block">
 							<input type="text" name="addUserName" id="addUserName"
 								lay-verify="addUserName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
 						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">用户密码:</label>
+						<div class="layui-input-block">
+							<input type="password" name="addpwd" id="addpwd"  autocomplete="off" placeholder="请输入用户密码" class="layui-input">
+						</div>
 					</div> 
 					<div class="layui-form-item">
 						<label class="layui-form-label">真实姓名:</label>
 						<div class="layui-input-block">
-							<input type="text" name="pwd" id="pwd" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
+							<input type="text" name="realname" id="realname" autocomplete="off" placeholder="请输入真实姓名" class="layui-input">
 						</div>
 					</div>
-					<div class="layui-form-item">
-				      <label class="layui-form-label">用户类型:</label>
-				      <div class="layui-input-block">
-				       	<select id="usertype">
-						  <option value="00">请选择用户类型</option>
-						  <option value="1">普通用户</option>
-						  <option value="2">博主用户</option>
-						</select> 
-				      </div>
-				    </div>
+					
 				</form>
 			</div>
 		</div>
@@ -170,6 +175,7 @@
 		
 	</div>
 	<script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
+	<script src="../js/loadselect.js" charset="utf-8"></script>
 	<script src="../layui/layui.js" charset="utf-8"></script>
 	<script>
 	layui.use([ 'table', 'form', 'layer', 'laydate', 'laytpl', 'element' ], function() {
@@ -178,12 +184,14 @@
 			laydate = layui.laydate, laytpl = layui.laytpl,
 			element = layui.element;
 	
+		//加载角色类型
+		loadRoleType('usertype',form);
 		/*加载表格*/
 		table.render({
 			elem : '#blogUser',
 			id:'adminUserid',
 			url : '../admin/getuser',
-			title : '博主用户数据表',
+			title : '管理员用户数据表',
 			height: "full-160",
 			skin : 'line',
 			even : true,
@@ -241,40 +249,43 @@
 		
 		/* 添加一个网站用户 */
 		$("#addartType").click(function(){
+			//加载角色类型
+			loadRoleType('addusertype',form);
 			$("#addUserName").val("");
-			$("#nickName").val("");
-			$("#pwd").val("");
+			$("#realname").val("");
+			$("#addpwd").val("");
 			layer.open({
 				type : 1,
-				title : '网站用户添加',
+				title : '管理员用户添加',
 				area : [ '460px', '335px' ],
 				shade : 0.4,
 				content : $('#add-blogUser'),
 				btn : [ '保存', '返回' ],
 				yes : function() {
 					var addUserName = $("#addUserName").val().trim();
-					var nickName = $("#nickName").val().trim();
-					var pwd = $("#pwd").val().trim();
-					var usertype = $("#usertype").val().trim();
+					var realname = $("#realname").val().trim();
+					var pwd = $("#addpwd").val().trim();
+					var usertype = $("#addusertype").val();
 
 					if(addUserName == "") {
 						layer.tips('不能为空', '#addUserName');
 						return;
 					} 
-					if(nickName==""){
-						layer.tips('不能为空', '#nickName');
+					if(realname==""){
+						layer.tips('不能为空', '#realname');
 						return;
 					}
 					if(pwd == "") {
 						layer.tips('不能为空', '#pwd');
 						return;
 					}
-					if(usertype==00){
+					if(usertype==""){
+						layer.tips('请选择用户类型', '#usertype');
 						return;
 					}
 					$.ajax({
 						type : 'get',
-						url : '../adduser.action?userid=' + addUserName + '&nickname=' + nickName+'&realname='+pwd+'&usertype='+usertype,
+						url : '../admin/addadminuser?userid=' + addUserName +'&pwd='+pwd+'&roleid='+usertype+'&realname='+realname,
 						datatype : 'json',
 						success : function(data) {
 							if (data.code == "0") {
@@ -282,7 +293,7 @@
 								  btn: ['确定'],
 								  icon:1
 								}, function(){
-									table.reload("blogUserid", { //此处是上文提到的 初始化标识id
+									table.reload("adminUserid", { //此处是上文提到的 初始化标识id
 						                where: {
 						                	keyword:data.code=='10001'
 						                }
@@ -294,10 +305,14 @@
 								  btn: ['确定'],
 								  icon:2
 								});
-								layer.setTop(layero);
 							}
 						},
-						error : function() {}
+						error : function() {
+							layer.confirm('出现错误，请重试！', {
+			        				icon: 6,
+									  btn: ['确定']
+								});
+						}
 					});						
 				},
 				btn2 : function() {layer.closeAll();}
@@ -340,14 +355,15 @@
 					}, function(){
 						$.ajax({
 			        		type: 'get',
-			        		url: "../deleteuser.action?userid=" + data.userid,
+			        		url: "../admin/deladminuser?userid="+data.userid,
 			        		dataType: 'json',
 			        		success:function(data){
 			        			if(data.code == 0){
 			        				layer.confirm(data.msg, {
+			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
-										table.reload("blogUserid", { //此处是上文提到的 初始化标识id
+										table.reload("adminUserid", { //此处是上文提到的 初始化标识id
 							                where: {
 							                	keyword:data.code=='0'
 							                }
@@ -357,12 +373,14 @@
 			        			}
 			        			else{
 			        				layer.confirm(data.msg, {
+			        				icon: 7,
 										  btn: ['确定']
 									});
 			        			}
 			        		},
 			        		error:function(){
 			        			layer.confirm('出现错误，删除失败，请重试！', {
+			        				icon: 6,
 									  btn: ['确定']
 								});
 			        		},

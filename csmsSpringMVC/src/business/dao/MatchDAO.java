@@ -57,14 +57,15 @@ public interface MatchDAO {
 	 *            每页记录数
 	 * @return 报名对象列表
 	 */
-	public List<VMatch> selectByPage(int startPage, int pageSize);
+	public List<VMatch> selectByPage(String wherecondition, int startPage,
+			int pageSize);
 
 	/**
 	 * 获取总记录数
 	 * 
 	 * @return 总记录数
 	 */
-	public int getPageCount();
+	public int getPageCount(String wherecondition);
 
 	/**
 	 * 获取报名情况
@@ -81,4 +82,13 @@ public interface MatchDAO {
 	 * @return
 	 */
 	public int countUser(int proid, String userid);
+
+	/**
+	 * 根据项目id获取报名信息
+	 * 
+	 * @param proid
+	 * @param sportid
+	 * @return
+	 */
+	public List<VMatch> getMatchByProid(int proid);
 }

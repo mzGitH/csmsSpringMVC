@@ -72,11 +72,12 @@ public class ForumController {
 			exp.andLeftBraLike("author", wherecondition, String.class);
 			exp.orRightBraLike("title", wherecondition, String.class);
 		}
+		String opreation1 = exp.toString();
 		exp.orderByDesc("createtime");
 		String opreation = exp.toString();
 		List<TForumTitle> forumlist = fdao.getForumTitleByPages(opreation,
 				page, limit);
-		int allcount = fdao.getForumAmount(opreation);
+		int allcount = fdao.getForumAmount(opreation1);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 
@@ -159,10 +160,10 @@ public class ForumController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("getforum")
-	public String getForumTitle(HttpServletRequest request,int forumid,
-			HttpServletResponse response, Model model){
+	public String getForumTitle(HttpServletRequest request, int forumid,
+			HttpServletResponse response, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
 		VForumTitle forum = fdao.getVForumById(forumid);
 		response.setCharacterEncoding("utf-8");
@@ -170,9 +171,9 @@ public class ForumController {
 		model.addAttribute("forum", forum);
 		return "html/addForumcontent";
 	}
-	
+
 	@RequestMapping("getcontentlist")
-	public void getContentList(HttpServletRequest request,int forumid,
+	public void getContentList(HttpServletRequest request, int forumid,
 			HttpServletResponse response, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
 		List<VForum> forumlist = fdao.getForumContent(forumid);
@@ -198,10 +199,11 @@ public class ForumController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("addcontent")
-	public void addContent(HttpServletRequest request,HttpServletResponse response,
-			int forumid,int photoid,String textcontent,Model model) {
+	public void addContent(HttpServletRequest request,
+			HttpServletResponse response, int forumid, int photoid,
+			String textcontent, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
 		TForumContent content = new TForumContent();
 		content.setForumid(forumid);
@@ -227,10 +229,11 @@ public class ForumController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("editcontent")
-	public void editContent(HttpServletRequest request,HttpServletResponse response,
-			int contentid,int photoid,String textcontent,Model model) {
+	public void editContent(HttpServletRequest request,
+			HttpServletResponse response, int contentid, int photoid,
+			String textcontent, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
 		TForumContent content = new TForumContent();
 		content.setContentid(contentid);
@@ -256,10 +259,10 @@ public class ForumController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("delcontent")
-	public void delContent(HttpServletRequest request,HttpServletResponse response,
-			int contentid,Model model) {
+	public void delContent(HttpServletRequest request,
+			HttpServletResponse response, int contentid, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");

@@ -205,7 +205,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        			}
 			        		},
 			        		error:function(){
-			        			layer.confirm('出现错误，删除失败，请重试！', {
+			        			layer.confirm('出现错误 ，请重试！', {
 			        				  icon: 6,
 									  btn: ['确定']
 								});

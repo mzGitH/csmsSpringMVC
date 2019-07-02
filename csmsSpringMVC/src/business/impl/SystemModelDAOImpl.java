@@ -34,8 +34,28 @@ public class SystemModelDAOImpl implements SystemModelDAO {
 
 	@Override
 	public boolean changeRoleModelState(int rolemodelid) {
-		// TODO Auto-generated method stub
-		return false;
+		TSystemModel modelsql = (TSystemModel) hdao.findById(
+				TSystemModel.class, rolemodelid);
+		if (modelsql.getIsdelete()) {
+
+			modelsql.setIsdelete(false);
+		} else {
+			modelsql.setIsdelete(true);
+		}
+
+		return hdao.update(modelsql);
 	}
+
+	@Override
+	public List<TSystemModel> getMenuByParentId(int id) {
+		String hql = "from TSystemModel where isdelete=0 and parentid = ? ";
+		Object[] para = { id };
+		return hdao.select(hql, para);
+	}
+
+	// public static void main(String[] args) {
+	// SystemModelDAOImpl sdao = new SystemModelDAOImpl();
+	// sdao.changeRoleModelState(1);
+	// }
 
 }

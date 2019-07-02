@@ -27,10 +27,26 @@ import business.impl.AdminUserDaoImpl;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * 管理员用户contoller类
+ * 
+ * @author jock
+ *
+ */
 @Controller
 @RequestMapping(value = "admin")
 public class AdminUserController {
-
+	/**
+	 * 获取管理员用户列表
+	 * 
+	 * @param request
+	 * @param page
+	 * @param limit
+	 * @param realname
+	 * @param roleid
+	 * @param response
+	 * @param model
+	 */
 	@RequestMapping(value = "getuser")
 	public void getAdminUserList(HttpServletRequest request, int page,
 			int limit, String realname, Integer roleid,
@@ -141,7 +157,7 @@ public class AdminUserController {
 		user.setRealname(realname);
 		user.setMobile(mobile);
 		user.setRoleId(Integer.parseInt(roleid));
-		user.setPwd(pwd);
+		user.setPwd(endPwd);
 		user.setUserstatus(0);
 
 		if (audao.addAdminUser(user)) {
@@ -179,7 +195,42 @@ public class AdminUserController {
 
 		session.removeAttribute("loginuser");
 		laydata.code = LayuiData.SUCCESS;
-		laydata.msg = "登陆成功";
+		laydata.msg = "退出成功";
+		// 回传json字符串
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.write(JSON.toJSONString(laydata));
+		out.flush();
+		out.close();
+
+	}
+
+	/**
+	 * 实现一个管理员用户的删除
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/deladminuser")
+	public void delAdminUser(HttpServletRequest request,
+			HttpServletResponse response, String userid, Model model)
+			throws IOException {
+
+		AdminUserDAO adao = DAOFactory.getAdminUserDAO();
+		TAdminUser user = new TAdminUser();
+		user.setUserid(userid);
+		LayuiData laydata = new LayuiData();
+		if (adao.delAdminUser(user)) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "删除成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "删除失败";
+		}
+
 		// 回传json字符串
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");

@@ -30,7 +30,7 @@
 						menu+="</a>"
 						menu +="<ul class='sub-menu'>"
 						for (var j = 0; j < menudata.data.length; j++) {
-							if (menudata.data[j].parentid == menudata.data[i].sysid) {// 判断父类菜单下的子类菜单
+							if (menudata.data[j].parentid == menudata.data[i].sysid && menudata.data[j].isedit==true && menudata.data[j].isdelete==false) {// 判断父类菜单下的子类菜单
 								menu += "<li>"
 								menu += "<a _href="+menudata.data[j].navurl+">" +
 										"<cite style='margin-left: 30px'>"+menudata.data[j].chinesename+"</cite></a>"

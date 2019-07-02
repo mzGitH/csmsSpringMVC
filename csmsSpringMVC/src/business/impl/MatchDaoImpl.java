@@ -72,10 +72,13 @@ public class MatchDaoImpl implements MatchDAO {
 	}
 
 	@Override
-	public List<VMatch> selectByPage(int startPage, int pageSize) {
+	public List<VMatch> selectByPage(String wherecondition, int startPage,
+			int pageSize) {
 		String hql = "from VMatch";
-		List<VMatch> list = (List<VMatch>) bdao.selectByPage(hql, startPage,
-				pageSize);
+		if (wherecondition != null) {
+			hql += wherecondition;
+		}
+		List<VMatch> list = bdao.selectByPage(hql, startPage, pageSize);
 		if (list != null && list.size() > 0) {
 			return list;
 		} else {
@@ -84,8 +87,11 @@ public class MatchDaoImpl implements MatchDAO {
 	}
 
 	@Override
-	public int getPageCount() {
-		String hql = "select count(*) from TMatch";
+	public int getPageCount(String wherecondition) {
+		String hql = "select count(*) from VMatch";
+		if (wherecondition != null) {
+			hql += wherecondition;
+		}
 		int count = bdao.selectValue(hql);
 		return count;
 	}
@@ -113,5 +119,14 @@ public class MatchDaoImpl implements MatchDAO {
 		Object[] para = { proid, userid };
 		int count = bdao.selectValue(hql, para);
 		return count;
+	}
+
+	@Override
+	public List<VMatch> getMatchByProid(int proid) {
+		// TODO Auto-generated method stub
+		String hql = "from VMatch where proid=?";
+		Object[] para = { proid };
+		List<VMatch> list = bdao.select(hql, para);
+		return list;
 	}
 }
