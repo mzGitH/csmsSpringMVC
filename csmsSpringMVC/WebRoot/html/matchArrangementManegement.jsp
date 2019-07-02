@@ -132,21 +132,19 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			var data = obj.data;
 			switch (obj.event) {
 				case 'addArrUser':
-				//表格加载
+					var arrid = data.arrid;
+					//表格加载
 					table.render({
 						elem : '#arruser',
 						id:'arruser',
 						url : '../arrange/getarruser?proid='+data.proid,
 						title : '后台用户数据表',
-						height: "full-160",
+						height: "full-100",
+						toolbar: '#sureAdd',
 						skin : 'line',
 						even : true,
 						cols : [ 
-						     [ {
-								type : 'numbers',
-								title : '序号',
-								align : 'center'
-							},  {
+						     [ {type: 'checkbox', fixed: 'left'},{
 						     field : 'userid',
 						     align : 'center',
 						     title : '工号/学号',
@@ -154,76 +152,56 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						     field : 'username',
 						     align : 'center',
 						     title : '姓名',
-						    },{
-						     field : 'createdate',
-						     title : '操作',
-						     align : 'center',
-						     toolbar: '#check',
 						    }] 
 						 ],
 					});	
-
+					
 					layer.open({
   						title:"添加该场次运动员",
   						type: 1,
   						area: ['500px', '300px'],
   						skin: 'demo-class',
-  						btn:['确认保存'],
+  						//btn:['确认保存'],
   						maxmin: true,//显示最大化最小化按钮
-  						//offset: 'b', 弹框的位置
   						content: $('#div_content'),
-  						btn1: function(index, layero){
-  							var state = $('input:radio[name="sex"]:checked').val();
-    						$.ajax({
-			        		type: 'get',
-			        		url: "../compelition/updatestate",
-			        		dataType: 'json',
-			        		data:{
-			        			state:state,
-			        			arrid:data.arrid,
-			        		},
-			        		success:function(data){
-			        			if(data.code == 0){
-			        				layer.confirm(data.msg, {
-			        				icon: 1,
-									  btn: ['确定']
-									}, function(){
-										$("input[type='radio']").removeAttr('checked');
-										table.reload("satustable", { //此处是上文提到的 初始化标识id
-							                where: {
-							                },page: {
-							                curr:1
-							                }
-							            });	
-							            //form.render('radio', 'test2');
-										layer.closeAll();
-									});          				 
-			        			}
-			        			else{
-			        				layer.confirm(data.msg, {
-			        					  icon: 7,
-										  btn: ['确定']
-									}, function(){
-										$("input[type='radio']").removeAttr('checked');
-										//form.render('radio', 'test2')
-									});
-			        			}
-			        		},
-			        		error:function(){
-			        			layer.confirm('出现错误，请重试！', {
-			        				  icon: 6,
-									  btn: ['确定']
-								}, function(){
-									//form.render('radio', 'test2')
-									$("input[type='radio']").removeAttr('checked');
-								});
-			        		},
-			        	});  
-  						},
+  						//btn1: function(index, layero){
+  							
+  						//},
   						cancel: function(){ 
-  							$("input").removeAttr('checked');
+  							
   						}
 					});
+					
+					//头工具栏事件
+					  table.on('toolbar(add)', function(obj){
+					    var checkStatus = table.checkStatus(obj.config.id);
+					    switch(obj.event){
+					      case 'getCheckData':
+					        var checkdata = checkStatus.data;
+					        //layer.alert(checkdata[0].userid);
+					        var obj=[];
+					        var arr="";
+					        for(var i=0;i<checkdata.length;i++){
+					        	obj.push(checkdata[i]['matchid']);
+					        }
+					        
+					        //var jdt = JSON.stringify(checkdata);
+					        $.ajax({
+								url : "../arrange/addscene?arrid="+arrid+"&&userid="+obj,
+								type : "POST",
+								data:null,
+								dataType : 'json',
+								contentType : 'application/json;charset=UTF-8',//contentType 很重要
+								success : function(e) {
+									
+								},
+								error : function(e) {
+									//layer.alert("error:"+e.msg);
+								}
+							})
+					      break;
+					    };
+					  });
 				break;
 			};
 		});
@@ -270,9 +248,13 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 </script>
 
 <!--状态编辑div  -->
+		<script type="text/html" id=sureAdd>
+          	<button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">
+			  <i class="layui-icon">&#xe608;</i> 确认添加
+			</button>
+        </script>
 		<div id="div_content" style="display: none;text-align: center;">
-			<table id="arruser" style="text-align: center;" class="layui-table">
-				
+			<table id="arruser" style="text-align: center;" class="layui-table" lay-filter="add">
 			</table>
 		</div>
 </body>

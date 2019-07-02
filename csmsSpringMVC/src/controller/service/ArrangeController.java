@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import util.LayuiData;
 import business.dao.ArrangeDAO;
 import business.dao.MatchDAO;
+import business.dao.SceneDAO;
 import business.factory.DAOFactory;
 
 import com.alibaba.fastjson.JSON;
@@ -55,5 +56,19 @@ public class ArrangeController {
 		out.write(JSON.toJSONString(data));
 		out.flush();
 		out.close();
+	}
+
+	@RequestMapping(value = "addscene", produces = "application/json; charset=utf-8")
+	public void AddScene(HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		String arrid = request.getParameter("arrid");
+		String userinfo = request.getParameter("userid");
+		System.out.println(arrid + ";" + userinfo);
+		System.out.println(userinfo.length());
+		SceneDAO sao = DAOFactory.getSceneDAO();
+
 	}
 }
