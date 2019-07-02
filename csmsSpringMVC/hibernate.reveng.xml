@@ -98,8 +98,20 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
-<table name="VScoreSignIn" schema="dbo" catalog="CSMS"
-	class="model.VScoreSignIn">
+	<table name="VScoreSignIn" schema="dbo" catalog="CSMS"
+		class="model.VScoreSignIn">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_UserScore" schema="dbo" catalog="CSMS"
+		class="model.VUserScore">
+		<primary-key>
+			<generator class="assigned"></generator>
+		</primary-key>
+	</table>
+<table name="V_MajorScore" schema="dbo" catalog="CSMS"
+	class="model.VMajorScore">
 	<primary-key>
 		<generator class="identity"></generator>
 	</primary-key>

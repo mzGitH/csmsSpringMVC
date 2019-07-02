@@ -2,7 +2,11 @@ package business.impl;
 
 import java.util.List;
 
+import model.VClassScore;
 import model.VCollegeScore;
+import model.VMajorScore;
+import model.VScore;
+import model.VUserScore;
 
 import org.springframework.stereotype.Component;
 
@@ -80,24 +84,6 @@ public class ScoreCollegeDaoImpl implements ScoreCollegeDAO {
 	}
 
 	@Override
-	public List<VCollegeScore> getAllScoreByPage(String strwhere,
-			int startPage, int pageSize) {
-		String hql = "from VCollegeScore" + strwhere;
-		List<VCollegeScore> list = bdao.selectByPage(hql, startPage, pageSize);
-		if (list != null && list.size() > 0) {
-			return list;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public int geAllCount(String strwhere) {
-		String sql = "select count(*) from VCollegeScore" + strwhere;
-		return bdao.selectValue(sql);
-	}
-
-	@Override
 	public double allStuScore(int collegeid) {
 		String hql = "select round(sum(scorenumber),2) as scorenumber from VScore where collegeid=?";
 		Object[] param = { collegeid };
@@ -159,5 +145,78 @@ public class ScoreCollegeDaoImpl implements ScoreCollegeDAO {
 		} else {
 			return 0;
 		}
+	}
+	
+
+	@Override
+	public List<VCollegeScore> getCollegeByPage(String strwhere,
+			int startPage, int pageSize) {
+		String hql = "from VCollegeScore" + strwhere;
+		List<VCollegeScore> list = bdao.selectByPage(hql, startPage, pageSize);
+		if (list != null && list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public int getCollegeCount(String strwhere) {
+		String sql = "select count(*) from VCollegeScore" + strwhere;
+		return bdao.selectValue(sql);
+	}
+	
+	@Override
+	public List<VMajorScore> getMajorByPage(String strwhere, int startPage,
+			int pageSize) {
+		String hql = "from VMajorScore" + strwhere;
+		List<VMajorScore> list = bdao.selectByPage(hql, startPage, pageSize);
+		if (list != null && list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public int getMajorCount(String strwhere) {
+		String sql = "select count(*) from VMajorScore" + strwhere;
+		return bdao.selectValue(sql);
+	}
+
+	@Override
+	public List<VClassScore> getClassesByPage(String strwhere, int startPage,
+			int pageSize) {
+		String hql = "from VClassScore" + strwhere;
+		List<VClassScore> list = bdao.selectByPage(hql, startPage, pageSize);
+		if (list != null && list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public int getClassesCount(String strwhere) {
+		String sql = "select count(*) from VClassScore" + strwhere;
+		return bdao.selectValue(sql);
+	}
+
+	@Override
+	public List<VUserScore> getUserByPage(String strwhere, int startPage,
+			int pageSize) {
+		String hql = "from VUserScore" + strwhere;
+		List<VUserScore> list = bdao.selectByPage(hql, startPage, pageSize);
+		if (list != null && list.size() > 0) {
+			return list;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public int getUserCount(String strwhere) {
+		String sql = "select count(*) from VUserScore" + strwhere;
+		return bdao.selectValue(sql);
 	}
 }

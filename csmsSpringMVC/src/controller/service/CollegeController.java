@@ -74,6 +74,34 @@ public class CollegeController {
 		}
 
 	}
+	
+	// 获取所有学院列表
+	@RequestMapping(value = "getallcollege")
+	public void getAllCollegeList(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+		CollegeDAO cdao = DAOFactory.getCollegeDAO();
+		List<TCollege> collegelist = cdao.select();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (collegelist != null) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.data = collegelist;
+			laydata.msg = "执行成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "无数据";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// 添加学院
 	@RequestMapping(value = "addcollege")

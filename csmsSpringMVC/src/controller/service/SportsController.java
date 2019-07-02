@@ -28,7 +28,7 @@ import util.LayuiData;
 @Controller
 @RequestMapping(value = "sports")
 public class SportsController {
-
+	//获取赛事列表
 	@RequestMapping(value = "getsportslist")
 	public void getSportList(HttpServletRequest request, HttpServletResponse response, 
 			int page, int limit, Model model){
@@ -57,6 +57,7 @@ public class SportsController {
 		}
 	}
 	
+	//添加赛事
 	@RequestMapping(value = "addsports")
 	public void addSport(HttpServletRequest request, HttpServletResponse response, Model model,
 			String sportname,String starttime,String endtime,String reportstart, String reportend){
@@ -90,6 +91,7 @@ public class SportsController {
 		}
 	}
 	
+	//编辑赛事
 	@RequestMapping(value = "editsports")
 	public void editSport(HttpServletRequest request, HttpServletResponse response, Model model,
 			int sportid,String sportname,String starttime,String endtime,String reportstart, String reportend){
@@ -122,6 +124,7 @@ public class SportsController {
 		}
 	}
 	
+	//删除赛事
 	@RequestMapping(value = "deletesports")
 	public void deleteSport(HttpServletRequest request, HttpServletResponse response, 
 			int sportid, Model model){
@@ -147,6 +150,7 @@ public class SportsController {
 		}
 	}
 	
+	//获取赛事赛项列表
 	@RequestMapping(value = "getTSP")
 	public void getTSP(HttpServletRequest request, HttpServletResponse response, 
 			int page, int limit, Model model){
@@ -184,6 +188,7 @@ public class SportsController {
 		}
 	}
 	
+	//获取所有赛事信息
 	@RequestMapping(value = "getsport")
 	public void getSport(HttpServletRequest request, HttpServletResponse response, Model model){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
@@ -202,7 +207,8 @@ public class SportsController {
 			e.printStackTrace();
 		}
 	}
-	
+
+	//获取未安排赛项的赛事列表
 	@RequestMapping(value = "getnotexitsTSP")
 	public void getNotExistsSport(HttpServletRequest request, HttpServletResponse response, Model model){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
@@ -227,6 +233,7 @@ public class SportsController {
 		}
 	}
 	
+	//添加赛事赛项信息
 	@RequestMapping(value = "addTSP")
 	public void addSportProject(HttpServletRequest request, HttpServletResponse response, Model model,
 			int sportid,String prolist){
@@ -260,6 +267,7 @@ public class SportsController {
 		}
 	}
 	
+	//删除赛事赛项信息
 	@RequestMapping(value = "deleteTSP")
 	public void deleteTSP(HttpServletRequest request, HttpServletResponse response, 
 			int id, Model model){
@@ -285,12 +293,14 @@ public class SportsController {
 		}
 	}
 	
-
+	//获取指定赛事已安排赛项，未安排赛项
 	@RequestMapping(value = "getproject")
 	public void getNotOrExistsProject(HttpServletRequest request, HttpServletResponse response, Model model,
 			int sportid){
 		SportsDAO sdao = DAOFactory.getSportsDAO();
+		//未安排
 		List<TProject> notProject = sdao.getNotExistsProject(sportid);
+		//已安排
 		List<TProject> existsProject = sdao.getExistsProject(sportid);
 		LayuiData laydata = new LayuiData();
 		laydata.code = LayuiData.SUCCESS;

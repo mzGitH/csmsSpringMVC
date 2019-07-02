@@ -22,28 +22,37 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   <div class="layui-fluid" style="margin-top: 10px">
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
-				<div class="layui-inline">
-					<select id="systemtype">
-						<option value="0">请选择学院</option>
-					</select>
-				</div>
-				<div class="layui-inline">
-					<select id="systemtype">
-						<option value="0">请选择专业</option>
-					</select>
-				</div>
 				<div class="layui-input-inline">
-					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入查询条件" class="layui-input" autocomplete="off">
-			    </div>
-				<div class="layui-inline">
-					<button id="btnselfrontinfo" type="button"
-						class="layui-btn layui-bg-blue">查询</button>
-				</div>
+						<select name="college" id="college" lay-filter="college"
+							lay-verify="required" lay-search="">
+							<option value="0">请选择或输入学院名称</option>
+							<c:forEach items="${listcollege}" var="obj">
+								<option value="${obj.collegeid }">${obj.collegename }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="major" id="major" lay-filter="major"
+							lay-verify="required" lay-search="">
+							<option value="">请选择或输入专业名称</option>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="classes" id="class" lay-filter="class"
+							lay-verify="required" lay-search="">
+							<option value="">请选择或输入班级名称</option>
+						</select>
+					</div>
+					<div class="layui-input-inline" style="margin-left: -10px;">
+						<button type="button" class="layui-btn layui-btn" lay-submit
+							lay-filter="search">查询</button>
+					</div>
 			</form>
 		</blockquote>
       
       <div class="layui-card-body">
-        <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
+      	<table class="layui-table" id="scoretable" lay-filter="demo"></table>
+        <!-- <table id="LAY-user-manage" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
         	<thead>
         		<tr>
         			<td>序号</td>
@@ -60,7 +69,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
         			<td><button type="button" class="layui-btn layui-btn-sm layui-btn-normal">查看详情</button></td>
         		</tr>
         	</tbody>
-        </table>
+        </table> -->
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
@@ -70,23 +79,158 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
         </script>
       </div>
     </div>
+<script src="layui/layui.all.js"></script>
+<script src="js/jquery-2.1.1.min.js" charset="utf-8"></script>
+<script id="barDemo" type="text/html">
+    <button class="layui-btn layui-btn-sm layui-bg-green query">查看详情</button>
+</script>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+  </div>
+</script>
+<script type="text/javascript">
+	layui.use([ 'table', 'laydate', 'layer', 'jquery', 'form' ],function() {
+		var table = layui.table;
+		var $ = layui.jquery;
+		var laydate = layui.laydate;
+		var layer = layui.layer;
+		var form = layui.form;
 
-  <script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
-	
-	<script src="../layui/layui.js" charset="utf-8"></script>
-  <script>
-  	layui.use(['layer','upload','table'], function(){
-  		var layer = layui.layer,$=layui.jquery,upload = layui.upload;
-  		
-  		
-  		//编辑按钮点击事件
-  		$(".layui-btn").click(function(){
-  			layer.alert("查看详情");
-  		})
-  		
- 		
-	}); 
-  </script>
-</body>
-		   
+		//页面加载获取动态表格数据
+		table.render({
+			id : 'tableOne',
+			elem : '#scoretable',
+			toolbar : '#toolbarDemo',
+			height : 'full-200', //高度最大化减去差值,
+			url : 'getscore.action?op=class',
+			page : true,
+			even : true,
+			limit : 5,
+			limits : [ 5,10, 15 ],
+			skin : "nob",
+			cellMinWidth : 35, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+			//,toolbar: '#toolbarDemo'
+			title : '用户数据表',
+			cols : [ [ {
+				align : 'center',
+				field : '',
+				title : '序号',
+				type : 'numbers'
+			},{
+				align : 'center',
+				field : 'classname',
+				title : '班级名称'
+			}, {
+				align : 'center',
+				field : 'majorname',
+				title : '专业名称',
+			}, {
+				align : 'center',
+				field : 'collegename',
+				title : '学院名称',
+			}, {
+				align : 'center',
+				field : 'allscore',
+				title : '总成绩'
+			}, {
+				align : 'center',
+				field : 'scorenumber',
+				title : '平均成绩'
+			}, {
+				align : 'center',
+				field : '',
+				title : '操作',
+				toolbar : '#barDemo'
+			}, {
+				field : 'classid',
+				hide : true
+			} ] ]
+		});
+		/* 下拉框三级联动 */
+		var $ = layui.jquery;
+		form.render('select');
+		form.on('select(college)',function(data) {
+			var hosid = data.value;
+			$.ajax({
+				type : "post",
+				url : "getmajor.action",
+				data : {
+					collegeid : hosid
+				},
+				dataType : "json",
+				success : function(succ) {
+					if (succ == "失败") {
+						layer
+								.msg("请刷新后重试");
+					} else {
+						var tmp = '<option value="0">请选择或输入专业名称</option>';
+						for ( var i in succ.data) {
+							tmp += '<option value="' + succ.data[i].majorid +  '">'
+									+ succ.data[i].majorname
+									+ '</option>';
+						}
+						$("#major").html(tmp);
+						var tmp2 = '<option value="0">请选择或输入班级名称</option>';
+						$("#class").html(tmp2);
+						form.render();
+					}
+				},
+				error : function() {
+					layer.msg('请求失败，稍后再试',{icon : 5});
+				}
+			});
+		});
+		form.on('select(major)',function(data) {
+			var hosid = data.value;
+			$.ajax({
+				type : "post",
+				url : "getclass.action",
+				data : {
+					majorid : hosid
+				},
+				dataType : "json",
+				success : function(succ) {
+					if (succ == "失败") {
+						layer.msg("请刷新后重试");
+					} else {
+						var tmp = '<option value="0">请选择或输入班级名称</option>';
+						for ( var i in succ.data) {
+							tmp += '<option value="' + succ.data[i].classid +  '">'
+									+ succ.data[i].classname
+									+ '</option>';
+						}
+						$("#class").html(tmp);
+						form.render();
+					}
+				},
+				error : function() {
+					layer.msg('请求失败，稍后再试',{icon : 5});
+				}
+			});
+		});
+		//查询提交
+		form.on('submit(search)', function(data) {
+			table.reload('tableOne', {
+				method : 'post',
+				where : {
+					'collegeid' : data.field.college,
+					'majorid' : data.field.major,
+					'classid' : data.field.classes,
+				},
+				page : {
+					curr : 1
+				}
+			});
+
+			return false;
+		});
+	});
+	//查看详情点击事件
+	$(document).on('click',".query",function() {
+		var classid = $(this).parent().parent().next()
+				.children().text().trim();
+		window.location.href = "getscore.action?op=classdetail&classid="
+				+ classid;
+	});
+</script>
 </html>

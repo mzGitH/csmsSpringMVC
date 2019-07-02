@@ -29,12 +29,11 @@ import com.alibaba.fastjson.JSON;
 @Controller
 @RequestMapping(value = "classes")
 public class ClassesController {
-	// 获取专业列表
+	// 获取班级列表
 	@RequestMapping(value = "getclasses")
-	public void getCollegeList(HttpServletRequest request, Integer page,
+	public void getClassesList(HttpServletRequest request, Integer page,
 			Integer limit, Integer collegeid, Integer majorid,
 			String wherecondition, HttpServletResponse response, Model model) {
-
 		// 查询条件
 		Expression exp = new Expression();
 		if (collegeid != null) {
@@ -44,19 +43,14 @@ public class ClassesController {
 			exp.andEqu("majorid", majorid, Integer.class);
 		}
 		if (wherecondition != null && !wherecondition.equals("")) {
-
 			exp.andLike("classname", wherecondition, String.class);
 		}
-
 		String opreation = exp.toString();
-
 		ClassesDAO cdao = DAOFactory.getClassesDAO();
 		int allcount = cdao.getclassAmount(opreation);
 		List<VClass> majorlist = cdao.selectByPage(opreation, page, limit);
-
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
-
 		LayuiData laydata = new LayuiData();
 		if (majorlist != null) {
 			laydata.code = LayuiData.SUCCESS;
@@ -64,9 +58,7 @@ public class ClassesController {
 		} else {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "无数据";
-
 		}
-
 		laydata.count = allcount;
 		laydata.data = majorlist;
 		Writer out;
@@ -76,15 +68,40 @@ public class ClassesController {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
+	// 获取所有班级列表
+	@RequestMapping(value = "getallclasses")
+	public void getAllClassesList(HttpServletRequest request, HttpServletResponse response, Model model) {
+		ClassesDAO cdao = DAOFactory.getClassesDAO();
+		List<TClass> majorlist = cdao.select();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (majorlist != null) {
+			laydata.code = LayuiData.SUCCESS;
+			laydata.data = majorlist;
+			laydata.msg = "执行成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "无数据";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// 添加班级
 	@RequestMapping(value = "addclasses")
-	public void addcollege(HttpServletRequest request, Integer majorid,
+	public void addClasses(HttpServletRequest request, Integer majorid,
 			String classname, HttpServletResponse response, Model model) {
 		ClassesDAO cdao = DAOFactory.getClassesDAO();
 
@@ -118,7 +135,7 @@ public class ClassesController {
 
 	// 删除班级
 	@RequestMapping(value = "delclasses")
-	public void delcollege(HttpServletRequest request, Integer classid,
+	public void delClasses(HttpServletRequest request, Integer classid,
 			HttpServletResponse response, Model model) {
 		ClassesDAO cdao = DAOFactory.getClassesDAO();
 
@@ -149,7 +166,7 @@ public class ClassesController {
 
 	// 编辑班级
 	@RequestMapping(value = "edclasses")
-	public void edcollege(HttpServletRequest request, Integer majorid,
+	public void edClasses(HttpServletRequest request, Integer majorid,
 			Integer classid, String classname, HttpServletResponse response,
 			Model model) {
 		ClassesDAO cdao = DAOFactory.getClassesDAO();
@@ -184,7 +201,7 @@ public class ClassesController {
 
 	// 批量添加班级
 	@RequestMapping(value = "addclasseslist")
-	public void addcollegeByList(HttpServletRequest request, String path,
+	public void addClassesByList(HttpServletRequest request, String path,
 			HttpServletResponse response, Model model) {
 		ClassesDAO mdao = DAOFactory.getClassesDAO();
 
