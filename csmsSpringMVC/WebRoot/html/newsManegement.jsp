@@ -180,12 +180,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					curr : 1
 					}
 			});
-		})
-		
-  		//编辑按钮点击事件
-  		$(".btn_del").click(function(){
-  			layer.alert("查看详情");
-  		})
+		}) 
 	}); 
 </script>
 <div class="layui-card" id="div_content" style="display: none;height:250px;">

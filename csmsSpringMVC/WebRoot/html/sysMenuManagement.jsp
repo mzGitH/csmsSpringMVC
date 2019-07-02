@@ -76,7 +76,7 @@
 		<table class="layui-hide" name="sysMenu" id="sysMenu" lay-filter="sysMenu"></table>
 
 		<script type="text/html" id="switchTpl">
-		  <input type="checkbox" name="status" value="启用" lay-skin="switch" lay-text="启用|停用" checked>
+		  <input type="checkbox" lay-filter="open" name="status" value="{{d.id}}" {{ d.isdelete == "0" ? 'checked' : '' }} lay-skin="switch" lay-text="启用|停用">
 		</script>
 		
 		<script type="text/html" id="barDemo">
@@ -149,6 +149,8 @@
     						return "成绩管理";
     					}else if(d.parentid==24){
     						return "系统管理";
+    					}else {
+    						return "";
     					}
     				}
 				},{
@@ -164,6 +166,43 @@
 				}] 
 			 ]
 		});
+		
+		form.on('switch(open)', function(data){
+  	 		if(data.elem.checked){
+  	 			//data.value
+  	 			$.ajax({
+				type : 'get',
+				url : '../systemmodel/changemenustate?id=' + this.value,
+				datatype : 'json',
+				success : function(data) {
+					if (data.code == "0") {		
+						layer.msg('启用成功！请刷新页面', {icon: 1}); 
+					} else {
+	    	        	layer.msg('启用失败！', {icon: 2});
+					}
+				},
+				error : function() {
+					layer.msg('启用失败！请重试', {icon: 2});		
+				}
+				});
+  	 		}else{
+  	 			$.ajax({
+				type : 'get',
+				url : '../systemmodel/changemenustate?id=' + this.value,
+				datatype : 'json',
+				success : function(data) {
+					if (data.code == "0") {		
+						layer.msg('取消启用成功！请刷新页面', {icon: 1}); 
+					} else {
+	    	        	layer.msg('取消启用失败！', {icon: 2});
+					}
+				},
+				error : function() {
+					layer.msg('取消失败！请重试', {icon: 2});		
+				}
+				});
+  	 		}
+		});  
 	});
 	</script>
 </body>

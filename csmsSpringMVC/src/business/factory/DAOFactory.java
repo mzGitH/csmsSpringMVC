@@ -16,6 +16,7 @@ import business.dao.MatchDAO;
 import business.dao.NewsDAO;
 import business.dao.PhotoDAO;
 import business.dao.ProjectDAO;
+import business.dao.RoleSysModelDAO;
 import business.dao.SceneDAO;
 import business.dao.ScoreClassesDAO;
 import business.dao.ScoreCollegeDAO;
@@ -229,6 +230,15 @@ public class DAOFactory {
 	 */
 	public static UserDAO getUserDAO() {
 		return (UserDAO) ctx.getBean("userdao");
+	}
+
+	/**
+	 * 返回一个用于对用户信息操作的UserDAO对象
+	 * 
+	 * @return UserDAO
+	 */
+	public static RoleSysModelDAO getRoleSysModelDAO() {
+		return (RoleSysModelDAO) ctx.getBean("rolesysmodeldao");
 	}
 
 }

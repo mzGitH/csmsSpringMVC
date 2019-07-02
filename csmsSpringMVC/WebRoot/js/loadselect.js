@@ -260,3 +260,35 @@ function loadclassSelectByCollegeid(selectId, collegeid,form){
 		layer.msg('未获取到班级信息', function(){});
 	}
 }
+
+
+/**
+ * 加载管理员用户类型下拉框
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadRoleType(selectId,form){
+	var reqType = 'post';
+	var reqURL = '../adminrole/getrole';
+	var reqPara = {};
+	var stageData = callAJAX(reqType, reqURL, reqPara);
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择用户类型</option>";
+			for(var i = 0; i < stageData.data.length; i++){
+						str += '<option value=' + stageData.data[i].id + '>'+ stageData.data[i].name +'</option>';
+			 }
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到用户类型信息', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到用户类型信息', function(){});
+	}
+}
+
+

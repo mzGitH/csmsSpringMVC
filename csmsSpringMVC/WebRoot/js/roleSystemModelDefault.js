@@ -29,8 +29,7 @@ layui.use([ 'table', 'form', 'layer', 'laydate', 'laytpl', 'element' ],function(
 	});
 	
 	//点击查询，更具角色筛选角色权限
-	$("#btnselbackrole").click(function(){
-		alert("aaa")
+	$("#btnselbackrole").click(function(){ 
 		var roleid = $("#backrolemodel").val();
 		var roletext=$("#backrolemodel  option:selected").text();
 		if(roleid==00){
@@ -92,14 +91,14 @@ layui.use([ 'table', 'form', 'layer', 'laydate', 'laytpl', 'element' ],function(
 		//obj代表当前checkbox所在行的数据对象
 		if(obj.elem.checked){ //但obj.elem.checked==true
 			//还要再获取当前行的值
-			alert("check=" +obj.elem.checked)
+			//alert("check=" +obj.elem.checked)
 			$.ajax({
 				type : 'get',
-				url : '../sysbackmanage/rolemanagementenablepower?rolemodelid=' + this.value,
+				url : '../systemmodel/changerolemodel?rolemodelid=' + this.value,
 				datatype : 'json',
 				success : function(data) {
 					if (data.code == "0") {		
-						layer.msg('授权成功！', {icon: 1}); 
+						layer.msg('授权成功！请刷新页面', {icon: 1}); 
 					} else {
 	    	        	layer.msg('授权失败！', {icon: 2});
 					}
@@ -110,11 +109,11 @@ layui.use([ 'table', 'form', 'layer', 'laydate', 'laytpl', 'element' ],function(
 		else{
 			$.ajax({
 				type : 'get',
-				url : '../sysbackmanage/rolemanagementdisenablepower?rolemodelid=' + this.value,
+				url : '../systemmodel/changerolemodel?rolemodelid=' + this.value,
 				datatype : 'json',
 				success : function(data) {
-					if (data.code == "10001") {	
-						layer.msg('取消授权成功！', {icon: 6}); 				
+					if (data.code == "0") {	
+						layer.msg('取消授权成功！请刷新页面', {icon: 6}); 				
 					} else {
 						layer.msg('取消授权失败！', {icon: 2}); 
 					}

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import util.LayuiData;
 import util.ResponseJSON;
+import business.dao.RoleSysModelDAO;
 import business.dao.SystemModelDAO;
 import business.factory.DAOFactory;
 import business.impl.SystemModelDAOImpl;
@@ -134,6 +135,36 @@ public class SystemModelController {
 		out.close();
 	}
 
+	@RequestMapping(value = "/getmenubyparentid")
+	public void getMenuByParentId(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer parentid)
+			throws IOException {
+
+		SystemModelDAO smdao = new SystemModelDAOImpl();
+		List list = smdao.getMenuByParentId(parentid);
+		ResponseJSON rj = new ResponseJSON();
+
+		// 回传json字符串
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		LayuiData td = new LayuiData();
+		if (list != null) {
+			td.code = LayuiData.SUCCESS;
+			td.count = list.size();
+			td.msg = "查询成功，共查出" + td.count + "条记录";
+			td.data = list;
+			System.out.println(JSON.toJSON(list));
+		} else {
+			td.code = LayuiData.ERRR;
+			td.msg = "查询失败";
+		}
+		out.write(JSON.toJSONString(td));
+		// {"code":10001,"msg":"执行成功","result1":"......."}
+		out.flush();
+		out.close();
+	}
+
 	/**
 	 * 实现根据传入rolemodelid改变该id功能菜单是否可用
 	 * 
@@ -141,24 +172,68 @@ public class SystemModelController {
 	 * @param request
 	 * @param response
 	 * @throws IOException
-	 * @RequestMapping(value = "/changerolemodel") public void
-	 *                       changeRoleModelState(int rolemodelid,
-	 *                       HttpServletRequest request, HttpServletResponse
-	 *                       response, Model model) throws IOException {
+	 * */
+	@RequestMapping(value = "/changerolemodel")
+	public void changeRoleModelState(int rolemodelid,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model) throws IOException {
+
+		RoleSysModelDAO smdao = DAOFactory.getRoleSysModelDAO();
+
+		// 回传json字符串
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		LayuiData td = new LayuiData();
+		if (smdao.updataRoleModel(rolemodelid)) {
+			td.code = LayuiData.SUCCESS;
+
+			td.msg = "授权成功";
+
+			System.out.println(JSON.toJSON(td));
+		} else {
+			td.code = LayuiData.ERRR;
+			td.msg = "授权失败";
+		}
+		out.write(JSON.toJSONString(td));
+		// {"code":10001,"msg":"执行成功","result1":"......."}
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * 实现根据传入rolemodelid改变该id功能菜单是否可用
 	 * 
-	 *                       SystemModelDAO smdao = new SystemModelDAOImpl();
-	 * 
-	 *                       // 回传json字符串
-	 *                       response.setCharacterEncoding("utf-8");
-	 *                       response.setContentType("application/json");
-	 *                       PrintWriter out = response.getWriter(); LayuiData
-	 *                       td = new LayuiData(); if (list != null) { td.code =
-	 *                       LayuiData.SUCCESS; td.count = list.size(); td.msg =
-	 *                       "查询成功，共查出" + td.count + "条记录"; td.data = list;
-	 *                       System.out.println(JSON.toJSON(list)); } else {
-	 *                       td.code = LayuiData.ERRR; td.msg = "查询失败"; }
-	 *                       out.write(JSON.toJSONString(td)); //
-	 *                       {"code":10001,"msg":"执行成功","result1":"......."}
-	 *                       out.flush(); out.close(); }
-	 */
+	 * @param user
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 * */
+	@RequestMapping(value = "/changemenustate")
+	public void changeMenuState(Integer id, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
+
+		SystemModelDAO smdao = DAOFactory.getSystemModelDAO();
+
+		// 回传json字符串
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		LayuiData td = new LayuiData();
+		if (smdao.changeRoleModelState(id)) {
+			td.code = LayuiData.SUCCESS;
+
+			td.msg = "启用成功";
+
+			// System.out.println(JSON.toJSON(td));
+		} else {
+			td.code = LayuiData.ERRR;
+			td.msg = "启用失败";
+		}
+		out.write(JSON.toJSONString(td));
+		// {"code":10001,"msg":"执行成功","result1":"......."}
+		out.flush();
+		out.close();
+	}
+
 }

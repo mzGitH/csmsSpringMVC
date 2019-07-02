@@ -115,7 +115,12 @@
 						if (data.code == 0) {
 						layer.msg(data.msg);
 						//layer.alert(data.msg, {icon: 1});
-						window.location.href = "../html/index.jsp";
+						if (top.location !== self.location) {
+   							 top.location = "index.jsp";//跳出框架，并回到首页
+			         	}else{
+			         		window.location.href = "../html/index.jsp";
+			         	}
+						
 						} else {
 							layer.alert("用户名或密码错误", {icon: 2});
 							$("input").val("");

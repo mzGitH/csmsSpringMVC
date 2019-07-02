@@ -3,6 +3,7 @@ package business.dao;
 import java.util.List;
 
 import model.TAdminRole;
+import model.TRoleSysModel;
 
 public interface AdminRoleDAO {
 	/**
@@ -10,5 +11,33 @@ public interface AdminRoleDAO {
 	 * 
 	 * @return List
 	 */
-	public List<TAdminRole> getaAdminUserList();
+	public List<TAdminRole> getaAdminUserList(String opreation);
+
+	/**
+	 * 根据管理员角色id 删除角色
+	 * 
+	 * @return true or false
+	 */
+	public boolean delAdminRole(TAdminRole role);
+
+	/**
+	 * 添加管理员角色同时添加权限
+	 * 
+	 * @return true or false
+	 */
+	public boolean addAdminRole(TAdminRole role, List<TRoleSysModel> rolelist);
+
+	/**
+	 * 编辑管理员角色
+	 * 
+	 * @return true or false
+	 */
+	public boolean edlAdminRole(TAdminRole role);
+
+	/**
+	 * 添加管理员角色
+	 * 
+	 * @return true or false
+	 */
+	public boolean addRole(TAdminRole role);
 }
