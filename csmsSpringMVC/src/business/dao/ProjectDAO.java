@@ -2,6 +2,7 @@ package business.dao;
 
 import java.util.List;
 
+import model.TConfig;
 import model.TProject;
 
 /**
@@ -79,4 +80,22 @@ public interface ProjectDAO {
 	 * @return 返回比赛项目数
 	 */
 	public int getProCount(String where);
+
+	/**
+	 * 根据运动会id获取比赛项目
+	 * 
+	 * @param sportid
+	 *            运动会id
+	 * @return
+	 */
+	public List<TProject> select(int sportid);
+
+	/**
+	 * 获取当届可选项目
+	 * 
+	 * @param sportid
+	 *            运动会id
+	 * @return
+	 */
+	public List<TProject> selectnow(TConfig cfg);
 }

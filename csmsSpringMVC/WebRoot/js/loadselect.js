@@ -292,3 +292,85 @@ function loadRoleType(selectId,form){
 }
 
 
+/**
+ * 获取比赛项目下拉框
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadSelectProject(selectId,type, form){
+	var reqType = 'post';
+	var reqURL = '';
+	var reqPara = {};
+	if(type=="all"){
+		 reqURL = '../select/selectproject';
+	}else if(type=="now"){
+		 reqURL = '../select/selectprojectnow';
+	} else{
+	 	reqURL = '../select/selectprojectbysportid';
+		reqPara = {sportid:type}
+	}
+	var stageData = callAJAX(reqType, reqURL, reqPara)
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择项目</option>";
+			for(var i = 0; i < stageData.data.length; i++) {
+				str += '<option value=' + stageData.data[i].proid + '>' + stageData.data[i].proname + '</option>';
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到用户角色信息！', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到用户角色信息！', function(){});
+	}
+	
+}
+
+
+/**
+ * 获取比赛项目下拉框
+ * @param {Object} selectId 要加载到的select控件的id属性名称
+ * @param {Object} form layui表单依赖参数form.render("select")，重新渲染
+ */
+function loadSport(selectId,type, form){
+	var reqType = 'post';
+	var reqURL = '';
+	var reqPara = {};
+	if(type=="all"){
+		 reqURL = '../select/selectsport';
+	}else if(type=="now"){
+		 reqURL = '../select/selectsportnow';
+	}
+	var stageData = callAJAX(reqType, reqURL, reqPara)
+	if(stageData != '' && stageData != undefined) {
+		if(stageData.code == 0) {
+			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
+			var str = "<option value=''>请选择运动会</option>";
+			//alert(stageData.data.length);
+			for(var i = 0; i < stageData.data.length; i++) {
+				if(stageData.data.length==1)
+				{
+					str += '<option value=' + stageData.data[i].sportid + ' selected >' + stageData.data[i].sportname + '</option>';
+				}else{
+					str += '<option value=' + stageData.data[i].sportid + '>' + stageData.data[i].sportname + '</option>';
+				}
+				
+			}
+			$('#' + selectId).append(str);
+			form.render("select");
+		} else {
+			//layer.msg("未获取到阶段信息！");
+			layer.msg('未获取到用户角色信息！', function(){});
+		}
+	} else {
+		//layer.msg("阶段信息获取失败！");
+		layer.msg('未获取到用户角色信息！', function(){});
+	}
+	
+}
+
+
