@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.TConfig;
+import model.TProject;
 import model.TSportProject;
 import model.VSportProject;
 
@@ -69,8 +70,10 @@ public class SportsController {
 		sport.setReportstart(reportstart);
 		sport.setReportend(reportend);
 		LayuiData laydata = new LayuiData();
-		if(sdao.insert(sport)){
+		int row = sdao.insert(sport);
+		if(row>0){
 			laydata.code = LayuiData.SUCCESS;
+			laydata.result = ""+row;
 			laydata.msg = "添加成功";
 		}else{
 			laydata.code = LayuiData.ERRR;
@@ -271,6 +274,29 @@ public class SportsController {
 		}
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	@RequestMapping(value = "getproject")
+	public void getNotOrExistsProject(HttpServletRequest request, HttpServletResponse response, Model model,
+			int sportid){
+		SportsDAO sdao = DAOFactory.getSportsDAO();
+		List<TProject> notProject = sdao.getNotExistsProject(sportid);
+		List<TProject> existsProject = sdao.getExistsProject(sportid);
+		LayuiData laydata = new LayuiData();
+		laydata.code = LayuiData.SUCCESS;
+		laydata.msg = "执行成功";
+		laydata.data = notProject;
+		laydata.data1 = existsProject;
 		Writer out;
 		try {
 			out = response.getWriter();

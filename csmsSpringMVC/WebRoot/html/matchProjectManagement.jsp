@@ -171,7 +171,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
         		},
         		success:function(data){
         			if(data.code == 0){
-        				getNotExistsSport();
+        				//getNotExistsSport();
         				layer.confirm(data.msg, {icon: 1,btn: ['确定']}, function(){
 							table.reload("projectlist", { //此处是上文提到的 初始化标识id
 				                where: {},
@@ -212,7 +212,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 	/* 添加按钮 */
 	$("#btn_add").click(function(){
 		layer.open({
-			title:"文章信息编辑",
+			title:"添加赛项",
 			type: 1,
 			area: ['500px', '500px'],
 			skin: 'demo-class',
@@ -243,8 +243,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			        		prolist:prolists
 		        		},
 		        		success:function(data){
-	        				getNotExistsSport();
-	        				//$("input[name='addproid']").attr("checked", "");
+	        				//getNotExistsSport();
 	        				var ch = $("input[name='addproid']");
 	        				for (var i = 0; i < ch.length; i++) {
 				                ch[i].checked = false;                
@@ -263,6 +262,13 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 						                }
 						            });
 									layer.closeAll();
+									$("#added").html("");
+									$("#stusingle").html("");
+									$("#stuteam").html("");
+									$("#teasingle").html("");
+									$("#teateam").html("");
+									getSport();
+									sessionStorage.setItem("prolists", "[]");
 								});          				 
 		        			}
 		        			else{
@@ -280,6 +286,14 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 		        		},
 		        	});
 		        }
+		    },cancel: function(){
+		    	$("#added").html("");
+				$("#stusingle").html("");
+				$("#stuteam").html("");
+				$("#teasingle").html("");
+				$("#teateam").html("");
+				getSport();
+				sessionStorage.setItem("prolists", "[]");
 		    }
 	    });
 	});
@@ -287,7 +301,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 	$(document).ready(function(){
 		getSport();
 		getProject();
-		getNotExistsSport();
+		//getNotExistsSport();
 		sessionStorage.setItem("prolists", "[]");
 	})
 	/* 获取运动会列表，填充赛事下拉框 */
@@ -311,6 +325,8 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 								+ '</option>';
 					}
 					$("#sport").html(tmp);
+					/* 添加模态框中的下拉框 */
+					$("#addsport").html(tmp);
 					form.render();
 				}
 			},
@@ -381,7 +397,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 						}
 					}
 					$("#project").html(tmp);
-					var tmp1 = '',tmp2 = '',tmp3 = '',tmp4 = '';
+					/* var tmp1 = '',tmp2 = '',tmp3 = '',tmp4 = '';
 					for ( var i in succ.data) {
 						if(succ.data[i].protype==1){
 							tmp1 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
@@ -405,6 +421,60 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 					$("#stuteam").html(tmp2);
 					$("#teasingle").html(tmp3);
 					$("#teateam").html(tmp4);
+					form.render(); */
+				}
+			},
+			error : function() {
+				layer.msg('请求失败，稍后再试',{icon : 5});
+			}
+		});
+	}
+	
+	function getNotExistsProject(sportid){
+		$.ajax({
+			type : "post",
+			url : "../sports/getproject",
+			data : {
+				sportid:sportid
+			},
+			dataType : "json",
+			success : function(succ) {
+				if (succ.code == 1) {
+					layer.confirm(succ.msg, {
+        				  icon: 6,
+						  btn: ['确定']
+					});
+				} else {
+					var tmp = '',tmp1 = '',tmp2 = '',tmp3 = '',tmp4 = '';
+					for ( var i in succ.data1){
+						tmp += '<input type="checkbox" class="layui-col-4" lay-filter="addprojects" name="addproids" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'" disabled>';
+					}
+					for ( var i in succ.data) {
+						if(succ.data[i].protype==1){
+							tmp1 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==2){
+							tmp2 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==3){
+							tmp3 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==4){
+							tmp4 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}
+					}
+					$("#added").html(tmp);
+					$("#stusingle").html(tmp1);
+					$("#stuteam").html(tmp2);
+					$("#teasingle").html(tmp3);
+					$("#teateam").html(tmp4);
 					form.render();
 				}
 			},
@@ -413,6 +483,13 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			}
 		});
 	}
+	
+	/* 添加模态框的下拉框改变事件 */
+	form.on('select(addsport)', function(data){
+		var sportid = data.value
+		getNotExistsProject(sportid);
+		form.render('select');//select是固定写法 不是选择器
+	});
 });
 </script>
 <div class="layui-card" id="div_content" style="display: none;height:450px;">
@@ -429,6 +506,11 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 								lay-verify="required" lay-search="">
 								<option value="">请选择或输入赛事名称</option>
 							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">已添加项目</label>
+						<div class="layui-input-block" id="added">
 						</div>
 					</div>
 					<div class="layui-form-item">

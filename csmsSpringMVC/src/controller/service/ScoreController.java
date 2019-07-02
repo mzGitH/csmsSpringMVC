@@ -54,7 +54,7 @@ public class ScoreController {
 		int count = 0;
 		list = scenedao.selectByPageFinish(strwhere, page, limit);
 		count = scenedao.selectByPageFinishCount(strwhere);
-		LayuiData data = new LayuiData(0, "成功", count, list);
+		LayuiData data = new LayuiData(0, "成功", count, list,null);
 		out.write(JSON.toJSONString(data));
 		out.flush();
 		out.close();
