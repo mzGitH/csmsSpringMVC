@@ -59,7 +59,7 @@ public class SportsDAOImpl implements SportsDAO {
 
 	@Override
 	public int getCount(String where) {
-		String hql = "select count(*) from TConfig"+where;
+		String hql = "select count(sportid) from TConfig"+where;
 		return bdao.selectValue(hql);
 	}
 
@@ -72,7 +72,7 @@ public class SportsDAOImpl implements SportsDAO {
 
 	@Override
 	public int getTSPCount(String where) {
-		String hql = "select count(*) from VSportProject"+where;
+		String hql = "select count(sportid) from VSportProject"+where;
 		return bdao.selectValue(hql);
 	}
 

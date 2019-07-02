@@ -36,7 +36,7 @@ public class SportsController {
 		Expression exp = new Expression();
 		exp.orderByDesc("sportid");
 		String opreation = exp.toString();
-		int allcount = sdao.getCount(opreation);
+		int allcount = sdao.getCount("");
 		List<TConfig> sportlist = sdao.selectByPage(opreation, page, limit);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
@@ -158,9 +158,10 @@ public class SportsController {
 		if (proid != null && !proid.equals("") && !proid.equals("0")) {
 			exp.andEqu("proid", proid, Integer.class);
 		}
+		String notorder = exp.toString();
 		exp.orderByDesc("id");
 		String opreation = exp.toString();
-		int allcount = sdao.getTSPCount(opreation);
+		int allcount = sdao.getTSPCount(notorder);
 		List<VSportProject> sportlist = sdao.selectTSP(opreation, page, limit);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
