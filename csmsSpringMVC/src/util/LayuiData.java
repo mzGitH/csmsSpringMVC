@@ -22,19 +22,21 @@ public class LayuiData {
 	public String msg;
 	public int count;
 	public Object data;
+	public Object data1;
 	public String result;
 	public String result2;
 
-	public LayuiData(int code, String msg, int count, Object data) {
+	public LayuiData(int code, String msg, int count, Object data, Object data1) {
 		super();
 		this.code = code;
 		this.msg = msg;
 		this.count = count;
 		this.data = data;
+		this.data1 = data1;
 	}
 
 	public LayuiData(int code, String msg, int count, Object data,
-			String result, String result2) {
+			String result, String result2, Object data1) {
 		super();
 		this.code = code;
 		this.msg = msg;
@@ -42,6 +44,7 @@ public class LayuiData {
 		this.data = data;
 		this.result = result;
 		this.result2 = result2;
+		this.data1 = data1;
 	}
 
 	public LayuiData() {

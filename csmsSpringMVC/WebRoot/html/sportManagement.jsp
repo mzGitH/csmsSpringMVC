@@ -217,6 +217,7 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 					}
 				}
 				if(isnull){
+					sessionStorage.setItem("sportname", sportname);
 					/* 判断时间大小 */
 					if(compareDate(starttime,endtime)){
 						if(compareDate(reportstart,reportend)){
@@ -245,6 +246,88 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 									                }
 									            });	
 												layer.closeAll();
+												//添加赛事赛项，赛事值绑定
+												$("#newsportname").val(sessionStorage.getItem("sportname"));
+												$("#newsportid").val(data.result);
+												layer.open({
+													title:"添加赛项",
+													type: 1,
+													area: ['500px', '500px'],
+													skin: 'demo-class',
+													btn:['确认保存'],
+													maxmin: true,//显示最大化最小化按钮
+													content: $('#div_addProject'),
+													btn1: function(index, layero){
+														var addsport = $("#newsportid").val();
+														var prolistjson = JSON.parse(sessionStorage.getItem("prolists"));
+														var prolists = sessionStorage.getItem("prolists");
+														if(prolistjson.length<=0){
+															layer.confirm("赛项不能为空，请至少选择一个赛项", {
+												     			icon: 6,
+																btn: ['确定']
+															}); 
+														}else{
+															$.ajax({
+												        		type: 'get',
+												        		url: "../sports/addTSP",
+												        		dataType: 'json',
+												        		data:{
+													        		sportid:addsport,
+													        		prolist:prolists
+												        		},
+												        		success:function(data){
+											        				var ch = $("input[name='addproid']");
+											        				for (var i = 0; i < ch.length; i++) {
+														                ch[i].checked = false;                
+														            }
+											        				form.render('checkbox');
+											        				sessionStorage.setItem("prolists", "[]");
+												        			if(data.code == 0){
+												        				layer.confirm(data.msg, {
+												        				icon: 1,
+																		  btn: ['确定']
+																		}, function(){
+																			table.reload("projectlist", { //此处是上文提到的 初始化标识id
+																                where: {},
+																                page: {
+																                	curr:1
+																                }
+																            });
+																			layer.closeAll();
+																			$("#added").html("");
+																			$("#stusingle").html("");
+																			$("#stuteam").html("");
+																			$("#teasingle").html("");
+																			$("#teateam").html("");
+																			getSport();
+																			sessionStorage.setItem("prolists", "[]");
+																		});          				 
+												        			}
+												        			else{
+												        				layer.confirm(data.msg, {
+												        					  icon: 7,
+																			  btn: ['确定']
+																		});
+												        			}
+												        		},
+												        		error:function(){
+												        			layer.confirm('出现错误，请重试！', {
+												        				  icon: 6,
+																		  btn: ['确定']
+																	});
+												        		},
+												        	});
+												        }
+												    },cancel: function(){
+												    	$("#added").html("");
+														$("#stusingle").html("");
+														$("#stuteam").html("");
+														$("#teasingle").html("");
+														$("#teateam").html("");
+														getSport();
+														sessionStorage.setItem("prolists", "[]");
+												    }
+												});
 											});          				 
 					        			}
 					        			else{
@@ -403,6 +486,105 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 			}
 		});
 	});
+	/* 监控复选框事件 */
+	form.on('checkbox(addproject)', function(data){
+		var prolist = JSON.parse(sessionStorage.getItem("prolists"));
+		if(data.elem.checked){
+			prolist.push(data.value);
+			sessionStorage.setItem("prolists",JSON.stringify(prolist));
+		}else{
+			prolist.splice(jQuery.inArray(data.value,prolist),1);
+			sessionStorage.setItem("prolists",JSON.stringify(prolist));
+		}
+	}); 
+	/* 页面加载时运行 */
+	$(document).ready(function(){
+		getSport();
+		getProject();
+		sessionStorage.setItem("prolists", "[]");
+	})
+	/* 获取运动会列表，填充赛事下拉框 */
+	function getSport(){
+		$.ajax({
+			type : "post",
+			url : "../sports/getsport",
+			data : {},
+			dataType : "json",
+			success : function(succ) {
+				if (succ.code == 1) {
+					layer.confirm(succ.msg, {
+        				  icon: 6,
+						  btn: ['确定']
+					});
+				} else {
+					var tmp = '<option value="">请选择或输入赛事名称</option>';
+					for ( var i in succ.data) {
+						tmp += '<option value="' + succ.data[i].sportid +  '">'
+								+ succ.data[i].sportname
+								+ '</option>';
+					}
+					/* 添加模态框中的下拉框 */
+					$("#addsport").html(tmp);
+					form.render();
+				}
+			},
+			error : function() {
+				layer.msg('请求失败，稍后再试',{icon : 5});
+			}
+		});
+	}
+	/* 获取项目列表，填充项目下拉框 */
+	function getProject(){
+		$.ajax({
+			type : "post",
+			url : "../project/getproject",
+			data : {},
+			dataType : "json",
+			success : function(succ) {
+				if (succ.code == 1) {
+					layer.confirm(succ.msg, {
+        				  icon: 6,
+						  btn: ['确定']
+					});
+				} else {
+					var tmp1 = '',tmp2 = '',tmp3 = '',tmp4 = '';
+					for ( var i in succ.data) {
+						if(succ.data[i].protype==1){
+							tmp1 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==2){
+							tmp2 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==3){
+							tmp3 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}else if(succ.data[i].protype==4){
+							tmp4 += '<input type="checkbox" class="layui-col-4" lay-filter="addproject" name="addproid" title="'
+								+succ.data[i].proname+'" value="'
+								+succ.data[i].proid+'">';
+						}
+					}
+					$("#stusingle").html(tmp1);
+					$("#stuteam").html(tmp2);
+					$("#teasingle").html(tmp3);
+					$("#teateam").html(tmp4);
+					form.render();
+				}
+			},
+			error : function() {
+				layer.msg('请求失败，稍后再试',{icon : 5});
+			}
+		});
+	}
+	/* 添加模态框的下拉框改变事件 */
+	form.on('select(addsport)', function(data){
+		var sportid = data.value
+		getNotExistsProject(sportid);
+		form.render('select');//select是固定写法 不是选择器
+	});
 	/* 比较时间大小 */
 	function compareDate(starttime, endtime) {
 	    var start = new Date(starttime.replace("-", "/").replace("-", "/"));
@@ -434,6 +616,7 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
     }
 });
 </script>
+<!-- 添加赛事模态框 -->
 <div class="layui-card" id="div_content" style="display: none;height:450px;">
 	<div class="layui-card-body">
 		<div class="layui-card">
@@ -483,6 +666,50 @@ layui.use(['layer','upload','jquery','form','table','laydate'], function(){
 						</div>
 					</div>
 					<input type="hidden" id="sportid" value="" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 添加赛事相关赛项模态框 -->
+<div class="layui-card" id="div_addProject" style="display: none;height:450px;">
+	<div class="layui-card-body">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<!--表单开始-->
+				<form class="layui-form">
+					<input type="hidden" id="proid" value="" />
+					<div class="layui-form-item">
+						<label class="layui-form-label">赛事名称</label>
+						<div class="layui-input-block">
+							<input type="text" value="" id="newsportname" disabled class="layui-input layui-bg-gary" />
+							<input type="hidden" value="" id="newsportid" disabled />
+							<!-- <select name="addsport" id="addsport" lay-filter="addsport"
+								lay-verify="required" lay-search="">
+								<option value="">请选择或输入赛事名称</option>
+							</select> -->
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">学生个人赛</label>
+						<div class="layui-input-block" id="stusingle">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">学生团体赛</label>
+						<div class="layui-input-block" id="stuteam">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">教师个人赛</label>
+						<div class="layui-input-block" id="teasingle">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">教师团体赛</label>
+						<div class="layui-input-block" id="teateam">
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
