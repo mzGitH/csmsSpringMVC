@@ -15,6 +15,9 @@
         <property name="scorenumber" type="java.lang.Double">
             <column name="scorenumber" precision="53" scale="0" />
         </property>
+        <property name="scorerecord" type="java.lang.String">
+            <column name="scorerecord" />
+        </property>
         <property name="userid" type="java.lang.String">
             <column name="userid" length="20" />
         </property>
@@ -63,14 +66,14 @@
         <property name="scenelimit" type="java.lang.Integer">
             <column name="scenelimit" />
         </property>
-            <property name="collegelimit" type="java.lang.Integer">
-                <column name="collegelimit" />
-            </property>
-            <property name="totallimit" type="java.lang.Integer">
-                <column name="totallimit" />
-            </property>
-            <property name="protype" type="java.lang.Integer">
-                <column name="protype" />
-            </property>
+        <property name="collegelimit" type="java.lang.Integer">
+            <column name="collegelimit" />
+        </property>
+        <property name="totallimit" type="java.lang.Integer">
+            <column name="totallimit" />
+        </property>
+        <property name="protype" type="java.lang.Integer">
+            <column name="protype" />
+        </property>
     </class>
 </hibernate-mapping>
