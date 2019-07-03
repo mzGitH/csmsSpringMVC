@@ -6,31 +6,29 @@
 -->
 <hibernate-mapping>
     <class name="model.VMajorScore" table="V_MajorScore" schema="dbo" catalog="CSMS">
-        <composite-id name="id" class="model.VMajorScoreId">
-            <key-property name="collegeid" type="java.lang.Integer">
-                <column name="collegeid" />
-            </key-property>
-            <key-property name="collegename" type="java.lang.String">
-                <column name="collegename" length="20" />
-            </key-property>
-            <key-property name="majorid" type="java.lang.Integer">
-                <column name="majorid" />
-            </key-property>
-            <key-property name="majorname" type="java.lang.String">
-                <column name="majorname" length="100" />
-            </key-property>
-            <key-property name="sportid" type="java.lang.Integer">
-                <column name="sportid" />
-            </key-property>
-            <key-property name="sportname" type="java.lang.String">
-                <column name="sportname" length="200" />
-            </key-property>
-            <key-property name="scorenumber" type="java.lang.Double">
-                <column name="scorenumber" precision="53" scale="0" />
-            </key-property>
-            <key-property name="allscore" type="java.lang.Double">
-                <column name="allscore" precision="53" scale="0" />
-            </key-property>
-        </composite-id>
+        <id name="majorid" type="java.lang.Integer">
+            <column name="majorid" />
+        </id>
+        <property name="collegeid" type="java.lang.Integer">
+            <column name="collegeid" />
+        </property>
+        <property name="collegename" type="java.lang.String">
+            <column name="collegename" length="20" />
+        </property>
+        <property name="majorname" type="java.lang.String">
+            <column name="majorname" length="100" />
+        </property>
+        <property name="sportid" type="java.lang.Integer">
+            <column name="sportid" />
+        </property>
+        <property name="sportname" type="java.lang.String">
+            <column name="sportname" length="200" />
+        </property>
+        <property name="scorenumber" type="java.lang.Double">
+            <column name="scorenumber" precision="53" scale="0" />
+        </property>
+        <property name="allscore" type="java.lang.Double">
+            <column name="allscore" precision="53" scale="0" />
+        </property>
     </class>
 </hibernate-mapping>

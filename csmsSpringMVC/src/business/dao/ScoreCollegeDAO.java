@@ -134,4 +134,38 @@ public interface ScoreCollegeDAO {
 	 * @param strwhere 查询条件（为空填写为""）
 	 */
 	public int getUserCount(String strwhere);
+	
+
+	/**
+	 * 分页查询所有项目成绩
+	 * @param strwhere 查询条件（为空填写为""）
+	 * @param startPage 当前页
+	 * @param pageSize 每页显示数量
+	 * @return List<ScoreCollege>数据集
+	 */
+	public List<VScore> getProjectByPage(String strwhere,int startPage,int pageSize);
+
+	/**
+	 * 查询项目数据总条数
+	 * @param strwhere 查询条件（为空填写为""）
+	 */
+	public int getProjectCount(String strwhere);
+	
+
+
+	/**
+	 * 分页查询所有成绩
+	 * @param strwhere 查询条件（为空填写为""）
+	 * @param startPage 当前页
+	 * @param pageSize 每页显示数量
+	 * @return List<ScoreCollege>数据集
+	 */
+	public List<VScore> getScoreByPage(String strwhere,int startPage,int pageSize);
+	
+
+	/**
+	 * 查询项目数据总条数
+	 * @param strwhere 查询条件（为空填写为""）
+	 */
+	public int getScoreCount(String strwhere);
 }

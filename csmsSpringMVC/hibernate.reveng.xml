@@ -91,22 +91,20 @@
 		<primary-key>
 			<generator class="identity"></generator>
 		</primary-key>
-<<<<<<< HEAD
 	</table>
-=======
 
-	</table>
 	<table name="T_RoleSystemModel" schema="dbo" catalog="CSMS"
-	class="model.TRoleSysModel">
+		class="model.TRoleSysModel">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
 	</table>
->>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git
 	<table name="V_SportProject" schema="dbo" catalog="CSMS"
 		class="model.VSportProject">
 		<primary-key>
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
-<<<<<<< HEAD
 	<table name="VScoreSignIn" schema="dbo" catalog="CSMS"
 		class="model.VScoreSignIn">
 		<primary-key>
@@ -119,13 +117,28 @@
 			<generator class="assigned"></generator>
 		</primary-key>
 	</table>
-<table name="V_MajorScore" schema="dbo" catalog="CSMS"
-	class="model.VMajorScore">
+	<table name="V_MajorScore" schema="dbo" catalog="CSMS"
+		class="model.VMajorScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_CollegeScore" schema="dbo" catalog="CSMS"
+		class="model.VCollegeScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_ClassScore" schema="dbo" catalog="CSMS"
+		class="model.VClassScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+<table name="V_Score" schema="dbo" catalog="CSMS"
+	class="model.VScore">
 	<primary-key>
 		<generator class="identity"></generator>
 	</primary-key>
 </table>
 </hibernate-reverse-engineering>
-=======
-</hibernate-reverse-engineering>
->>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git

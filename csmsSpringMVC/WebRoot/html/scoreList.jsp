@@ -12,10 +12,10 @@
 </head>
 <style>
 	body .demo-class .layui-layer-title{background:#4476A7; color:#fff; border: none;}
-body .demo-class .layui-layer-btn{border-top:1px solid #4476A7}
-body .demo-class .layui-layer-btn a{background:#4476A7;}
-body .demo-class .layui-layer-btn .layui-layer-btn1{background:#4476A7;}
-body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e4;}
+	body .demo-class .layui-layer-btn{border-top:1px solid #4476A7}
+	body .demo-class .layui-layer-btn a{background:#4476A7;}
+	body .demo-class .layui-layer-btn .layui-layer-btn1{background:#4476A7;}
+	body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e4;}
 </style>
 <body>
 
@@ -34,31 +34,31 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				</div>
 				<div class="layui-input-inline">
 					<select name="project" id="project" lay-filter="project"
-						lay-verify="required" lay-search="">
+						lay-search="">
 						<option value="">请选择或输入项目名称</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline collegediv" style="display:none;">
 					<select name="college" id="college" lay-filter="college"
-						lay-verify="required" lay-search="">
+						lay-search="">
 						<option value="">请选择或输入学院名称</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline majordiv">
 					<select name="major" id="major" lay-filter="major"
-						lay-verify="required" lay-search="">
+						lay-search="">
 						<option value="">请选择或输入专业名称</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline classesdiv">
 					<select name="classes" id="classes" lay-filter="classes"
-						lay-verify="required" lay-search="">
+						lay-search="">
 						<option value="">请选择或输入班级名称</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline sportdiv">
 					<select name="sport" id="sport" lay-filter="sport"
-						lay-verify="required" lay-search="">
+						lay-search="">
 						<option value="">请选择或输入赛事名称</option>
 					</select>
 				</div>
@@ -77,19 +77,31 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
       </div>
     </div>
 <script src="../layui/layui.all.js"></script>
-<script src="../js/jquery-2.1.1.min.js" charset="utf-8"></script>
-<script id="barDemo" type="text/html">
-    <button class="layui-btn layui-btn-sm layui-bg-green query">查看详情</button>
+<script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
+<script id="barDemoproject" type="text/html">
+    <button class="layui-btn layui-btn-sm layui-bg-green queryproject">查看详情</button>
+</script>
+<script id="barDemocollege" type="text/html">
+    <button class="layui-btn layui-btn-sm layui-bg-green querycollege">查看详情</button>
+</script>
+<script id="barDemomajor" type="text/html">
+    <button class="layui-btn layui-btn-sm layui-bg-green querymajor">查看详情</button>
+</script>
+<script id="barDemoclasses" type="text/html">
+    <button class="layui-btn layui-btn-sm layui-bg-green queryclasses">查看详情</button>
+</script>
+<script id="barDemouser" type="text/html">
+    <button class="layui-btn layui-btn-sm layui-bg-green queryuser">查看详情</button>
 </script>
 <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container"></div>
 </script>
 <script type="text/javascript">
-layui.use([ 'table', 'form', 'form', 'layer' ],function() {
+layui.use([ 'table', 'form', 'jquery', 'layer' ],function() {
 	var layer = layui.layer;
 	var table = layui.table;
 	var form = layui.form;
-	var $ = layui.form;
+	var $ = layui.jquery;
 	/* 通过项目统计成绩 */
 	function getProject(){
 		table.render({
@@ -115,6 +127,15 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			},
 			{
 				align : 'center',
+				field : 'proname',
+				title : '项目名称',
+				templet:function(data){
+					return '<span>'+data.proname+'</span>'
+						+'<input type="hidden" value="'+data.proid+'" />'
+				}
+			},
+			{
+				align : 'center',
 				field : 'userid',
 				title : '学号/工号'
 			},
@@ -125,13 +146,8 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			},
 			{
 				align : 'center',
-				field : 'sumscore',
-				title : '总成绩'
-			},
-			{
-				align : 'center',
-				field : 'avgscore',
-				title : '平均成绩'
+				field : 'scorenumber',
+				title : '最好成绩'
 			},
 			{
 				align : 'center',
@@ -147,12 +163,20 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 				align : 'center',
 				field : 'classname',
 				title : '班级名称'
+			},{
+				align : 'center',
+				field : 'sportname',
+				title : '赛事名称',
+				templet:function(data){
+					return '<span>'+data.sportname+'</span>'
+						+'<input type="hidden" value="'+data.sportid+'" />'
+				}
 			},
 			{
 				align : 'center',
 				field : '',
 				title : '操作',
-				toolbar : '#barDemo'
+				toolbar : '#barDemoproject'
 			} ] ]
 		});
 	}
@@ -201,13 +225,17 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			{
 				align : 'center',
 				field : 'sportname',
-				title : '赛事名称'
+				title : '赛事名称',
+				templet:function(data){
+					return '<span>'+data.sportname+'</span>'
+						+'<input type="hidden" value="'+data.sportid+'" />'
+				}
 			},
 			{
 				align : 'center',
 				field : '',
 				title : '操作',
-				toolbar : '#barDemo'
+				toolbar : '#barDemocollege'
 			} ] ]
 		});
 	}
@@ -261,13 +289,17 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			{
 				align : 'center',
 				field : 'sportname',
-				title : '赛事名称'
+				title : '赛事名称',
+				templet:function(data){
+					return '<span>'+data.sportname+'</span>'
+						+'<input type="hidden" value="'+data.sportid+'" />'
+				}
 			},
 			{
 				align : 'center',
 				field : '',
 				title : '操作',
-				toolbar : '#barDemo'
+				toolbar : '#barDemomajor'
 			} ] ]
 		});
 	}
@@ -326,13 +358,17 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			{
 				align : 'center',
 				field : 'sportname',
-				title : '赛事名称'
+				title : '赛事名称',
+				templet:function(data){
+					return '<span>'+data.sportname+'</span>'
+						+'<input type="hidden" value="'+data.sportid+'" />'
+				}
 			},
 			{
 				align : 'center',
 				field : '',
 				title : '操作',
-				toolbar : '#barDemo'
+				toolbar : '#barDemoclasses'
 			} ] ]
 		});
 	}
@@ -381,18 +417,20 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			},
 			{
 				align : 'center',
-				field : 'sportnumber',
-				title : '赛事名称'
-			},
-			{
-				align : 'center',
 				field : 'collegename',
 				title : '学院名称'
 			},
 			{
 				align : 'center',
 				field : 'majorname',
-				title : '专业名称'
+				title : '专业名称',
+				templet:function(data){
+					if(data.majorid==undefined){
+						return '教职工'
+					}else{
+						return data.majorname
+					}
+				}
 			},
 			{
 				align : 'center',
@@ -401,9 +439,18 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 			},
 			{
 				align : 'center',
+				field : 'sportname',
+				title : '赛事名称',
+				templet:function(data){
+					return '<span>'+data.sportname+'</span>'
+						+'<input type="hidden" value="'+data.sportid+'" />'
+				}
+			},
+			{
+				align : 'center',
 				field : '',
 				title : '操作',
-				toolbar : '#barDemo'
+				toolbar : '#barDemouser'
 			} ] ]
 		});
 	}
@@ -507,7 +554,7 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 				if (succ == "失败") {
 					layer.msg("请刷新后重试");
 				} else {
-					var tmp = '<option value="">请选择或输入学院名称</option>';
+					var tmp = '<option value="">请选择或输入赛事名称</option>';
 					for ( var i in succ.data) {
 						tmp += '<option value="' + succ.data[i].sportid +  '">'
 								+ succ.data[i].sportname
@@ -564,6 +611,48 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 
 		});
 	}
+	/* 统计下拉框改变事件 */
+	form.on('select(statistics)',function(data) {
+		form.render();
+		/* 获取统计方式 */
+		var statistics = $("#statistics").val();
+		if(statistics == "project"){
+			getProject();
+			$("#project").next().show();
+			$("#college").next().hide();
+			$("#major").next().hide();
+			$("#classes").next().hide();
+			$("#username").hide();
+		}else if(statistics == "college"){
+			getCollege();
+			$("#project").next().hide();
+			$("#college").next().show();
+			$("#major").next().hide();
+			$("#classes").next().hide();
+			$("#username").hide();
+		}else if(statistics == "major"){
+			getMajor();
+			$("#project").next().hide();
+			$("#college").next().show();
+			$("#major").next().show();
+			$("#classes").next().hide();
+			$("#username").hide();
+		}else if(statistics == "classes"){
+			getClasses();
+			$("#project").next().hide();
+			$("#college").next().show();
+			$("#major").next().show();
+			$("#classes").next().show();
+			$("#username").hide();
+		}else if(statistics == "user"){
+			getUser();
+			$("#project").next().hide();
+			$("#college").next().show();
+			$("#major").next().show();
+			$("#classes").next().show();
+			$("#username").show();
+		}
+	});
 	//查询提交
 	form.on('submit(search)', function(data) {
 		var sport = $("#sport").val();
@@ -588,74 +677,67 @@ layui.use([ 'table', 'form', 'form', 'layer' ],function() {
 		});
 		return false;
 	});
-});
-/* 页面加载 */
-$(document).ready(function() {
-	/* 加载筛选下拉框数据 */
-	collegelist();
-	projectlist();
-	sportlist()
-	/* 获取统计方式 */
-	var statistics = $("#statistics").val();
-	if(statistics == "project"){
+	/* 页面加载 */
+	$(document).ready(function() {
+		/* 加载筛选下拉框数据 */
+		collegelist();
+		projectlist();
+		sportlist();
 		getProject();
-		$("#project").show();
-		$("#college").hide();
-		$("#major").hide();
-		$("#classes").hide();
+		
+		$("#project").next().show();
+		$("#college").next().hide();
+		$("#major").next().hide();
+		$("#classes").next().hide();
 		$("#username").hide();
-	}else if(statistics == "college"){
-		getCollege();
-		$("#project").hide();
-		$("#college").show();
-		$("#major").hide();
-		$("#classes").hide();
-		$("#username").hide();
-	}else if(statistics == "major"){
-		getMajor();
-		$("#project").hide();
-		$("#college").show();
-		$("#major").show();
-		$("#classes").hide();
-		$("#username").hide();
-	}else if(statistics == "classes"){
-		getClasses();
-		$("#project").hide();
-		$("#college").show();
-		$("#major").show();
-		$("#classes").show();
-		$("#username").hide();
-	}else if(statistics == "user"){
-		getUser();
-		$("#project").show();
-		$("#college").show();
-		$("#major").show();
-		$("#classes").show();
-		$("#username").show();
-	}
-})
-/* 查看详情点击事件 */
-$(document).on('click',".query",function() {
-	var userid = $(this).parent()
-			.parent().prev().prev()
-			.prev().prev().prev().prev()
-			.prev().children().text()
-			.trim();
-	var username = $(this).parent()
-			.parent().prev().prev()
-			.prev().prev().prev()
-			.prev().children().text()
-			.trim();
-	var avgscore = $(this).parent()
-			.parent().prev().prev()
-			.prev().prev().children()
-			.text().trim();
-	var sumscore = $(this).parent()
-			.parent().prev().prev().prev()
-			.prev().prev().children()
-			.text().trim();
-	window.location.href = "getscore.action?op=singledetail&userid="
-			+ userid+"&username"+username+"&avgscore="+avgscore+"&sumscore"+sumscore;
+	})
+	/* 查看详情点击事件 */
+	$(document).on('click',".queryproject",function() {
+		var proid = $(this).parent().parent()
+				.prev().prev().prev().prev()
+				.prev().prev().prev().prev()
+				.find("input").val().trim();
+		var sportid = $(this).parent().parent()
+				.prev().find("input").val().trim();
+		window.location.href = "scoreDetail.jsp?type=project&typeid="+proid+"&sportid="+sportid;
+	});
+	/* 查看详情点击事件 */
+	$(document).on('click',".querycollege",function() {
+		var collegeid = $(this).parent().parent()
+				.prev().prev().prev().prev()
+				.find("input").val().trim();
+		var sportid = $(this).parent().parent()
+				.prev().find("input").val().trim();
+		window.location.href = "scoreDetail.jsp?type=college&typeid="+collegeid+"&sportid="+sportid;
+	});
+	/* 查看详情点击事件 */
+	$(document).on('click',".querymajor",function() {
+		var majorid = $(this).parent().parent()
+				.prev().prev().prev().prev().prev()
+				.find("input").val().trim();
+		var sportid = $(this).parent().parent()
+				.prev().find("input").val().trim();
+		window.location.href = "scoreDetail.jsp?type=major&typeid="+majorid+"&sportid="+sportid;
+	});
+	/* 查看详情点击事件 */
+	$(document).on('click',".queryclasses",function() {
+		var classesid = $(this).parent().parent()
+				.prev().prev().prev().prev().prev()
+				.prev().find("input").val().trim();
+		var sportid = $(this).parent().parent()
+				.prev().find("input").val().trim();
+		window.location.href = "scoreDetail.jsp?type=classes&typeid="+classesid+"&sportid="+sportid;
+	});
+	/* 查看详情点击事件 */
+	$(document).on('click',".queryuser",function() {
+		var userid = $(this).parent().parent()
+				.prev().prev().prev().prev()
+				.prev().prev().prev().prev()
+				.children().text().trim();
+		var sportid = $(this).parent().parent()
+				.prev().find("input").val().trim();
+		window.location.href = "scoreDetail.jsp?type=user&typeid="+userid+"&sportid="+sportid;
+	});
 });
 </script>
 </body>
