@@ -51,7 +51,6 @@
 		<mapping resource="model/VNews.hbm.xml" />
 		<mapping resource="model/TConfig.hbm.xml" />
 		<mapping resource="model/TForumTitle.hbm.xml" />
-		<mapping resource="model/VForumTitle.hbm.xml" />
 		<mapping resource="model/TUser.hbm.xml" />
 		<mapping resource="model/VUser.hbm.xml" />
 		<mapping resource="model/VScoreSignIn.hbm.xml" />

@@ -12,7 +12,6 @@ import model.TConfig;
 import model.TForumContent;
 import model.TForumTitle;
 import model.VForum;
-import model.VForumTitle;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -165,7 +164,7 @@ public class ForumController {
 	public String getForumTitle(HttpServletRequest request, int forumid,
 			HttpServletResponse response, Model model) {
 		ForumDAO fdao = DAOFactory.getForumDAO();
-		VForumTitle forum = fdao.getVForumById(forumid);
+		TForumTitle forum = fdao.getVForumById(forumid);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		model.addAttribute("forum", forum);
