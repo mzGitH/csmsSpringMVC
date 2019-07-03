@@ -349,7 +349,7 @@ function loadSport(selectId,type, form){
 	if(stageData != '' && stageData != undefined) {
 		if(stageData.code == 0) {
 			$('#' + selectId).html(""); //获取id为selectId指定的控件内容
-			var str = "<option value=''>请选择运动会</option>";
+			var str = "<option value='0'>请选择运动会</option>";
 			//alert(stageData.data.length);
 			for(var i = 0; i < stageData.data.length; i++) {
 				if(stageData.data.length==1)

@@ -27,19 +27,19 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						<option value="">请选择运动会</option>
 					</select>
 				</div>
-				<div class="layui-inline">
+				<div class="layui-inline" id="selectpro" style="display: none">
 					<select id="systemtype" lay-search>
 						<option value="">请选择项目</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline" id="div_input" style="display: none">
 					<input type="text" name="sysmothed" id="sysmothed" placeholder="请输入查询条件" class="layui-input" autocomplete="off">
 			    </div>
-				<div class="layui-inline">
+				<div class="layui-inline" id="div_search" style="display: none">
 					<button id="btnselfrontinfo" type="button"
 						class="layui-btn layui-bg-blue">查询</button>
 				</div>
-				<div class="layui-inline">
+				<div class="layui-inline" id="div_add" style="display: none">
 					<button id="btn_add" type="button"
 						class="layui-btn layui-bg-blue">添加</button>
 				</div>
@@ -48,7 +48,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
       
       <div class="layui-card-body">
         <table id="matchlist" style="text-align: center;" class="layui-table" lay-filter="LAY-user-manage">
-        	
+        	<center id="tips"><p>请先选择运动会</p></center>
         </table>
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
@@ -163,12 +163,26 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 	         theme: '#4476A7',
 	        trigger: 'click'
 		});
-		
-		/*加载表格*/
+		//运动会下拉框改变
+  		form.on('select(sport)', function(data){
+  		if(data.value==0){
+  			$("#div_input").hide();
+  			$("#div_search").hide(); 
+  			$("#div_add").hide();
+  			$("#selectpro").hide();
+  		}else
+  		{
+  			$("#div_input").show();
+  			$("#div_search").show(); 
+  			$("#div_add").show();
+  			$("#selectpro").show();
+  		}
+  		$("#tips").hide();
+  			/*加载表格*/
 		table.render({
 			elem : '#matchlist',
 			id:'satustable',
-			url : '../match/getmatch',
+			url : '../match/getmatch?sportid='+data.value,
 			title : '后台用户数据表',
 			height: "full-160",
 			skin : 'line',
@@ -225,19 +239,6 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			 },
 		});	
 		
-		//运动会下拉框改变
-  		form.on('select(sport)', function(data){
-  			table.reload('satustable', {
-				method : 'post',
-				where : {
-					'wherecondition' : $("#sysmothed").val().trim(),
-					'sportid':data.value,
-					'proid':$("#systemtype").val()
-						},
-				page : {
-					curr : 1
-					}
-			});
 			loadSelectProject('systemtype',data.value,form);
 			form.render();
 		});
@@ -258,8 +259,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		});
 		
   		//添加按钮点击事件
-  		$("#btn_add").click(function(){
-  		
+  		$("#btn_add").click(function(){ 
   			//加载下拉框
   			loadSelectProject('addproid','now',form);
   			loadSport('addsport','now', form);

@@ -124,6 +124,13 @@
 		<!-- 表格结束 -->
 		
 	</div>
+	<!-- 表格工具栏开始 -->
+	<script type="text/html" id="toolbarDemo">
+  		<div class="layui-btn-container">
+    		<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="getCheckData">删除选中的数据</button> 
+  		</div>
+	</script>
+	<!-- 表格工具栏结束 -->
 	<script src="../js/jquery-3.3.1.js" charset="utf-8"></script>
 	
 	<script src="../layui/layui.js" charset="utf-8"></script>
@@ -152,8 +159,11 @@
 			height: "full-160",
 			skin : 'line',
 			even : true,
+			toolbar: '#toolbarDemo',
 			cols : [ 
-			     [ {
+			     [ 
+			     {type: 'checkbox', fixed: 'left'},
+			     {
 					type : 'numbers',
 					title : '序号',
 					align : 'center'
@@ -213,7 +223,63 @@
 					curr : 1
 					}
 			});
-		})
+		});
+		
+	 	//头工具栏事件
+  		table.on('toolbar(blogUser)', function(obj){
+    		var checkStatus = table.checkStatus(obj.config.id);
+   		    switch(obj.event){
+      			case 'getCheckData':
+        			var data = checkStatus.data;
+        				//layer.alert(JSON.stringify(data));
+        			 layer.confirm('此操作是不可逆的,确定要删除么？', {
+					  btn: ['确定','取消'],
+					  icon:3
+					}, function(){
+        				$.ajax({
+			        		type: 'get',
+			        		url: "../adminsystem/dellog",
+			        		dataType: 'json',
+			        		data:{
+			        		data:JSON.stringify(data)
+			        		},
+			        		success:function(data){
+			        			if(data.code == 0){
+			        				layer.confirm(data.msg, {
+			        				icon: 1,
+									  btn: ['确定']
+									}, function(){
+										table.reload("adminuser", { //此处是上文提到的 初始化标识id
+							                where: {
+							                	'sysmothed' : $("#sysmothed").val().trim(),
+												'userid' : $("#userid").val().trim(),
+												'starttime': $("#starttime").val(),
+												'systemtype':$("#systemtype").val(),
+												'endtime': $("#endtime").val()
+							                },page: {
+							                curr:1
+							                }
+							            });	
+										layer.closeAll();
+									});          				 
+			        			}
+			        			else{
+			        				layer.confirm(data.msg, {
+			        				icon: 7,
+										  btn: ['确定']
+									});
+			        			}
+			        		},
+			        		error:function(){
+			        			layer.confirm('出现错误，删除失败，请重试！', {
+			        				icon: 6,
+									  btn: ['确定']
+								});
+			        		},
+			        	});
+			        })
+   		 	 };
+ 		 });
 		
 	});
 	</script>

@@ -49,6 +49,15 @@ public interface iHibBaseDAO {
 	public boolean delete(Object obj);
 
 	/**
+	 * 执行表数据批量删除操作 该hibernate删除方法仅用于对单个的瞬时对象进行持久化删除操作
+	 * 
+	 * @param Object
+	 *            Hibernate的表映射对象 当前为要删除表的实体类对象
+	 * @return boolean true 成功 false 失败
+	 */
+	public boolean delete(List<Object> objlist);
+
+	/**
 	 * 修改表记录，使用对应表的实体类对象实现 该hibernate更新方法仅用于对单个的瞬时对象进行持久化操作
 	 * 
 	 * @param Object
@@ -251,12 +260,13 @@ public interface iHibBaseDAO {
 	public boolean executeBatch(Object[] obj, int[] model);
 
 	public boolean executeBatch(List<Object> list, List<Integer> models);
-	
 
 	/**
 	 * 使用无参数的sql实现查询的
-	 * @param String 符合sql结构的无参数查询语句
-	 * @return List  失败返回null
+	 * 
+	 * @param String
+	 *            符合sql结构的无参数查询语句
+	 * @return List 失败返回null
 	 */
-	public List selectBysql(String sql) ;
+	public List selectBysql(String sql);
 }
