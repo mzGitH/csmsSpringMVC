@@ -91,10 +91,13 @@
 		<primary-key>
 			<generator class="identity"></generator>
 		</primary-key>
-
 	</table>
+
 	<table name="T_RoleSystemModel" schema="dbo" catalog="CSMS"
-	class="model.TRoleSysModel">
+		class="model.TRoleSysModel">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
 	</table>
 	<table name="V_SportProject" schema="dbo" catalog="CSMS"
 		class="model.VSportProject">
@@ -102,4 +105,46 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
+	<!-- <table name="VScoreSignIn" schema="dbo" catalog="CSMS"
+		class="model.VScoreSignIn">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table> -->
+	<table name="V_UserScore" schema="dbo" catalog="CSMS"
+		class="model.VUserScore">
+		<primary-key>
+			<generator class="assigned"></generator>
+		</primary-key>
+	</table>
+	<table name="V_MajorScore" schema="dbo" catalog="CSMS"
+		class="model.VMajorScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_CollegeScore" schema="dbo" catalog="CSMS"
+		class="model.VCollegeScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_ClassScore" schema="dbo" catalog="CSMS"
+		class="model.VClassScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="V_Score" schema="dbo" catalog="CSMS"
+		class="model.VScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+<table name="V_Arrange" schema="dbo" catalog="CSMS"
+	class="model.VArrange">
+	<primary-key>
+		<generator class="identity"></generator>
+	</primary-key>
+</table>
 </hibernate-reverse-engineering>

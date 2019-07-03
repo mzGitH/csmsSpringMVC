@@ -91,7 +91,11 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					type : 'numbers',
 					title : '序号',
 					align : 'center'
-				}, {
+				},  {
+			     field : 'sportname',
+			     align : 'center',
+			     title : '运动会名称',
+			    },{
 			     field : 'arrname',
 			     align : 'center',
 			     title : '场次名称',
@@ -117,6 +121,21 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					align : 'center',
 					templet : function(data) {
 						return data.leveltype==1 ? "决赛":"预赛";
+					}
+				},{
+					field : '',
+					title : '比赛状态',
+					align : 'center',
+					templet : function(data) {
+						if(data.state==0){
+							return "未比赛";
+						}
+						if(data.state==1){
+							return "比赛中";
+						}
+						if(data.state==2){
+							return "比赛完成";
+						}
 					}
 				},{
 			     field : 'createdate',
@@ -182,6 +201,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 									}, function(){
 										$("input[type='radio']").removeAttr('checked');
 										//form.render('radio', 'test2')
+										layer.closeAll();
 									});
 			        			}
 			        		},
@@ -191,6 +211,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 									  btn: ['确定']
 								}, function(){
 									//form.render('radio', 'test2')
+									layer.closeAll();
 									$("input[type='radio']").removeAttr('checked');
 								});
 			        		},

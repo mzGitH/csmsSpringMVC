@@ -23,8 +23,13 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
     		<blockquote class="layui-elem-quote" style="border-left: none">
 			<form class="layui-form">
 				<div class="layui-inline">
-					<select id="systemtype">
-						<option value="0">请选择项目</option>
+					<select id="sport">
+						
+					</select>
+				</div>
+				<div class="layui-inline">
+					<select id="project" lay-search>
+						
 					</select>
 				</div>
 				<div class="layui-input-inline">
@@ -43,7 +48,8 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
         <script type="text/html" id="addArrUser">
-          <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addArrUser">添加人数</button>
+          <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addArrUser">添加</button>
+		  <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="searchUser">查询</button>
         </script>
         <script type="text/html" id="check">
 		  <div class="layui-form"><input type="checkbox" name="checkuser" title="添加"></div>
@@ -137,7 +143,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					table.render({
 						elem : '#arruser',
 						id:'arruser',
-						url : '../arrange/getarruser?proid='+data.proid,
+						url : '../arrange/getarruser?proid='+data.proid+"&&arrid="+arrid,
 						title : '后台用户数据表',
 						height: "full-100",
 						toolbar: '#sureAdd',
@@ -145,21 +151,21 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						even : true,
 						cols : [ 
 						     [ {type: 'checkbox', fixed: 'left'},{
-						     field : 'userid',
-						     align : 'center',
-						     title : '工号/学号',
-						    }, {
-						     field : 'username',
-						     align : 'center',
-						     title : '姓名',
-						    }] 
-						 ],
+							     field : 'userid',
+							     align : 'center',
+							     title : '工号/学号',
+							    }, {
+							     field : 'username',
+							     align : 'center',
+							     title : '姓名',
+							    }] 
+							 ],
 					});	
 					
 					layer.open({
   						title:"添加该场次运动员",
   						type: 1,
-  						area: ['500px', '300px'],
+  						area: ['500px', '400px'],
   						skin: 'demo-class',
   						//btn:['确认保存'],
   						maxmin: true,//显示最大化最小化按钮
@@ -193,20 +199,90 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 								dataType : 'json',
 								contentType : 'application/json;charset=UTF-8',//contentType 很重要
 								success : function(e) {
-									
+									if(e.code==0){
+										layer.confirm(e.msg, {
+				        				icon: 1,
+										  btn: ['确定']
+										}, function(){
+											table.reload("arruser", { //此处是上文提到的 初始化标识id
+								                where: {
+								                },page: {
+								                curr:1
+								                }
+								            });	
+								            table.reload("satustable", { //此处是上文提到的 初始化标识id
+								                where: {
+								                },page: {
+								                curr:1
+								                }
+								            });	
+								            //form.render('radio', 'test2');
+											layer.closeAll();
+										}); 
+									}
+									else{
+										layer.alert(e.msg);
+									}
 								},
 								error : function(e) {
-									//layer.alert("error:"+e.msg);
+									layer.alert("error:"+e.msg);
 								}
 							})
 					      break;
 					    };
 					  });
 				break;
+				
+				//查询按钮
+				case 'searchUser':
+					var arrid = data.arrid;
+					//表格加载
+					table.render({
+						elem : '#searchuser',
+						id:'searchuser',
+						url : '../arrange/searchuser?arrid='+arrid,
+						title : '后台用户数据表',
+						height: "full-80",
+						skin : 'line',
+						even : true,
+						cols : [ 
+						     [ {
+								type : 'numbers',
+								title : '序号',
+								align : 'center'
+								},{
+						     field : 'userid',
+						     align : 'center',
+						     title : '工号/学号',
+						    }, {
+						     field : 'username',
+						     align : 'center',
+						     title : '姓名',
+						    }] 
+						 ],
+					});	
+					
+					layer.open({
+  						title:"添加该场次运动员",
+  						type: 1,
+  						area: ['500px', '400px'],
+  						skin: 'demo-class',
+  						//btn:['确认保存'],
+  						maxmin: true,//显示最大化最小化按钮
+  						content: $('#div_search'),
+  						//btn1: function(index, layero){
+  							
+  						//},
+  						cancel: function(){ 
+  							
+  						}
+					});
+				break;
 			};
 		});
 		//下拉框加载
 		$(function() {
+			//运动会下拉框加载
 			$.ajax({
 				url : "../score/getsport",
 				type : "POST",
@@ -229,6 +305,41 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				}
 	
 			})
+			
+			//项目下拉框加载
+			$.ajax({
+				url : "../score/getproject",
+				type : "POST",
+				data : null,
+				dataType : 'json',
+				contentType : 'application/json;charset=UTF-8',//contentType 很重要
+				success : function(e) {
+					//alert(e.data[0].collegeid);
+					var s = $("#project").html();
+					var str = "<option value='0'>请选择项目</option>";
+					for(var i=0;i<e.resultObject.length;i++){
+						var typeid = e.resultObject[i].protype;
+						var protypename="";
+						if(typeid==1){
+							protypename="学生个人赛";
+						}else if(typeid==2){
+							protypename="学生团体赛";
+						}
+						else if(typeid==3){
+							protypename="教职工个人赛";
+						}else if(typeid==4){
+							protypename="教职工团体赛";
+						}
+						str += "<option value="+e.resultObject[i].proid+">"+e.resultObject[i].proname+"("+protypename+")"+"</option>"
+					}
+					$("#project").append(str);
+					form.render("select");
+				},
+				error : function(e) {
+					layer.alert("error:"+e.msg);
+				}
+	
+			})
 		});
 		/* 点击查询对网站用户进行筛选 */
 		$("#btnselfrontinfo").click(function() {
@@ -236,8 +347,8 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 				method : 'post',
 				where : {
 					'wherecondition' : $("#sysmothed").val().trim(),
-					'protype':$("#protype").val(),
-					'sport':$("#sport").val(),
+					'projectid':$("#project").val(),
+					'sportid':$("#sport").val(),
 						},
 				page : {
 					curr : 1
@@ -247,16 +358,22 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 	});
 </script>
 
-<!--状态编辑div  -->
-		<script type="text/html" id=sureAdd>
-          	<button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">
-			  <i class="layui-icon">&#xe608;</i> 确认添加
-			</button>
-        </script>
-		<div id="div_content" style="display: none;text-align: center;">
-			<table id="arruser" style="text-align: center;" class="layui-table" lay-filter="add">
-			</table>
-		</div>
+<!--添加运动员  -->
+<script type="text/html" id="sureAdd">
+	<button type="button" class="layui-btn layui-btn-sm" lay-event="getCheckData">
+		 <i class="layui-icon">&#xe608;</i> 确认添加
+	</button>
+</script>
+<div id="div_content" style="display: none;text-align: center;">
+	<table id="arruser" style="text-align: center;" class="layui-table" lay-filter="add">
+	</table>
+</div>
+		
+<!-- 查询 -->
+<div id="div_search" style="display: none;text-align: center;">
+	<table id="searchuser" style="text-align: center;" class="layui-table" lay-filter="search">
+	</table>
+</div>
 </body>
 		   
 </html>

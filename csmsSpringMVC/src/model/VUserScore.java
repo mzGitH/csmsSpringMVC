@@ -1,10 +1,12 @@
 package model;
 
 /**
- * VClassScore entity. @author MyEclipse Persistence Tools
+ * VUserScore entity. @author MyEclipse Persistence Tools
  */
 
-public class VClassScore implements java.io.Serializable {
+public class VUserScore implements java.io.Serializable {
+	private String userid;
+	private String username;
 	private Integer collegeid;
 	private String collegename;
 	private Integer majorid;
@@ -19,14 +21,21 @@ public class VClassScore implements java.io.Serializable {
 	// Constructors
 
 	/** default constructor */
-	public VClassScore() {
+	public VUserScore() {
+	}
+
+	/** minimal constructor */
+	public VUserScore(String userid) {
+		this.userid = userid;
 	}
 
 	/** full constructor */
-	public VClassScore(Integer collegeid, String collegename,
-			Integer majorid, String majorname, Integer classid,
-			String classname, Integer sportid, String sportname,
-			Double scorenumber, Double allscore) {
+	public VUserScore(String userid, String username, Integer collegeid,
+			String collegename, Integer majorid, String majorname,
+			Integer classid, String classname, Integer sportid,
+			String sportname, Double scorenumber, Double allscore) {
+		this.userid = userid;
+		this.username = username;
 		this.collegeid = collegeid;
 		this.collegename = collegename;
 		this.majorid = majorid;
@@ -40,6 +49,22 @@ public class VClassScore implements java.io.Serializable {
 	}
 
 	// Property accessors
+
+	public String getUserid() {
+		return this.userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public Integer getCollegeid() {
 		return this.collegeid;

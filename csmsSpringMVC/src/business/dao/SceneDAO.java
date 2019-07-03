@@ -73,4 +73,11 @@ public interface SceneDAO {
 	 * @return
 	 */
 	public List<VScene> getSceneUser(int arrid);
+
+	/**
+	 * 添加比赛信息
+	 * 
+	 * @return
+	 */
+	public boolean insertScene(List<Object> list);
 }

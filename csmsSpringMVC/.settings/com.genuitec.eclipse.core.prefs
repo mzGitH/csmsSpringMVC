@@ -1,11 +1,6 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=branch 'master' of https\://github.com/mzGitH/csmsSpringMVC.git
 eclipse.preferences.version=1
-<<<<<<< HEAD
-validator.Checked=WebRoot/json,WebRoot/layui,WebRoot/js/jquery-3.3.1.js,src/springmvc-servlet.xml,WebRoot/js/vue.js
-=======
-<<<<<<< HEAD
-validator.Checked=WebRoot/json/menu.json,WebRoot/layui,WebRoot/json/table.json,WebRoot/js/jquery-3.3.1.js,WebRoot/js/vue.js
-=======
-validator.Checked=WebRoot/layui,src/springmvc-servlet.xml,WebRoot/js/vue.js
->>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git
->>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git
+validator.Checked=WebRoot/json/menu.json,WebRoot/layui,WebRoot/js/jquery-3.3.1.js,src/springmvc-servlet.xml,WebRoot/js/vue.js
 validator.Unchecked=

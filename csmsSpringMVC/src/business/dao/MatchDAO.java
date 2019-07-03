@@ -90,5 +90,5 @@ public interface MatchDAO {
 	 * @param sportid
 	 * @return
 	 */
-	public List<VMatch> getMatchByProid(int proid);
+	public List<VMatch> getMatchByProid(int proid, int arrid);
 }

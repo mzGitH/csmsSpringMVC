@@ -31,29 +31,23 @@ import com.alibaba.fastjson.JSON;
 public class MajorController {
 	// 获取专业列表
 	@RequestMapping(value = "getmajor")
-	public void getCollegeList(HttpServletRequest request, Integer page,
+	public void getMajorList(HttpServletRequest request, Integer page,
 			Integer limit, Integer collegeid, String wherecondition,
 			HttpServletResponse response, Model model) {
-
 		// 查询条件
 		Expression exp = new Expression();
 		if (collegeid != null) {
 			exp.andEqu("collegeid", collegeid, Integer.class);
 		}
 		if (wherecondition != null && !wherecondition.equals("")) {
-
 			exp.andLike("majorname", wherecondition, String.class);
 		}
-
 		String opreation = exp.toString();
-
 		MajorDAO mdao = DAOFactory.getMajorDAO();
 		int allcount = mdao.getMajorAmount(opreation);
 		List<VMajor> majorlist = mdao.selectByPage(opreation, page, limit);
-
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
-
 		LayuiData laydata = new LayuiData();
 		if (majorlist != null) {
 			laydata.code = LayuiData.SUCCESS;
@@ -61,9 +55,7 @@ public class MajorController {
 		} else {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "无数据";
-
 		}
-
 		laydata.count = allcount;
 		laydata.data = majorlist;
 		Writer out;
@@ -79,6 +71,35 @@ public class MajorController {
 
 	}
 
+	// 获取所有专业列表
+	@RequestMapping(value = "getallmajor")
+	public void getAllMajor(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		MajorDAO mdao = DAOFactory.getMajorDAO();
+		List<VMajor> majorlist = mdao.select();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		LayuiData laydata = new LayuiData();
+		if (majorlist != null) {
+			laydata.data = majorlist;
+			laydata.code = LayuiData.SUCCESS;
+			laydata.msg = "执行成功";
+		} else {
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "无数据";
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+		
 	// 添加专业
 	@RequestMapping(value = "addmajor")
 	public void addcollege(HttpServletRequest request, Integer collegeid,
@@ -115,7 +136,7 @@ public class MajorController {
 
 	// 删除专业
 	@RequestMapping(value = "delmajor")
-	public void addcollege(HttpServletRequest request, Integer majorid,
+	public void delMajor(HttpServletRequest request, Integer majorid,
 			HttpServletResponse response, Model model) {
 		MajorDAO mdao = DAOFactory.getMajorDAO();
 
@@ -146,7 +167,7 @@ public class MajorController {
 
 	// 编辑专业
 	@RequestMapping(value = "edmajor")
-	public void edcollege(HttpServletRequest request, Integer collegeid,
+	public void edMajor(HttpServletRequest request, Integer collegeid,
 			Integer majorid, String majorname, HttpServletResponse response,
 			Model model) {
 		MajorDAO mdao = DAOFactory.getMajorDAO();
@@ -181,7 +202,7 @@ public class MajorController {
 
 	// 批量添加专业
 	@RequestMapping(value = "addmajorlist")
-	public void addcollegeByList(HttpServletRequest request, String path,
+	public void addMajorByList(HttpServletRequest request, String path,
 			HttpServletResponse response, Model model) {
 		MajorDAO mdao = DAOFactory.getMajorDAO();
 

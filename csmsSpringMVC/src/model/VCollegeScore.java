@@ -5,10 +5,12 @@ package model;
  */
 
 public class VCollegeScore implements java.io.Serializable {
-
 	private Integer collegeid;
 	private String collegename;
+	private Integer sportid;
+	private String sportname;
 	private Double scorenumber;
+	private Double allscore;
 
 	// Constructors
 
@@ -18,10 +20,14 @@ public class VCollegeScore implements java.io.Serializable {
 
 	/** full constructor */
 	public VCollegeScore(Integer collegeid, String collegename,
-			Double scorenumber) {
+			Integer sportid, String sportname, Double scorenumber,
+			Double allscore) {
 		this.collegeid = collegeid;
 		this.collegename = collegename;
+		this.sportid = sportid;
+		this.sportname = sportname;
 		this.scorenumber = scorenumber;
+		this.allscore = allscore;
 	}
 
 	// Property accessors
@@ -42,6 +48,22 @@ public class VCollegeScore implements java.io.Serializable {
 		this.collegename = collegename;
 	}
 
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
+	}
+
+	public String getSportname() {
+		return this.sportname;
+	}
+
+	public void setSportname(String sportname) {
+		this.sportname = sportname;
+	}
+
 	public Double getScorenumber() {
 		return this.scorenumber;
 	}
@@ -50,42 +72,11 @@ public class VCollegeScore implements java.io.Serializable {
 		this.scorenumber = scorenumber;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof VCollegeScore))
-			return false;
-		VCollegeScore castOther = (VCollegeScore) other;
-
-		return ((this.getCollegeid() == castOther.getCollegeid()) || (this
-				.getCollegeid() != null && castOther.getCollegeid() != null && this
-				.getCollegeid().equals(castOther.getCollegeid())))
-				&& ((this.getCollegename() == castOther.getCollegename()) || (this
-						.getCollegename() != null
-						&& castOther.getCollegename() != null && this
-						.getCollegename().equals(castOther.getCollegename())))
-				&& ((this.getScorenumber() == castOther.getScorenumber()) || (this
-						.getScorenumber() != null
-						&& castOther.getScorenumber() != null && this
-						.getScorenumber().equals(castOther.getScorenumber())));
+	public Double getAllscore() {
+		return this.allscore;
 	}
 
-	public int hashCode() {
-		int result = 17;
-
-		result = 37 * result
-				+ (getCollegeid() == null ? 0 : this.getCollegeid().hashCode());
-		result = 37
-				* result
-				+ (getCollegename() == null ? 0 : this.getCollegename()
-						.hashCode());
-		result = 37
-				* result
-				+ (getScorenumber() == null ? 0 : this.getScorenumber()
-						.hashCode());
-		return result;
+	public void setAllscore(Double allscore) {
+		this.allscore = allscore;
 	}
-
 }

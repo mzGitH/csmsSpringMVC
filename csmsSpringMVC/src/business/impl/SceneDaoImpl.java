@@ -88,4 +88,13 @@ public class SceneDaoImpl implements SceneDAO {
 			System.out.println(vs.getUsername());
 		}
 	}
+
+	@Override
+	public boolean insertScene(List<Object> list) {
+		// TODO Auto-generated method stub
+		boolean result = bdao.insertList(list);
+
+		return result;
+	}
+
 }

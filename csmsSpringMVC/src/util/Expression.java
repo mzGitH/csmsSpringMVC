@@ -213,7 +213,7 @@ public class Expression {
 		}
 		count++;
 	}
-
+	
 	/**
 	 * 添加一个带有并且（and）的不等查询条件 如 where paraName <> paraValue 或 and paraName <>
 	 * paraValue
