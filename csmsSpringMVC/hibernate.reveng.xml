@@ -94,7 +94,7 @@
 
 	</table>
 	<table name="T_RoleSystemModel" schema="dbo" catalog="CSMS"
-	class="model.TRoleSysModel">
+		class="model.TRoleSysModel">
 	</table>
 	<table name="V_SportProject" schema="dbo" catalog="CSMS"
 		class="model.VSportProject">
@@ -102,4 +102,10 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
+<table name="V_Arrange" schema="dbo" catalog="CSMS"
+	class="model.VArrange">
+	<primary-key>
+		<generator class="identity"></generator>
+	</primary-key>
+</table>
 </hibernate-reverse-engineering>

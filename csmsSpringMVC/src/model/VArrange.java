@@ -1,5 +1,6 @@
 package model;
 
+
 /**
  * VArrange entity. @author MyEclipse Persistence Tools
  */
@@ -19,6 +20,9 @@ public class VArrange implements java.io.Serializable {
 	private Integer collegelimit;
 	private Integer totallimit;
 	private Integer protype;
+	private Integer sportid;
+	private Integer currentnum;
+	private String sportname;
 
 	// Constructors
 
@@ -26,11 +30,12 @@ public class VArrange implements java.io.Serializable {
 	public VArrange() {
 	}
 
-	/** full constructor */
+	/** minimal constructor */
 	public VArrange(Integer arrid, String arrname, Integer proid,
-			String proname, String starttime, String endtime,
-			String addr, Integer leveltype, Integer state, Integer scenelimit,
-			Integer collegelimit, Integer totallimit, Integer protype) {
+			String proname, String starttime, String endtime, String addr,
+			Integer leveltype, Integer state, Integer scenelimit,
+			Integer collegelimit, Integer totallimit, Integer protype,
+			Integer currentnum, String sportname) {
 		this.arrid = arrid;
 		this.arrname = arrname;
 		this.proid = proid;
@@ -44,6 +49,32 @@ public class VArrange implements java.io.Serializable {
 		this.collegelimit = collegelimit;
 		this.totallimit = totallimit;
 		this.protype = protype;
+		this.currentnum = currentnum;
+		this.sportname = sportname;
+	}
+
+	/** full constructor */
+	public VArrange(Integer arrid, String arrname, Integer proid,
+			String proname, String starttime, String endtime, String addr,
+			Integer leveltype, Integer state, Integer scenelimit,
+			Integer collegelimit, Integer totallimit, Integer protype,
+			Integer sportid, Integer currentnum, String sportname) {
+		this.arrid = arrid;
+		this.arrname = arrname;
+		this.proid = proid;
+		this.proname = proname;
+		this.starttime = starttime;
+		this.endtime = endtime;
+		this.addr = addr;
+		this.leveltype = leveltype;
+		this.state = state;
+		this.scenelimit = scenelimit;
+		this.collegelimit = collegelimit;
+		this.totallimit = totallimit;
+		this.protype = protype;
+		this.sportid = sportid;
+		this.currentnum = currentnum;
+		this.sportname = sportname;
 	}
 
 	// Property accessors
@@ -152,6 +183,30 @@ public class VArrange implements java.io.Serializable {
 		this.protype = protype;
 	}
 
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
+	}
+
+	public Integer getCurrentnum() {
+		return this.currentnum;
+	}
+
+	public void setCurrentnum(Integer currentnum) {
+		this.currentnum = currentnum;
+	}
+
+	public String getSportname() {
+		return this.sportname;
+	}
+
+	public void setSportname(String sportname) {
+		this.sportname = sportname;
+	}
+
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -204,7 +259,18 @@ public class VArrange implements java.io.Serializable {
 						.getTotallimit().equals(castOther.getTotallimit())))
 				&& ((this.getProtype() == castOther.getProtype()) || (this
 						.getProtype() != null && castOther.getProtype() != null && this
-						.getProtype().equals(castOther.getProtype())));
+						.getProtype().equals(castOther.getProtype())))
+				&& ((this.getSportid() == castOther.getSportid()) || (this
+						.getSportid() != null && castOther.getSportid() != null && this
+						.getSportid().equals(castOther.getSportid())))
+				&& ((this.getCurrentnum() == castOther.getCurrentnum()) || (this
+						.getCurrentnum() != null
+						&& castOther.getCurrentnum() != null && this
+						.getCurrentnum().equals(castOther.getCurrentnum())))
+				&& ((this.getSportname() == castOther.getSportname()) || (this
+						.getSportname() != null
+						&& castOther.getSportname() != null && this
+						.getSportname().equals(castOther.getSportname())));
 	}
 
 	public int hashCode() {
@@ -242,6 +308,15 @@ public class VArrange implements java.io.Serializable {
 						.hashCode());
 		result = 37 * result
 				+ (getProtype() == null ? 0 : this.getProtype().hashCode());
+		result = 37 * result
+				+ (getSportid() == null ? 0 : this.getSportid().hashCode());
+		result = 37
+				* result
+				+ (getCurrentnum() == null ? 0 : this.getCurrentnum()
+						.hashCode());
+		result = 37 * result
+				+ (getSportname() == null ? 0 : this.getSportname().hashCode());
 		return result;
 	}
+
 }

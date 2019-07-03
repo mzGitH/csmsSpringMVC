@@ -45,5 +45,14 @@
             <property name="protype" type="java.lang.Integer">
                 <column name="protype" />
             </property>
+            <property name="sportid" type="java.lang.Integer">
+                <column name="sportid" />
+            </property>
+            <property name="currentnum" type="java.lang.Integer">
+                <column name="currentnum" />
+            </property>
+            <property name="sportname" type="java.lang.String">
+                <column name="sportname" length="200" />
+            </property>
     </class>
 </hibernate-mapping>
