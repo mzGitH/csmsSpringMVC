@@ -123,6 +123,21 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						return data.leveltype==1 ? "决赛":"预赛";
 					}
 				},{
+					field : '',
+					title : '比赛状态',
+					align : 'center',
+					templet : function(data) {
+						if(data.state==0){
+							return "未比赛";
+						}
+						if(data.state==1){
+							return "比赛中";
+						}
+						if(data.state==2){
+							return "比赛完成";
+						}
+					}
+				},{
 			     field : 'createdate',
 			     title : '操作',
 			     toolbar: '#edit',
@@ -186,6 +201,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 									}, function(){
 										$("input[type='radio']").removeAttr('checked');
 										//form.render('radio', 'test2')
+										layer.closeAll();
 									});
 			        			}
 			        		},
@@ -195,6 +211,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 									  btn: ['确定']
 								}, function(){
 									//form.render('radio', 'test2')
+									layer.closeAll();
 									$("input[type='radio']").removeAttr('checked');
 								});
 			        		},

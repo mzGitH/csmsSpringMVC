@@ -20,6 +20,11 @@ public class ArrangeDaoImpl implements ArrangeDAO {
 		this.bdao = new iHibBaseDAOImpl();
 	}
 
+	// public ArrangeDaoImpl() {
+	// // TODO Auto-generated constructor stub
+	// bdao = new iHibBaseDAOImpl();
+	// }
+
 	@Override
 	public boolean insert(TArrange arrange) {
 		int row = (Integer) bdao.insert(arrange);
@@ -75,9 +80,18 @@ public class ArrangeDaoImpl implements ArrangeDAO {
 	public boolean updateState(int arrid, int state) {
 		// TODO Auto-generated method stub
 		TArrange arrange = (TArrange) bdao.findById(TArrange.class, arrid);
-		arrange.setState(state);
-		boolean count = bdao.update(arrange);
-		return count;
+		if (arrange != null) {
+			arrange.setState(state);
+			boolean count = bdao.update(arrange);
+			return count;
+		}
+		return false;
 	}
 
+	// public static void main(String[] args) {
+	// // ArrangeDAO dao = new ArrangeDaoImpl();
+	// iHibBaseDAO bdao = new iHibBaseDAOImpl();
+	// TArrange arrange = (TArrange) bdao.findById(TArrange.class, 1);
+	// System.out.println(arrange.getArrname());
+	// }
 }
