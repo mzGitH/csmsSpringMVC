@@ -122,10 +122,11 @@ public class MatchDaoImpl implements MatchDAO {
 	}
 
 	@Override
-	public List<VMatch> getMatchByProid(int proid) {
+	public List<VMatch> getMatchByProid(int proid, int arrid) {
 		// TODO Auto-generated method stub
-		String hql = "from VMatch where proid=?";
-		Object[] para = { proid };
+		// String hql = "from VMatch where proid=?";
+		String hql = "from VMatch where userid not in (select userid from VScene where arrid=?) and proid=?";
+		Object[] para = { arrid, proid };
 		List<VMatch> list = bdao.select(hql, para);
 		return list;
 	}
