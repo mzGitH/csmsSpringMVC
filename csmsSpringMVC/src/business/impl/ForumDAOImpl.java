@@ -4,9 +4,7 @@ import java.util.List;
 
 import model.TForumContent;
 import model.TForumTitle;
-import model.TPhoto;
 import model.VForum;
-import model.VForumTitle;
 
 import org.springframework.stereotype.Component;
 
@@ -14,6 +12,7 @@ import annotation.Log;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ForumDAO;
+
 import common.properties.OperType;
 
 @Component("forumdao")
@@ -60,8 +59,8 @@ public class ForumDAOImpl implements ForumDAO {
 
 	@Log(isSaveLog = false)
 	@Override
-	public VForumTitle getVForumById(int forumid) {
-		VForumTitle forum = (VForumTitle) bdao.findById(VForumTitle.class,
+	public TForumTitle getVForumById(int forumid) {
+		TForumTitle forum = (TForumTitle) bdao.findById(TForumTitle.class,
 				forumid);
 		return forum;
 	}
@@ -108,10 +107,10 @@ public class ForumDAOImpl implements ForumDAO {
 
 	@Log(isSaveLog = false)
 	@Override
-	public List<VForum> getForumContent(int forumid){
+	public List<VForum> getForumContent(int forumid) {
 		String hql = "from VForum where forumid=? order by contentid";
-		Object[] param = {forumid};
-		List<VForum> list = (List<VForum>) bdao.select(hql,param);
+		Object[] param = { forumid };
+		List<VForum> list = (List<VForum>) bdao.select(hql, param);
 		if (list != null && list.size() > 0) {
 			return list;
 		} else {
@@ -119,34 +118,35 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 	}
 
-	@Log(isSaveLog = true,operationType = OperType.ADD, operationName = "Ìí¼ÓÎÄÕÂÄÚÈÝ")
+	@Log(isSaveLog = true, operationType = OperType.ADD, operationName = "Ìí¼ÓÎÄÕÂÄÚÈÝ")
 	@Override
 	public boolean addContent(TForumContent content) {
-		int row = (Integer)bdao.insert(content);
-		if(row>0){
+		int row = (Integer) bdao.insert(content);
+		if (row > 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-	@Log(isSaveLog = true,operationType = OperType.MODIFY, operationName = "±à¼­ÎÄÕÂÄÚÈÝ")
+	@Log(isSaveLog = true, operationType = OperType.MODIFY, operationName = "±à¼­ÎÄÕÂÄÚÈÝ")
 	@Override
 	public boolean editContent(TForumContent content) {
-		TForumContent newContent = (TForumContent)bdao.findById(TForumContent.class, content.getContentid());
+		TForumContent newContent = (TForumContent) bdao.findById(
+				TForumContent.class, content.getContentid());
 		newContent.setPicid(content.getPicid());
 		newContent.setTextcontent(content.getTextcontent());
 		return bdao.update(newContent);
 	}
 
-	@Log(isSaveLog = true,operationType = OperType.DELETE, operationName = "É¾³ýÎÄÕÂÄÚÈÝ")
+	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "É¾³ýÎÄÕÂÄÚÈÝ")
 	@Override
 	public boolean delContent(int contentid) {
-		Object[] param = {contentid};
-		int row = (Integer)bdao.executeProduce("up_deleteContent(?)", param);
-		if(row>0){
+		Object[] param = { contentid };
+		int row = (Integer) bdao.executeProduce("up_deleteContent(?)", param);
+		if (row > 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

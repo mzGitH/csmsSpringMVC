@@ -67,6 +67,7 @@
      <mvc:resources location="/upload/" mapping="/upload/**"/>
      <mvc:resources location="/upload/download/" mapping="/upload/download/**"/>
      <mvc:resources location="/upload/file/" mapping="/upload/file/**"/>
+      <mvc:resources location="/upload/image/" mapping="/upload/image/**"/>
     
      <mvc:resources location="/dist/view" mapping="/*/**"/>
      <mvc:resources location="/dist/layuiadmin" mapping="/*/**"/>

@@ -53,10 +53,6 @@
 											<td>发表日期</td>
 											<td>${forum.createtime }</td>
 										</tr>
-										<tr>
-											<td>发表运动会名称</td>
-											<td>${forum.sportname }</td>
-										</tr>
 									</table>
 								</div>
 							</div>
