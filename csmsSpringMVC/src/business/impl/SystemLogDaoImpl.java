@@ -68,7 +68,7 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 
 	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "根据日志id删除日志")
 	@Override
-	public boolean deleteLogById(String id) {
+	public boolean deleteLogById(Integer id) {
 		return hdao.delete(TSystemLog.class, id);
 	}
 
@@ -83,6 +83,7 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 	public TSystemLog getLogById(String id) {
 		return (TSystemLog) hdao.findById(TSystemLog.class, id);
 	}
+
 	// public static void main(String[] args) {
 	// SystemLogDaoImpl sDaoImpl = new SystemLogDaoImpl();
 	//
@@ -92,4 +93,10 @@ public class SystemLogDaoImpl implements SystemLogDAO {
 	// }
 	//
 	// }
+
+	@Override
+	public boolean deleteLogById(List<Object> listlog) {
+		// TODO Auto-generated method stub
+		return hdao.delete(listlog);
+	}
 }

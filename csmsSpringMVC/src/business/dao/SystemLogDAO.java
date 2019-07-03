@@ -45,10 +45,19 @@ public interface SystemLogDAO {
 	/**
 	 * 根据主键id删除日志
 	 * 
-	 * @param id
+	 * @param integer
 	 * @return
 	 */
-	boolean deleteLogById(String id);
+	boolean deleteLogById(Integer integer);
+
+	/**
+	 * 根据日记数组删除日志
+	 * 
+	 * @param list
+	 *            <TSystemLog>
+	 * @return
+	 */
+	boolean deleteLogById(List<Object> listlog);
 
 	/**
 	 * 添加一条操作日志

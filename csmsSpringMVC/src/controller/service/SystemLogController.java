@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.TSystemLog;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +50,7 @@ public class SystemLogController {
 			exp.andEqu("opertype", systemtype, String.class);
 		}
 		String opreation = exp.toString();
-		System.out.println(opreation);
+		// System.out.println(opreation);
 		int allcount = srdao.getSystemLogAmount(opreation);
 
 		List list = srdao.getaAllSystemList(opreation, page, limit);
@@ -95,6 +97,45 @@ public class SystemLogController {
 			laydata.code = LayuiData.ERRR;
 			laydata.msg = "²éÑ¯Ê§°Ü";
 		}
+
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// return "";
+	}
+
+	@RequestMapping(value = "dellog")
+	public void delLog(HttpServletRequest request,
+			HttpServletResponse response, String data, Model model) {
+
+		SystemLogDAO srdao = new SystemLogDaoImpl();
+
+		List<TSystemLog> loglist = JSON.parseArray(data, TSystemLog.class);
+		// List<Object> dellist = new ArrayList<Object>();
+		for (TSystemLog tSystemLog : loglist) {
+			srdao.deleteLogById(tSystemLog.getId());
+		}
+		// »Ø´«json×Ö·û´®
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+
+		LayuiData laydata = new LayuiData();
+
+		// if (srdao.deleteLogById(dellist)) {
+		laydata.code = LayuiData.SUCCESS;
+		laydata.msg = "É¾³ý³É¹¦";
+
+		// //} else {
+		// laydata.code = LayuiData.ERRR;
+		// laydata.msg = "É¾³ýÊ§°Ü";
+		// }
 
 		Writer out;
 		try {

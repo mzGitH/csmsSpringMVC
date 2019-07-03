@@ -190,7 +190,7 @@ public class SystemModelController {
 
 			td.msg = "授权成功";
 
-			System.out.println(JSON.toJSON(td));
+			// System.out.println(JSON.toJSON(td));
 		} else {
 			td.code = LayuiData.ERRR;
 			td.msg = "授权失败";
