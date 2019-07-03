@@ -32,13 +32,13 @@
 						<option value="user">个人统计</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline projectdiv">
 					<select name="project" id="project" lay-filter="project"
 						lay-search="">
 						<option value="">请选择或输入项目名称</option>
 					</select>
 				</div>
-				<div class="layui-input-inline collegediv" style="display:none;">
+				<div class="layui-input-inline collegediv">
 					<select name="college" id="college" lay-filter="college"
 						lay-search="">
 						<option value="">请选择或输入学院名称</option>
@@ -62,7 +62,7 @@
 						<option value="">请选择或输入赛事名称</option>
 					</select>
 				</div>
-				<div class="layui-input-inline">
+				<div class="layui-input-inline userdiv">
 					<input type="text" name="username" id="username" placeholder="请输入运动员学号或姓名" class="layui-input" autocomplete="off">
 			    </div>
 				<div class="layui-input-inline" style="margin-left: -10px;">
@@ -618,39 +618,39 @@ layui.use([ 'table', 'form', 'jquery', 'layer' ],function() {
 		var statistics = $("#statistics").val();
 		if(statistics == "project"){
 			getProject();
-			$("#project").next().show();
-			$("#college").next().hide();
-			$("#major").next().hide();
-			$("#classes").next().hide();
-			$("#username").hide();
+			$(".projectdiv").show();
+			$(".collegediv").hide();
+			$(".majordiv").hide();
+			$(".classesdiv").hide();
+			$(".userdiv").hide();
 		}else if(statistics == "college"){
 			getCollege();
-			$("#project").next().hide();
-			$("#college").next().show();
-			$("#major").next().hide();
-			$("#classes").next().hide();
-			$("#username").hide();
+			$(".projectdiv").hide();
+			$(".collegediv").show();
+			$(".majordiv").hide();
+			$(".classesdiv").hide();
+			$(".userdiv").hide();
 		}else if(statistics == "major"){
 			getMajor();
-			$("#project").next().hide();
-			$("#college").next().show();
-			$("#major").next().show();
-			$("#classes").next().hide();
-			$("#username").hide();
+			$(".projectdiv").hide();
+			$(".collegediv").show();
+			$(".majordiv").show();
+			$(".classesdiv").hide();
+			$(".userdiv").hide();
 		}else if(statistics == "classes"){
 			getClasses();
-			$("#project").next().hide();
-			$("#college").next().show();
-			$("#major").next().show();
-			$("#classes").next().show();
-			$("#username").hide();
+			$(".projectdiv").hide();
+			$(".collegediv").show();
+			$(".majordiv").show();
+			$(".classesdiv").show();
+			$(".userdiv").hide();
 		}else if(statistics == "user"){
 			getUser();
-			$("#project").next().hide();
-			$("#college").next().show();
-			$("#major").next().show();
-			$("#classes").next().show();
-			$("#username").show();
+			$(".projectdiv").hide();
+			$(".collegediv").show();
+			$(".majordiv").show();
+			$(".classesdiv").show();
+			$(".userdiv").show();
 		}
 	});
 	//查询提交
@@ -685,11 +685,11 @@ layui.use([ 'table', 'form', 'jquery', 'layer' ],function() {
 		sportlist();
 		getProject();
 		
-		$("#project").next().show();
-		$("#college").next().hide();
-		$("#major").next().hide();
-		$("#classes").next().hide();
-		$("#username").hide();
+		$(".projectdiv").show();
+		$(".collegediv").hide();
+		$(".majordiv").hide();
+		$(".classesdiv").hide();
+		$(".userdiv").hide();
 	})
 	/* 查看详情点击事件 */
 	$(document).on('click',".queryproject",function() {
