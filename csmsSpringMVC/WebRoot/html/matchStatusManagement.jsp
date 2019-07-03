@@ -91,7 +91,11 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					type : 'numbers',
 					title : '序号',
 					align : 'center'
-				}, {
+				},  {
+			     field : 'sportname',
+			     align : 'center',
+			     title : '运动会名称',
+			    },{
 			     field : 'arrname',
 			     align : 'center',
 			     title : '场次名称',

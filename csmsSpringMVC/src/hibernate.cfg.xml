@@ -27,7 +27,6 @@
 		<mapping resource="model/TMajor.hbm.xml" />
 		<mapping resource="model/TCollege.hbm.xml" />
 		<mapping resource="model/TClass.hbm.xml" />
-		<mapping resource="model/TArrange.hbm.xml" />
 		<mapping resource="model/TMatch.hbm.xml" />
 		<mapping resource="model/VArrange.hbm.xml" />
 		<mapping resource="model/VClass.hbm.xml" />
@@ -54,13 +53,13 @@
 		<mapping resource="model/VForumTitle.hbm.xml" />
 		<mapping resource="model/TUser.hbm.xml" />
 		<mapping resource="model/VUser.hbm.xml" />
-		<mapping resource="model/VMatch.hbm.xml" />
 		<mapping resource="model/VScoreSignIn.hbm.xml" />
 		<mapping resource="model/TRoleSysModel.hbm.xml" />
 		<mapping resource="model/VSportProject.hbm.xml" />
 		<mapping resource="model/TSportProject.hbm.xml" />
 		<mapping resource="model/VUserScore.hbm.xml" />
 		<mapping resource="model/VMajorScore.hbm.xml" />
+		<mapping resource="model/VMatch.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>

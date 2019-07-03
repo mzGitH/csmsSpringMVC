@@ -49,4 +49,12 @@ public class ConfigDaoImpl implements ConfigDAO {
 		List<TConfig> list = hdao.select(hql);
 		return list;
 	}
+
+	@Override
+	public List<TConfig> getAllConfigByid(int sportid) {
+		String hql = "from TConfig where sportid=?";
+		Object[] para = { sportid };
+		List<TConfig> list = hdao.select(hql, para);
+		return list;
+	}
 }

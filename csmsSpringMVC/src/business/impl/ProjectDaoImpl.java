@@ -2,6 +2,7 @@ package business.impl;
 
 import java.util.List;
 
+import model.TConfig;
 import model.TProject;
 
 import org.springframework.stereotype.Component;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Component;
 import business.basic.iHibBaseDAO;
 import business.basic.iHibBaseDAOImpl;
 import business.dao.ProjectDAO;
-import common.properties.RoleType;
 
 @Component("projectdao")
 public class ProjectDaoImpl implements ProjectDAO {
@@ -62,7 +62,7 @@ public class ProjectDaoImpl implements ProjectDAO {
 	@Override
 	public List<TProject> selectByPage(String where, int startPage, int pageSize) {
 		String hql = null;
-		hql = "from TProject"+where;
+		hql = "from TProject" + where;
 		List<TProject> list = bdao.selectByPage(hql, startPage, pageSize);
 		return list;
 	}
@@ -70,7 +70,7 @@ public class ProjectDaoImpl implements ProjectDAO {
 	@Override
 	public int getProCount(String where) {
 		String hql = null;
-		hql = "select count(proid) from TProject"+where;
+		hql = "select count(proid) from TProject" + where;
 		int count = bdao.selectValue(hql);
 		return count;
 	}
@@ -81,12 +81,25 @@ public class ProjectDaoImpl implements ProjectDAO {
 		return pro;
 	}
 
+	@Override
+	public List<TProject> select(int sportid) {
+		String hql = "from TProject where sportid=?";
+		Object[] para = { sportid };
+		return (List<TProject>) bdao.select(hql, para);
+	}
+
 	// public static void main(String[] args) {
 	// ProjectDAO pdao = new ProjectDaoImpl();
-	// // int row = pdao.getProCount(2);
-	// List<TProject> list = pdao.selectByPage(1, 1, 3);
-	// for (TProject p : list) {
+	// List<TProject> prolistList = pdao.select(1);
+	// for (TProject p : prolistList) {
 	// System.out.println(p.getProname());
 	// }
 	// }
+
+	@Override
+	public List<TProject> selectnow(TConfig cfg) {
+		String hql = "from TProject where sportid=?";
+		Object[] para = { cfg.getSportid() };
+		return (List<TProject>) bdao.select(hql, para);
+	}
 }

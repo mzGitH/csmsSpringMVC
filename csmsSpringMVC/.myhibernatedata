@@ -1,5 +1,9 @@
 #MyEclipse Hibernate Properties
+<<<<<<< HEAD
 #Tue Jul 02 23:08:17 CST 2019
+=======
+#Wed Jul 03 13:21:31 CST 2019
+>>>>>>> branch 'master' of https://github.com/mzGitH/csmsSpringMVC.git
 genBasicCompId=false
 sessionFactoryName=
 profile=

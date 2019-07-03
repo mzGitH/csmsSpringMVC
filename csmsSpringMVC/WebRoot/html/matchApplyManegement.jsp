@@ -89,9 +89,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		table.render({
 			elem : '#matchstatus',
 			id:'satustable',
-			url : '../match/getmatch',
+			url : '../match/searchmatch',
 			title : '后台用户数据表',
-			height: "full-160",
+			height: "full-100",
 			skin : 'line',
 			even : true,
 			cols : [ 
