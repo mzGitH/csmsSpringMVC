@@ -8,6 +8,7 @@ public class VScore implements java.io.Serializable {
 	private Integer scoreid;
 	private Integer matchid;
 	private Double scorenumber;
+	private String scorerecord;
 	private String userid;
 	private Integer sceneid;
 	private String username;
@@ -46,15 +47,17 @@ public class VScore implements java.io.Serializable {
 
 	/** full constructor */
 	public VScore(Integer scoreid, Integer matchid, Double scorenumber,
-			String userid, Integer sceneid, String username, Integer collegeid,
-			String collegename, Integer classid, String classname,
-			Integer majorid, String majorname, Integer stucollegeid,
-			String stucollegename, Integer sportid, String sportname,
-			Integer proid, String proname, Integer scenelimit,
-			Integer collegelimit, Integer totallimit, Integer protype) {
+			String scorerecord, String userid, Integer sceneid,
+			String username, Integer collegeid, String collegename,
+			Integer classid, String classname, Integer majorid,
+			String majorname, Integer stucollegeid, String stucollegename,
+			Integer sportid, String sportname, Integer proid, String proname,
+			Integer scenelimit, Integer collegelimit, Integer totallimit,
+			Integer protype) {
 		this.scoreid = scoreid;
 		this.matchid = matchid;
 		this.scorenumber = scorenumber;
+		this.scorerecord = scorerecord;
 		this.userid = userid;
 		this.sceneid = sceneid;
 		this.username = username;
@@ -100,6 +103,14 @@ public class VScore implements java.io.Serializable {
 
 	public void setScorenumber(Double scorenumber) {
 		this.scorenumber = scorenumber;
+	}
+
+	public String getScorerecord() {
+		return this.scorerecord;
+	}
+
+	public void setScorerecord(String scorerecord) {
+		this.scorerecord = scorerecord;
 	}
 
 	public String getUserid() {

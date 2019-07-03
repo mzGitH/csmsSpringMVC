@@ -17,6 +17,7 @@ public class VUserScore implements java.io.Serializable {
 	private String sportname;
 	private Double scorenumber;
 	private Double allscore;
+	private String scorerecord;
 
 	// Constructors
 
@@ -33,7 +34,8 @@ public class VUserScore implements java.io.Serializable {
 	public VUserScore(String userid, String username, Integer collegeid,
 			String collegename, Integer majorid, String majorname,
 			Integer classid, String classname, Integer sportid,
-			String sportname, Double scorenumber, Double allscore) {
+			String sportname, Double scorenumber, Double allscore,
+			String scorerecord) {
 		this.userid = userid;
 		this.username = username;
 		this.collegeid = collegeid;
@@ -46,6 +48,7 @@ public class VUserScore implements java.io.Serializable {
 		this.sportname = sportname;
 		this.scorenumber = scorenumber;
 		this.allscore = allscore;
+		this.scorerecord = scorerecord;
 	}
 
 	// Property accessors
@@ -144,5 +147,13 @@ public class VUserScore implements java.io.Serializable {
 
 	public void setAllscore(Double allscore) {
 		this.allscore = allscore;
+	}
+
+	public String getScorerecord() {
+		return this.scorerecord;
+	}
+
+	public void setScorerecord(String scorerecord) {
+		this.scorerecord = scorerecord;
 	}
 }

@@ -11,6 +11,7 @@ public class TScore implements java.io.Serializable {
 	private Integer scoreid;
 	private Integer matchid;
 	private Double scorenumber;
+	private String scorerecord;
 
 	// Constructors
 
@@ -18,10 +19,17 @@ public class TScore implements java.io.Serializable {
 	public TScore() {
 	}
 
-	/** full constructor */
+	/** minimal constructor */
 	public TScore(Integer matchid, Double scorenumber) {
 		this.matchid = matchid;
 		this.scorenumber = scorenumber;
+	}
+
+	/** full constructor */
+	public TScore(Integer matchid, Double scorenumber, String scorerecord) {
+		this.matchid = matchid;
+		this.scorenumber = scorenumber;
+		this.scorerecord = scorerecord;
 	}
 
 	// Property accessors
@@ -48,6 +56,14 @@ public class TScore implements java.io.Serializable {
 
 	public void setScorenumber(Double scorenumber) {
 		this.scorenumber = scorenumber;
+	}
+
+	public String getScorerecord() {
+		return this.scorerecord;
+	}
+
+	public void setScorerecord(String scorerecord) {
+		this.scorerecord = scorerecord;
 	}
 
 }

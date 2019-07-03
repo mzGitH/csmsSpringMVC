@@ -42,5 +42,8 @@
         <property name="allscore" type="java.lang.Double">
             <column name="allscore" precision="53" scale="0" />
         </property>
+        <property name="scorerecord" type="java.lang.String">
+            <column name="scorerecord" />
+        </property>
     </class>
 </hibernate-mapping>
