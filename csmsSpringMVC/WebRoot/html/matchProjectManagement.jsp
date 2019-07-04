@@ -448,8 +448,8 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 					var tmp = '',tmp1 = '',tmp2 = '',tmp3 = '',tmp4 = '';
 					for ( var i in succ.data1){
 						tmp += '<input type="checkbox" class="layui-col-4" lay-filter="addprojects" name="addproids" title="'
-								+succ.data[i].proname+'" value="'
-								+succ.data[i].proid+'" disabled>';
+								+succ.data1[i].proname+'" value="'
+								+succ.data1[i].proid+'" disabled>';
 					}
 					for ( var i in succ.data) {
 						if(succ.data[i].protype==1){

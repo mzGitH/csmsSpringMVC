@@ -20,13 +20,9 @@ public class ScoreDaoImpl implements ScoreDAO {
 	}
 
 	@Override
-	public boolean insert(TScore score) {
-		int row = (Integer) bdao.insert(score);
-		if (row > 0) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean insert(List<Object> list) {
+		boolean result = bdao.insertList(list);
+		return result;
 	}
 
 	@Override

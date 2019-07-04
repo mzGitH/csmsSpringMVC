@@ -152,7 +152,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 								var s = $("#userScore").html();
 								var str="";
 								for(var i=0;i<e.data.length;i++){
-									str += '<div class="layui-form-item userScureNum"><label class="layui-form-label">'+e.data[i].username+'</label><div class="layui-input-inline"><input id="matchid" type="hidden" value="'+e.data[i].matchid+'" /><input type="text" name="title" placeholder="请输入分数" id="scoreInput" autocomplete="off" class="layui-input"></div></div>';
+									str += '<div class="layui-form-item userScureNum"><label class="layui-form-label">'+e.data[i].username+'</label><input id="matchid" type="hidden" value="'+e.data[i].matchid+'" /><div class="layui-input-inline box"><input type="text" name="title" placeholder="请输入成绩" autocomplete="off" class="layui-input scoreInput"><input type="text" name="title" placeholder="请输入积分" autocomplete="off" class="layui-input accumul"></div></div>';
 								}
 								$("#userScore").append(str);
 								//form.render("select");
@@ -168,25 +168,65 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 					layer.open({
   						title:"比赛状态编辑",
   						type: 1,
-  						area: ['500px', '300px'],
+  						area: ['450px', '300px'],
   						skin: 'demo-class',
   						btn:['确认保存'],
   						maxmin: true,//显示最大化最小化按钮
   						//offset: 'b', 弹框的位置
   						content: $('#div_editcollege'),
   						btn1: function(index, layero){
-  							var scorenum = $('#scoreInput').val();
   							var matchid=$("#matchid").val();
-  							//layer.msg(state);
-  							//alert(matchid);
+  							//var accumul = $("#accumul").val();
+  							//var scorenum = $('#scoreInput').val();
+  							//../score/addscore
+  							
+  							//var numArr = []; // 定义一个空数组
+        					var txt = $('.box').find(':text'); // 获取所有文本框
+        					//for (var i = 0; i < txt.length; i++) {
+            					//numArr.push(txt.eq(i).val()); // 将文本框的值添加到数组中
+        					//}
+        					
+        					//var  params = [];
+						    //for(var i = 0; i < txt.length/2; i++){
+						       // var param = [];
+						        //if(i=0){
+							       // param.push(txt.eq(i).val());
+							      ///  param.push(txt.eq(i+1).val());
+							       // break;
+						       // }
+						       // else if(i>=1&&i<txt.length/2){
+						        	//param.push(txt.eq(i+1).val());
+							      //  param.push(txt.eq(i+2).val());
+							       // break;
+						       // }
+						       // params.push({"matchid":matchid,"param":param});
+						       // i++;
+						  //  }
+						    
+						    var data={}; //定义json对象
+							var resAccount=new Array();//定义数组对象
+							
+							var $scoreInput = $('.scoreInput');//获取class为resAccount的input对象
+							var $accumul = $('.accumul');
+							for(var i=0;i<$scoreInput.length;i++){
+								var obj=new Object();
+								obj.matchid=matchid;
+								obj.scorenumber=$scoreInput[i].value;
+								obj.scorerecord=$accumul[i].value;
+								resAccount.push(obj);
+							}
+							
+							data=resAccount;
+							alert(JSON.stringify(data));
+							//params['resAccount']=resAccount; //将数组存入json对象
+						 
+						    //var json = JSON.stringify(params);
+						    
     						$.ajax({
-			        		type: 'get',
+			        		type: 'Post',
 			        		url: "../score/addscore",
 			        		dataType: 'json',
-			        		data:{
-			        			scorenum:scorenum,
-			        			matchid:matchid,
-			        		},
+			        		data:{data:JSON.stringify(data)},
 			        		success:function(data){
 			        			if(data.code == 0){
 			        				layer.confirm(data.msg, {

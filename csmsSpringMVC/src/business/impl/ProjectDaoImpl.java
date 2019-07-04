@@ -83,7 +83,7 @@ public class ProjectDaoImpl implements ProjectDAO {
 
 	@Override
 	public List<TProject> select(int sportid) {
-		String hql = "from TProject where sportid=?";
+		String hql = "from VSportProject where sportid=?";
 		Object[] para = { sportid };
 		return (List<TProject>) bdao.select(hql, para);
 	}
@@ -98,7 +98,7 @@ public class ProjectDaoImpl implements ProjectDAO {
 
 	@Override
 	public List<TProject> selectnow(TConfig cfg) {
-		String hql = "from TProject where sportid=?";
+		String hql = "from VSportProject where sportid=?";
 		Object[] para = { cfg.getSportid() };
 		return (List<TProject>) bdao.select(hql, para);
 	}
