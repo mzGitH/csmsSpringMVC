@@ -21,7 +21,6 @@ public class VArrange implements java.io.Serializable {
 	private Integer totallimit;
 	private Integer protype;
 	private Integer sportid;
-	private Integer currentnum;
 	private String sportname;
 
 	// Constructors
@@ -35,7 +34,7 @@ public class VArrange implements java.io.Serializable {
 			String proname, String starttime, String endtime, String addr,
 			Integer leveltype, Integer state, Integer scenelimit,
 			Integer collegelimit, Integer totallimit, Integer protype,
-			Integer currentnum, String sportname) {
+			String sportname) {
 		this.arrid = arrid;
 		this.arrname = arrname;
 		this.proid = proid;
@@ -49,7 +48,6 @@ public class VArrange implements java.io.Serializable {
 		this.collegelimit = collegelimit;
 		this.totallimit = totallimit;
 		this.protype = protype;
-		this.currentnum = currentnum;
 		this.sportname = sportname;
 	}
 
@@ -58,7 +56,7 @@ public class VArrange implements java.io.Serializable {
 			String proname, String starttime, String endtime, String addr,
 			Integer leveltype, Integer state, Integer scenelimit,
 			Integer collegelimit, Integer totallimit, Integer protype,
-			Integer sportid, Integer currentnum, String sportname) {
+			Integer sportid, String sportname) {
 		this.arrid = arrid;
 		this.arrname = arrname;
 		this.proid = proid;
@@ -73,7 +71,6 @@ public class VArrange implements java.io.Serializable {
 		this.totallimit = totallimit;
 		this.protype = protype;
 		this.sportid = sportid;
-		this.currentnum = currentnum;
 		this.sportname = sportname;
 	}
 
@@ -191,14 +188,6 @@ public class VArrange implements java.io.Serializable {
 		this.sportid = sportid;
 	}
 
-	public Integer getCurrentnum() {
-		return this.currentnum;
-	}
-
-	public void setCurrentnum(Integer currentnum) {
-		this.currentnum = currentnum;
-	}
-
 	public String getSportname() {
 		return this.sportname;
 	}
@@ -263,10 +252,6 @@ public class VArrange implements java.io.Serializable {
 				&& ((this.getSportid() == castOther.getSportid()) || (this
 						.getSportid() != null && castOther.getSportid() != null && this
 						.getSportid().equals(castOther.getSportid())))
-				&& ((this.getCurrentnum() == castOther.getCurrentnum()) || (this
-						.getCurrentnum() != null
-						&& castOther.getCurrentnum() != null && this
-						.getCurrentnum().equals(castOther.getCurrentnum())))
 				&& ((this.getSportname() == castOther.getSportname()) || (this
 						.getSportname() != null
 						&& castOther.getSportname() != null && this
@@ -310,10 +295,6 @@ public class VArrange implements java.io.Serializable {
 				+ (getProtype() == null ? 0 : this.getProtype().hashCode());
 		result = 37 * result
 				+ (getSportid() == null ? 0 : this.getSportid().hashCode());
-		result = 37
-				* result
-				+ (getCurrentnum() == null ? 0 : this.getCurrentnum()
-						.hashCode());
 		result = 37 * result
 				+ (getSportname() == null ? 0 : this.getSportname().hashCode());
 		return result;

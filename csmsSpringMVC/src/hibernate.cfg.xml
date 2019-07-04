@@ -12,7 +12,7 @@
 		<property name="connection.url">
 			<!--jdbc:sqlserver://192.168.3.60:1433;DatabaseName=CSMS-->
 			<!-- jdbc:sqlserver://192.168.191.1:1433;DatabaseName=CSMS -->
-			jdbc:sqlserver://192.168.3.60:1433;DatabaseName=CSMS
+			jdbc:sqlserver://192.168.43.35:1433;DatabaseName=CSMS
 		</property>
 		<property name="connection.username">sa</property>
 		<property name="connection.password">123456</property>
@@ -28,7 +28,6 @@
 		<mapping resource="model/TCollege.hbm.xml" />
 		<mapping resource="model/TClass.hbm.xml" />
 		<mapping resource="model/TMatch.hbm.xml" />
-		<mapping resource="model/VArrange.hbm.xml" />
 		<mapping resource="model/TArrange.hbm.xml" />
 		<mapping resource="model/VClass.hbm.xml" />
 		<mapping resource="model/VCollegeScore.hbm.xml" />
@@ -60,6 +59,7 @@
 		<mapping resource="model/VUserScore.hbm.xml" />
 		<mapping resource="model/VMajorScore.hbm.xml" />
 		<mapping resource="model/VMatch.hbm.xml" />
+		<mapping resource="model/VArrange.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>
