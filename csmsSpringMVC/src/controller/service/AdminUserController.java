@@ -146,7 +146,7 @@ public class AdminUserController {
 	public void addAdminUser(String userid, String realname, String mobile,
 			String pwd, String roleid, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
-		System.out.println(userid + "," + realname + "," + roleid);
+		// System.out.println(userid + "," + realname + "," + roleid);
 
 		AdminUserDAO audao = new AdminUserDaoImpl();
 		LayuiData laydata = new LayuiData();
