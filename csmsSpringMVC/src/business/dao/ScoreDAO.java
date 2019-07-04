@@ -19,7 +19,7 @@ public interface ScoreDAO {
 	 *            成绩对象
 	 * @return 添加结果，true为成功，false为失败
 	 */
-	public boolean insert(TScore score);
+	public boolean insert(List<Object> list);
 
 	/**
 	 * 更新成绩对象

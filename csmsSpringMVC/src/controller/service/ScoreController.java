@@ -2,8 +2,8 @@ package controller.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.PrimitiveIterator.OfDouble;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,7 +61,7 @@ public class ScoreController {
 		int count = 0;
 		list = scenedao.selectByPageFinish(strwhere, page, limit);
 		count = scenedao.selectByPageFinishCount(strwhere);
-		LayuiData data = new LayuiData(0, "成功", count, list,null);
+		LayuiData data = new LayuiData(0, "成功", count, list, null);
 		out.write(JSON.toJSONString(data));
 		out.flush();
 		out.close();
@@ -104,31 +104,33 @@ public class ScoreController {
 	}
 
 	@RequestMapping(value = "addscore")
-	public void InsertScore(Double scorenum, Integer matchid,
-			HttpServletRequest request, HttpServletResponse response,
-			Model model) throws IOException {
+	public void InsertScore(String data, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-
+		System.out.println(data);
 		ScoreDAO sdao = DAOFactory.getScoreDAO();
 		TScore score = new TScore();
-		score.setMatchid(matchid);
-		score.setScorenumber(scorenum);
-		LayuiData data = new LayuiData();
-		TScore isScore = sdao.isInScore(matchid);
-		if (isScore != null) {
-			boolean result = sdao.insert(score);
-			if (result) {
-				data.code = LayuiData.SUCCESS;
-				data.msg = "录入成绩成功";
-			} else {
-				data.code = LayuiData.ERRR;
-				data.msg = "录入成绩失败";
-			}
+		List<Object> dellist = new ArrayList<Object>();
+		List<TScore> scorelist = JSON.parseArray(data, TScore.class);
+		for (TScore tScore : scorelist) {
+			dellist.add(tScore);
+		}
+
+		LayuiData datalayui = new LayuiData();
+		if (sdao.insert(dellist)) {
+			// boolean result = sdao.insert(score);
+			// if (result) {
+			// data.code = LayuiData.SUCCESS;
+			datalayui.msg = "录入成绩成功";
+			// } else {
+			// data.code = LayuiData.ERRR;
+			// data.msg = "录入成绩失败";
+			// }
 		} else {
-			data.code = LayuiData.ERRR;
-			data.msg = "该运动员已记录过成绩";
+			datalayui.code = LayuiData.ERRR;
+			datalayui.msg = "该运动员已记录过成绩";
 		}
 		out.write(JSON.toJSONString(data));
 		out.flush();
@@ -157,21 +159,25 @@ public class ScoreController {
 		out.flush();
 		out.close();
 	}
-	
+
 	@RequestMapping(value = "getprojectscore")
-	public void getProjectScore(HttpServletRequest request,HttpServletResponse response, Model model,
-			Integer sport,Integer project,Integer college,Integer major,Integer classes,String username,
-			Integer page,Integer limit) throws IOException {
+	public void getProjectScore(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer sport,
+			Integer project, Integer college, Integer major, Integer classes,
+			String username, Integer page, Integer limit) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		ScoreCollegeDAO dao = DAOFactory.getScoreCollegeDAO();
 		Expression exp = new Expression();
 		exp.andEqu("ranks", "1", Integer.class);
-		if (sport != null && !sport.equals("0") && !sport.equals("") && sport != 0) {
-			exp.andEqu("sportid",  sport, Integer.class);
-		}if (project != null && !project.equals("0") && !project.equals("") && project != 0) {
-			exp.andEqu("proid",  project, Integer.class);
+		if (sport != null && !sport.equals("0") && !sport.equals("")
+				&& sport != 0) {
+			exp.andEqu("sportid", sport, Integer.class);
+		}
+		if (project != null && !project.equals("0") && !project.equals("")
+				&& project != 0) {
+			exp.andEqu("proid", project, Integer.class);
 		}
 		String strwhere = exp.toString();
 		List<VScore> list = dao.getProjectByPage(strwhere, page, limit);
@@ -184,19 +190,23 @@ public class ScoreController {
 		out.flush();
 		out.close();
 	}
-	
+
 	@RequestMapping(value = "getcollegescore")
-	public void getCollegeScore(HttpServletRequest request,HttpServletResponse response, Model model,
-			Integer sport, Integer project,Integer college,Integer major,Integer classes,String username,
-			Integer page,Integer limit) throws IOException {
+	public void getCollegeScore(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer sport,
+			Integer project, Integer college, Integer major, Integer classes,
+			String username, Integer page, Integer limit) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Expression exp = new Expression();
-		if (sport != null && !sport.equals("0") && !sport.equals("") && sport != 0) {
-			exp.andEqu("sportid",  sport, Integer.class);
-		}if (college != null && !college.equals("0") && !college.equals("") && college != 0) {
-			exp.andEqu("collegeid",  college, Integer.class);
+		if (sport != null && !sport.equals("0") && !sport.equals("")
+				&& sport != 0) {
+			exp.andEqu("sportid", sport, Integer.class);
+		}
+		if (college != null && !college.equals("0") && !college.equals("")
+				&& college != 0) {
+			exp.andEqu("collegeid", college, Integer.class);
 		}
 		String strwhere = exp.toString();
 		ScoreCollegeDAO dao = DAOFactory.getScoreCollegeDAO();
@@ -210,22 +220,28 @@ public class ScoreController {
 		out.flush();
 		out.close();
 	}
-	
+
 	@RequestMapping(value = "getmajorscore")
-	public void getMajorScore(HttpServletRequest request,HttpServletResponse response, Model model,
-			Integer sport,Integer project,Integer college,Integer major,Integer classes,String username,
-			Integer page,Integer limit) throws IOException {
+	public void getMajorScore(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer sport,
+			Integer project, Integer college, Integer major, Integer classes,
+			String username, Integer page, Integer limit) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Expression exp = new Expression();
 		exp.andNotEqu("majorid", "0", Integer.class);
-		if (sport != null && !sport.equals("0") && !sport.equals("") && sport != 0) {
-			exp.andEqu("sportid",  sport, Integer.class);
-		}if (college != null && !college.equals("0") && !college.equals("") && college != 0) {
-			exp.andEqu("collegeid",  college, Integer.class);
-		}if (major != null && !major.equals("0") && !major.equals("") && major != 0) {
-			exp.andEqu("majorid",  major, Integer.class);
+		if (sport != null && !sport.equals("0") && !sport.equals("")
+				&& sport != 0) {
+			exp.andEqu("sportid", sport, Integer.class);
+		}
+		if (college != null && !college.equals("0") && !college.equals("")
+				&& college != 0) {
+			exp.andEqu("collegeid", college, Integer.class);
+		}
+		if (major != null && !major.equals("0") && !major.equals("")
+				&& major != 0) {
+			exp.andEqu("majorid", major, Integer.class);
 		}
 		String strwhere = exp.toString();
 		ScoreCollegeDAO dao = DAOFactory.getScoreCollegeDAO();
@@ -239,24 +255,32 @@ public class ScoreController {
 		out.flush();
 		out.close();
 	}
-	
+
 	@RequestMapping(value = "getclassesscore")
-	public void getClassesScore(HttpServletRequest request,HttpServletResponse response, Model model,
-			Integer sport,Integer project,Integer college,Integer major,Integer classes,String username,
-			Integer page,Integer limit) throws IOException {
+	public void getClassesScore(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer sport,
+			Integer project, Integer college, Integer major, Integer classes,
+			String username, Integer page, Integer limit) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Expression exp = new Expression();
 		exp.andNotEqu("classid", "0", Integer.class);
-		if (sport != null && !sport.equals("0") && !sport.equals("") && sport != 0) {
-			exp.andEqu("sportid",  sport, Integer.class);
-		}if (college != null && !college.equals("0") && !college.equals("") && college != 0) {
-			exp.andEqu("collegeid",  college, Integer.class);
-		}if (major != null && !major.equals("0") && !major.equals("") && major != 0) {
-			exp.andEqu("majorid",  major, Integer.class);
-		}if (classes != null && !classes.equals("0") && !classes.equals("") && classes != 0) {
-			exp.andEqu("classid",  classes, Integer.class);
+		if (sport != null && !sport.equals("0") && !sport.equals("")
+				&& sport != 0) {
+			exp.andEqu("sportid", sport, Integer.class);
+		}
+		if (college != null && !college.equals("0") && !college.equals("")
+				&& college != 0) {
+			exp.andEqu("collegeid", college, Integer.class);
+		}
+		if (major != null && !major.equals("0") && !major.equals("")
+				&& major != 0) {
+			exp.andEqu("majorid", major, Integer.class);
+		}
+		if (classes != null && !classes.equals("0") && !classes.equals("")
+				&& classes != 0) {
+			exp.andEqu("classid", classes, Integer.class);
 		}
 		String strwhere = exp.toString();
 		ScoreCollegeDAO dao = DAOFactory.getScoreCollegeDAO();
@@ -270,26 +294,35 @@ public class ScoreController {
 		out.flush();
 		out.close();
 	}
-	
+
 	@RequestMapping(value = "getuserscore")
-	public void getUserScore(HttpServletRequest request,HttpServletResponse response, Model model,
-			Integer sport,Integer project,Integer college,Integer major,Integer classes,String username,
-			Integer page,Integer limit) throws IOException {
+	public void getUserScore(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer sport,
+			Integer project, Integer college, Integer major, Integer classes,
+			String username, Integer page, Integer limit) throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Expression exp = new Expression();
-		if (sport != null && !sport.equals("0") && !sport.equals("") && sport != 0) {
-			exp.andEqu("sportid",  sport, Integer.class);
-		}if (college != null && !college.equals("0") && !college.equals("") && college != 0) {
-			exp.andEqu("collegeid",  college, Integer.class);
-		}if (major != null && !major.equals("0") && !major.equals("") && major != 0) {
-			exp.andEqu("majorid",  major, Integer.class);
-		}if (classes != null && !classes.equals("0") && !classes.equals("") && classes != 0) {
-			exp.andEqu("classid",  classes, Integer.class);
-		}if (username != null && !username.equals("")) {
+		if (sport != null && !sport.equals("0") && !sport.equals("")
+				&& sport != 0) {
+			exp.andEqu("sportid", sport, Integer.class);
+		}
+		if (college != null && !college.equals("0") && !college.equals("")
+				&& college != 0) {
+			exp.andEqu("collegeid", college, Integer.class);
+		}
+		if (major != null && !major.equals("0") && !major.equals("")
+				&& major != 0) {
+			exp.andEqu("majorid", major, Integer.class);
+		}
+		if (classes != null && !classes.equals("0") && !classes.equals("")
+				&& classes != 0) {
+			exp.andEqu("classid", classes, Integer.class);
+		}
+		if (username != null && !username.equals("")) {
 			exp.andLeftBraLike("username", username, String.class);
-			exp.orRightBraLike("userid",  username, String.class);
+			exp.orRightBraLike("userid", username, String.class);
 		}
 		String strwhere = exp.toString();
 		ScoreCollegeDAO dao = DAOFactory.getScoreCollegeDAO();
@@ -303,25 +336,26 @@ public class ScoreController {
 		out.flush();
 		out.close();
 	}
-	
+
 	@RequestMapping(value = "getdetail")
-	public void getDetail(HttpServletRequest request,HttpServletResponse response, Model model,
-			Integer sportid,Integer typeid,String type,
-			Integer page,Integer limit) throws IOException {
+	public void getDetail(HttpServletRequest request,
+			HttpServletResponse response, Model model, Integer sportid,
+			Integer typeid, String type, Integer page, Integer limit)
+			throws IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Expression exp = new Expression();
 		exp.andEqu("sportid", sportid, Integer.class);
-		if(type.equals("project")){
+		if (type.equals("project")) {
 			exp.andEqu("proid", typeid, Integer.class);
-		}else if(type.equals("college")){
+		} else if (type.equals("college")) {
 			exp.andEqu("collegeid", typeid, Integer.class);
-		}else if(type.equals("major")){
+		} else if (type.equals("major")) {
 			exp.andEqu("majorid", typeid, Integer.class);
-		}else if(type.equals("classes")){
+		} else if (type.equals("classes")) {
 			exp.andEqu("classid", typeid, Integer.class);
-		}else if(type.equals("user")){
+		} else if (type.equals("user")) {
 			exp.andEqu("userid", typeid, Integer.class);
 		}
 		String strwhere = exp.toString();
