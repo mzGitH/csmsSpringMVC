@@ -200,12 +200,28 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 		var colllimit = $(this).parent().parent().prev().prev().prev().children().text();
 		var prolimit = $(this).parent().parent().prev().prev().children().text();
 		var protype = $(this).parent().parent().prev().find("input").val();
+		/* 获取项目名称 */
+		var name = proname.split(")");
+		/* 获取项目人员性别 */
+		var agend = name[0].slice(1,name[0].length);
 		$("#proid").val(proid);
-		$("#proname").val(proname);
+		$("#addproname").val(name[1]);
 		$("#colllimit").val(colllimit);
 		$("#scenelimit").val(scenelimit);
 		$("#prolimit").val(prolimit);
-		$("#protype").val(protype);
+		$("#editprotype").val(protype);
+		/* 判断项目人员性别 */
+		if(agend == "男"){
+			$("#man").attr("checked", true);
+			$("#women").attr("checked", false);
+			form.render()
+		}else{
+			$("#women").attr("checked", true);
+			$("#man").attr("checked", false);
+			form.render()
+		}
+		/* 隐藏选择项目类型下拉框 */
+		$("#addprotype").hide();
 		layer.open({
 			title:"文章信息编辑",
 			type: 1,
@@ -216,16 +232,18 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			content: $('#div_content'),
 			btn1: function(index, layero){
 				var proid = $("#proid").val();
-				var proname = $("#proname").val();
+				var proname = $("#addproname").val();
 				var colllimit = $("#colllimit").val();
 				var scenelimit = $("#scenelimit").val();
 				var prolimit = $("#prolimit").val();
-				var protype = $("#protype").val();
+				var protype = $("#editprotype").val();
+				var agend = $('#agend input[name="agend"]:checked ').val();
 				$.ajax({
 	        		type: 'get',
 	        		url: "../project/editproject",
 	        		dataType: 'json',
 	        		data:{
+	        			agend:agend,
 	        			proid:proid,
 		        		proname:proname,
 		        		colllimit:colllimit,
@@ -265,11 +283,14 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 	
 	/* 添加按钮 */
 	$("#btn_add").click(function(){
-		$("#proname").val("");
+		/* 显示项目类型下拉框 */
+		$("#addprotype").show();
+		$("#addproname").val("");
 		$("#colllimit").val("");
 		$("#scenelimit").val("");
 		$("#prolimit").val("");
-		$("#protype").val("");
+		$("#addtype").val("");
+		form.render();
 		layer.open({
 			title:"文章信息编辑",
 			type: 1,
@@ -279,16 +300,18 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 			maxmin: true,//显示最大化最小化按钮
 			content: $('#div_content'),
 			btn1: function(index, layero){
-				var proname = $("#proname").val();
+				var proname = $("#addproname").val();
 				var scenelimit = $("#scenelimit").val();
 				var colllimit = $("#colllimit").val();
 				var prolimit = $("#prolimit").val();
-				var protype = $("#protype").val();
+				var protype = $("#addtype").val();
+				var agend = $('#agend input[name="agend"]:checked ').val();
 				$.ajax({
 	        		type: 'get',
 	        		url: "../project/addproject",
 	        		dataType: 'json',
 	        		data:{
+	        			agend:agend,
 		        		proname:proname,
 		        		scenelimit:scenelimit,
 		        		colllimit:colllimit,
@@ -339,15 +362,22 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 					<div class="layui-form-item">
 						<label class="layui-form-label">项目名称</label>
 						<div class="layui-input-block">
-							<input type="text" name="proname" id="proname" required
+							<input type="text" name="addproname" id="addproname" required
 								lay-verify="required" placeholder="请输入项目名称"
 								autocomplete="off" class="layui-input layui-bg-gary">
+						</div>
+					</div>
+					<div class="layui-form-item" id="addagend">
+						<label class="layui-form-label">项目分类</label>
+						<div class="layui-input-block" id="agend">
+							<input type="radio" name="agend" value="男" id="man" title="男" checked>
+							<input type="radio" name="agend" value="女" id="women" title="女">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">比赛人数限制</label>
 						<div class="layui-input-block">
-							<input type="number" name="scenelimit" id="scenelimit" required
+							<input type="number" name="scenelimit" id="scenelimit"
 								lay-verify="required" placeholder="请输入每场比赛限制"
 								 autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
@@ -355,7 +385,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 					<div class="layui-form-item">
 						<label class="layui-form-label">学院人数限制</label>
 						<div class="layui-input-block">
-							<input type="number" name="colllimit" id="colllimit" required
+							<input type="number" name="colllimit" id="colllimit"
 								lay-verify="required" placeholder="请输入学院人数限制"
 								 autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
@@ -363,16 +393,16 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 					<div class="layui-form-item">
 						<label class="layui-form-label">总人数限制</label>
 						<div class="layui-input-block">
-							<input type="number" name="prolimit" id="prolimit" required
+							<input type="number" name="prolimit" id="prolimit"
 								lay-verify="required" placeholder="请输入项目总人数限制"
 								 autocomplete="off" class="layui-input layui-bg-gary">
 						</div>
 					</div>
-					<input id="protype" type="hidden" value="" />
-					<!-- <div class="layui-form-item">
+					<input id="editprotype" type="hidden" value="" />
+					<div class="layui-form-item" id="addprotype">
 						<label class="layui-form-label">项目类型</label>
 						<div class="layui-input-block">
-							<select name="protype" id="protype" lay-verify="">
+							<select name="addtype" id="addtype" lay-verify="required">
 								<option value="0">请选择一个项目类型</option>
 								<option value="1">学生个人赛</option>
 								<option value="2">学生团体赛</option>
@@ -380,7 +410,7 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 								<option value="4">教师团体赛</option>
 							</select> 
 						</div>
-					</div> -->
+					</div>
 				</form>
 			</div>
 		</div>

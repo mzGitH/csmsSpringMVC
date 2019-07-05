@@ -88,14 +88,14 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "addproject")
-	public void addProject(HttpServletRequest request, HttpServletResponse response, 
-			String proname,int scenelimit,int protype,int colllimit, int prolimit, Model model){
+	public void addProject(HttpServletRequest request, HttpServletResponse response, Model model,
+			String agend,String proname,int scenelimit,int protype,int colllimit, int prolimit){
 		ProjectDAO pdao = DAOFactory.getProjectDAO();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		TProject project = new TProject();
 		project.setCollegelimit(colllimit);
-		project.setProname(proname);
+		project.setProname("("+agend+")"+proname);
 		project.setProtype(protype);
 		project.setTotallimit(prolimit);
 		project.setScenelimit(scenelimit);
@@ -119,15 +119,15 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "editproject")
-	public void editProject(HttpServletRequest request, HttpServletResponse response, 
-			int proid,int scenelimit,String proname,int protype,int colllimit, int prolimit, Model model){
+	public void editProject(HttpServletRequest request, HttpServletResponse response, Model model,
+			String agend,int proid,int scenelimit,String proname,int protype,int colllimit, int prolimit){
 		ProjectDAO pdao = DAOFactory.getProjectDAO();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json");
 		TProject project = new TProject();
 		project.setProid(proid);
 		project.setCollegelimit(colllimit);
-		project.setProname(proname);
+		project.setProname("("+agend+")"+proname);
 		project.setProtype(protype);
 		project.setTotallimit(prolimit);
 		project.setScenelimit(scenelimit);
