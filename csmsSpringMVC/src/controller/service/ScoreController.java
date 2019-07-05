@@ -120,19 +120,13 @@ public class ScoreController {
 
 		LayuiData datalayui = new LayuiData();
 		if (sdao.insert(dellist)) {
-			// boolean result = sdao.insert(score);
-			// if (result) {
-			// data.code = LayuiData.SUCCESS;
+			datalayui.data = LayuiData.SUCCESS;
 			datalayui.msg = "录入成绩成功";
-			// } else {
-			// data.code = LayuiData.ERRR;
-			// data.msg = "录入成绩失败";
-			// }
 		} else {
 			datalayui.code = LayuiData.ERRR;
 			datalayui.msg = "该运动员已记录过成绩";
 		}
-		out.write(JSON.toJSONString(data));
+		out.write(JSON.toJSONString(datalayui));
 		out.flush();
 		out.close();
 	}
