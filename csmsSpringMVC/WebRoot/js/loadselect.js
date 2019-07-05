@@ -95,10 +95,11 @@ function loadSelect(type,selectId, form){
 	if(type=="college"){
 		reqURL = '../select/selectcollege';
 	}if(type=="class"){
-		reqURL = '../select/selectmajor';
+		reqURL = '../select/selectclasses';
 	}if(type=="major")
 	{
-		reqURL = '../select/selectclasses';
+		reqURL = '../select/selectmajor';
+		
 	}
 	
 	var reqPara = {};
@@ -119,10 +120,11 @@ function loadSelect(type,selectId, form){
 				 if(type=="college"){
 					str += '<option value=' + stageData.data[i]['collegeid'] + '>' + stageData.data[i]['collegename'] + '</option>';
 				}if(type=="class"){
-					str += '<option value=' + stageData.data[i]['majorid'] + '>' + stageData.data[i]['majorname'] + '</option>';
+					str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
+					
 				}if(type=="major")
 				{
-					str += '<option value=' + stageData.data[i]['classid'] + '>' + stageData.data[i]['classname'] + '</option>';
+					str += '<option value=' + stageData.data[i]['majorid'] + '>' + stageData.data[i]['majorname'] + '</option>';
 				}
 			}
 			$('#' + selectId).append(str);

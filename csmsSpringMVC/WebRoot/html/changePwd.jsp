@@ -5,7 +5,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+		<link rel="stylesheet" href="../layui/css/layui.css" />
 <title>Insert title here</title>
 <style type="text/css">
 body {
@@ -75,8 +75,8 @@ body::-webkit-scrollbar {
 		</div>
 	</div>
 </body>
-<script src="layui/layui.js" charset="utf-8"></script>
-<script src="js/jquery-2.1.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="../layui/layui.all.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/jquery-3.3.1.js" ></script>
 <script>
 	layui.use('layer',function() {
 		var layer = layui.layer;
@@ -94,24 +94,24 @@ body::-webkit-scrollbar {
 					url : "../user/changepwd",
 					contentType : 'application/x-www-form-urlencoded;charset=utf-8',
 					data : {
-						userid : $("#userid".val()),
+						userid : $("#userid").val(),
 						oldpwd : oldpwd,
 						newpwd : newpwd
 					},
 					dataType : "text",
 					success : function(data) {
-						if (data.code == 0) {
+						if (data == "修改成功") {
 							layer.alert('修改成功，即将跳到主页',{
 								skin : 'layui-layer-lan',
 								closeBtn : 0
 							},function() {
 								if (top.location !== self.location) {
-									top.location = "main.jsp";//跳出框架，并回到首页
+									top.location = "index.jsp";//跳出框架，并回到首页
 								}
 							});
 
 						} else {
-							layer.msg(data.msg);
+							layer.msg(data);
 						}
 					},
 					error : function(e) {

@@ -54,4 +54,22 @@ public interface AdminUserDAO {
 
 	public boolean delAdminUser(TAdminUser user);
 
+	/**
+	 * 修改管理员密码
+	 * 
+	 * @param userid
+	 *            用户id
+	 * @param pwd
+	 *            新密码
+	 * @return 更新结果，true为成功，false为失败
+	 */
+	public boolean updatePwd(String userid, String pwd);
+
+	/**
+	 * 获取管理员
+	 * 
+	 * @param userid
+	 *            用户id
+	 */
+	public TAdminUser getuser(String userid);
 }

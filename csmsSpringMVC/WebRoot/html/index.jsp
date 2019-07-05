@@ -46,8 +46,8 @@
 					<cite>${loginuser.realname }</cite>
 			</a>
 				<dl class="layui-nav-child">
-					<dd class="navacolor">
-						<a lay-href="../html/changePwd.jsp">修改密码</a>
+					<dd>
+						<a id="changepwd">修改密码</a>
 					</dd>
 					<hr>
 					<dd layadmin-event="logout" id="loginout" style="text-align: center;">
@@ -95,5 +95,8 @@
 		<script type="text/javascript" src="../layui/layui.all.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../js/jquery-3.3.1.js" ></script>
 		<script type="text/javascript" src="../js/admin.js" ></script>
+		<script type="text/javascript">
+			
+		</script>
 	</body>
 </html>

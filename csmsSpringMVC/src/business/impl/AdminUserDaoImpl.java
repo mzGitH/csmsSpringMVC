@@ -88,4 +88,17 @@ public class AdminUserDaoImpl implements AdminUserDAO {
 
 	}
 
+	@Log(isSaveLog = true, operationType = OperType.DELETE, operationName = "修改管理员密码")
+	@Override
+	public boolean updatePwd(String userid, String pwd) {
+		TAdminUser user = (TAdminUser) hdao.findById(TAdminUser.class, userid);
+		user.setPwd(pwd);
+		return hdao.update(user);
+	}
+
+	@Override
+	public TAdminUser getuser(String userid) {
+		return (TAdminUser) hdao.findById(TAdminUser.class, userid);
+	}
+
 }
