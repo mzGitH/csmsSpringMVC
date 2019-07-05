@@ -114,7 +114,7 @@ public class AdminUserController {
 		VAdminUser loginuser = audao.login(user);
 		if (loginuser != null) {
 			HttpSession session = request.getSession();
-			TConfig config = cdao.getNowTConfig();
+			TConfig config = cdao.getNewTConfig();
 			session.setAttribute("loginuser", loginuser);
 			session.setAttribute("config", config);
 			laydata.code = LayuiData.SUCCESS;

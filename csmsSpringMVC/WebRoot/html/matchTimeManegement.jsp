@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>学院成绩</title>
+  <title></title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -71,9 +71,11 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 						<div class="layui-form-item">
 							<label class="layui-form-label">运动会名称</label>
 							<div class="layui-input-block">
-								<select id="addsport">
+								<!-- <select id="">
 									<option value="">请选择运动会名称</option>
-								</select>
+								</select> -->
+								<input type="text" class="layui-input layui-bg-gary" value="${config.sportname }" disabled />
+								<input id="addsport" type="hidden" value="${config.sportid }" />
 							</div>
 						</div>
 						<div class="layui-form-item">
@@ -262,7 +264,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   		$("#btn_add").click(function(){ 
   			//加载下拉框
   			loadSelectProject('addproid','now',form);
-  			loadSport('addsport','now', form);
+  			//loadSport('addsport','now', form);
   			form.render();
   			layer.open({
   						title:"添加比赛场次",
@@ -274,7 +276,6 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   						//offset: 'b', 弹框的位置
   						content: $('#div_content'),
   						btn1: function(index, layero){ 
-  						addsport
   							if($("#sportname").val()==""){
   								layer.tips('场次名称不能为空！', '#sportname', {
 									tips : [ 1, '#3595CC' ],

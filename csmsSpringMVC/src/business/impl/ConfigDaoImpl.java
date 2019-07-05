@@ -36,12 +36,27 @@ public class ConfigDaoImpl implements ConfigDAO {
 		String hql = "from TConfig where iscomplete='true' order by sportid asc";
 		List<TConfig> list = hdao.select(hql);
 		TConfig config = new TConfig();
+		if(list!= null && list.size()>0){
+			return list.get(0);
+		}
 		for (TConfig tConfig : list) {
 			config = tConfig;
 		}
 		return config;
 	}
-
+	
+	@Log(isSaveLog = false)
+	@Override
+	public TConfig getNewTConfig() {
+		String hql = "from TConfig order by starttime desc";
+		List<TConfig> list = hdao.select(hql);
+		TConfig config = new TConfig();
+		if(list!= null && list.size()>0){
+			config = list.get(0);
+		}
+		return config;
+	}
+	
 	@Override
 	public List<TConfig> getAllConfig() {
 		// TODO Auto-generated method stub

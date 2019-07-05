@@ -18,6 +18,14 @@ public interface ConfigDAO {
 	 * @return Config
 	 */
 	public TConfig getNowTConfig();
+	
+
+	/**
+	 * 根据获取最新一届运动会信息
+	 * 
+	 * @return Config
+	 */
+	public TConfig getNewTConfig();
 
 	/**
 	 * 获取所有运动会信息
