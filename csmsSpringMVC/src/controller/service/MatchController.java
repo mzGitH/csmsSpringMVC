@@ -82,7 +82,7 @@ public class MatchController {
 		arrange.setAddr(addr);
 		arrange.setLeveltype(leveltype);
 		arrange.setState(0);
-
+		
 		LayuiData data = new LayuiData();
 
 		if (mdao.insert(arrange)) {

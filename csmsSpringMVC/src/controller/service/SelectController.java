@@ -413,7 +413,7 @@ public class SelectController {
 		ConfigDAO cdao = DAOFactory.getConfigDAO();
 
 		HttpSession session = request.getSession();
-		TConfig config = (TConfig) session.getAttribute("config");
+		TConfig config = (TConfig)session.getAttribute("config");
 		List<TConfig> list = new ArrayList<TConfig>();
 		list.add(config);
 		response.setCharacterEncoding("utf-8");
