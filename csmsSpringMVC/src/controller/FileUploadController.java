@@ -56,7 +56,7 @@ public class FileUploadController {
 					 */
 					String filename = file.getOriginalFilename();
 					// TODO 绝对路径
-					String path = "D:/project/JavaEE/csmsSpringMVC/csmsSpringMVC/WebRoot/upload/image/"
+					String path = "M:/JSP/csmsSpringMVC/csmsSpringMVC/WebRoot/upload/image/"
 							+ filename;
 					// 上传
 					try {
