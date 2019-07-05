@@ -1,6 +1,5 @@
 package model;
 
-
 /**
  * TArrange entity. @author MyEclipse Persistence Tools
  */
@@ -17,6 +16,7 @@ public class TArrange implements java.io.Serializable {
 	private String addr;
 	private Integer leveltype;
 	private Integer state;
+	private Integer sportid;
 
 	// Constructors
 
@@ -24,7 +24,7 @@ public class TArrange implements java.io.Serializable {
 	public TArrange() {
 	}
 
-	/** full constructor */
+	/** minimal constructor */
 	public TArrange(String arrname, Integer proid, String starttime,
 			String endtime, String addr, Integer leveltype, Integer state) {
 		this.arrname = arrname;
@@ -34,6 +34,20 @@ public class TArrange implements java.io.Serializable {
 		this.addr = addr;
 		this.leveltype = leveltype;
 		this.state = state;
+	}
+
+	/** full constructor */
+	public TArrange(String arrname, Integer proid, String starttime,
+			String endtime, String addr, Integer leveltype, Integer state,
+			Integer sportid) {
+		this.arrname = arrname;
+		this.proid = proid;
+		this.starttime = starttime;
+		this.endtime = endtime;
+		this.addr = addr;
+		this.leveltype = leveltype;
+		this.state = state;
+		this.sportid = sportid;
 	}
 
 	// Property accessors
@@ -100,6 +114,14 @@ public class TArrange implements java.io.Serializable {
 
 	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
 	}
 
 }

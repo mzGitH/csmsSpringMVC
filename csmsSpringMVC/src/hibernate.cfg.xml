@@ -28,7 +28,6 @@
 		<mapping resource="model/TCollege.hbm.xml" />
 		<mapping resource="model/TClass.hbm.xml" />
 		<mapping resource="model/TMatch.hbm.xml" />
-		<mapping resource="model/TArrange.hbm.xml" />
 		<mapping resource="model/VClass.hbm.xml" />
 		<mapping resource="model/VCollegeScore.hbm.xml" />
 		<mapping resource="model/VMajor.hbm.xml" />
@@ -59,6 +58,7 @@
 		<mapping resource="model/VUserScore.hbm.xml" />
 		<mapping resource="model/VMajorScore.hbm.xml" />
 		<mapping resource="model/VMatch.hbm.xml" />
+		<mapping resource="model/TArrange.hbm.xml" />
 		<mapping resource="model/VArrange.hbm.xml" />
 	</session-factory>
 

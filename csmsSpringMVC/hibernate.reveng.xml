@@ -147,8 +147,14 @@
 			<generator class="identity"></generator>
 		</primary-key>
 	</table>
-<table name="T_Score" schema="dbo" catalog="CSMS"
-	class="model.TScore">
+	<table name="T_Score" schema="dbo" catalog="CSMS"
+		class="model.TScore">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+<table name="T_Arrange" schema="dbo" catalog="CSMS"
+	class="model.TArrange">
 	<primary-key>
 		<generator class="identity"></generator>
 	</primary-key>

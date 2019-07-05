@@ -20,8 +20,8 @@ public class VArrange implements java.io.Serializable {
 	private Integer collegelimit;
 	private Integer totallimit;
 	private Integer protype;
-	private Integer sportid;
 	private String sportname;
+	private Integer sportid;
 
 	// Constructors
 
@@ -31,24 +31,16 @@ public class VArrange implements java.io.Serializable {
 
 	/** minimal constructor */
 	public VArrange(Integer arrid, String arrname, Integer proid,
-			String proname, String starttime, String endtime, String addr,
-			Integer leveltype, Integer state, Integer scenelimit,
-			Integer collegelimit, Integer totallimit, Integer protype,
-			String sportname) {
+			String starttime, String endtime, String addr, Integer leveltype,
+			Integer state) {
 		this.arrid = arrid;
 		this.arrname = arrname;
 		this.proid = proid;
-		this.proname = proname;
 		this.starttime = starttime;
 		this.endtime = endtime;
 		this.addr = addr;
 		this.leveltype = leveltype;
 		this.state = state;
-		this.scenelimit = scenelimit;
-		this.collegelimit = collegelimit;
-		this.totallimit = totallimit;
-		this.protype = protype;
-		this.sportname = sportname;
 	}
 
 	/** full constructor */
@@ -56,7 +48,7 @@ public class VArrange implements java.io.Serializable {
 			String proname, String starttime, String endtime, String addr,
 			Integer leveltype, Integer state, Integer scenelimit,
 			Integer collegelimit, Integer totallimit, Integer protype,
-			Integer sportid, String sportname) {
+			String sportname, Integer sportid) {
 		this.arrid = arrid;
 		this.arrname = arrname;
 		this.proid = proid;
@@ -70,8 +62,8 @@ public class VArrange implements java.io.Serializable {
 		this.collegelimit = collegelimit;
 		this.totallimit = totallimit;
 		this.protype = protype;
-		this.sportid = sportid;
 		this.sportname = sportname;
+		this.sportid = sportid;
 	}
 
 	// Property accessors
@@ -180,20 +172,20 @@ public class VArrange implements java.io.Serializable {
 		this.protype = protype;
 	}
 
-	public Integer getSportid() {
-		return this.sportid;
-	}
-
-	public void setSportid(Integer sportid) {
-		this.sportid = sportid;
-	}
-
 	public String getSportname() {
 		return this.sportname;
 	}
 
 	public void setSportname(String sportname) {
 		this.sportname = sportname;
+	}
+
+	public Integer getSportid() {
+		return this.sportid;
+	}
+
+	public void setSportid(Integer sportid) {
+		this.sportid = sportid;
 	}
 
 	public boolean equals(Object other) {
@@ -249,13 +241,13 @@ public class VArrange implements java.io.Serializable {
 				&& ((this.getProtype() == castOther.getProtype()) || (this
 						.getProtype() != null && castOther.getProtype() != null && this
 						.getProtype().equals(castOther.getProtype())))
-				&& ((this.getSportid() == castOther.getSportid()) || (this
-						.getSportid() != null && castOther.getSportid() != null && this
-						.getSportid().equals(castOther.getSportid())))
 				&& ((this.getSportname() == castOther.getSportname()) || (this
 						.getSportname() != null
 						&& castOther.getSportname() != null && this
-						.getSportname().equals(castOther.getSportname())));
+						.getSportname().equals(castOther.getSportname())))
+				&& ((this.getSportid() == castOther.getSportid()) || (this
+						.getSportid() != null && castOther.getSportid() != null && this
+						.getSportid().equals(castOther.getSportid())));
 	}
 
 	public int hashCode() {
@@ -294,9 +286,9 @@ public class VArrange implements java.io.Serializable {
 		result = 37 * result
 				+ (getProtype() == null ? 0 : this.getProtype().hashCode());
 		result = 37 * result
-				+ (getSportid() == null ? 0 : this.getSportid().hashCode());
-		result = 37 * result
 				+ (getSportname() == null ? 0 : this.getSportname().hashCode());
+		result = 37 * result
+				+ (getSportid() == null ? 0 : this.getSportid().hashCode());
 		return result;
 	}
 
