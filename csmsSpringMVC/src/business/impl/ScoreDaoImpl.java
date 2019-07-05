@@ -32,7 +32,7 @@ public class ScoreDaoImpl implements ScoreDAO {
 
 	@Override
 	public List<VScore> getByUser(String userid) {
-		String hql = "from TScore where userid=?";
+		String hql = "from VScore where userid=?";
 		Object[] param = { userid };
 		List<VScore> list = bdao.select(hql, param);
 		if (list != null && list.size() > 0) {

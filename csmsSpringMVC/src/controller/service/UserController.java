@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.TUser;
+import model.VUser;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -239,6 +240,40 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	@RequestMapping(value = "changepwd")
+	public void changPwd(HttpServletRequest request,HttpServletResponse response, Model model,
+			String userid, String oldpwd, String newpwd) {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		UserDAO udao = DAOFactory.getUserDAO();
+		String md5Str = EnCriptUtil.fix(userid, oldpwd);
+		String oldPwd = EnCriptUtil.getEcriptStr(md5Str, "md5");
+		TUser user = udao.getTUserByUserId(userid);
+		LayuiData laydata = new LayuiData();
+		if(!user.getPwd().equals(oldPwd)){
+			laydata.code = LayuiData.ERRR;
+			laydata.msg = "原密码不正确，请重新输入！";
+		}else{
+			String md5Str2 = EnCriptUtil.fix(userid, newpwd);
+			String newPwd = EnCriptUtil.getEcriptStr(md5Str2, "md5");
+			if (udao.updatePwd(userid, newPwd)) {
+				laydata.code = LayuiData.SUCCESS;
+				laydata.msg = "添加成功";
+			} else {
+				laydata.code = LayuiData.ERRR;
+				laydata.msg = "修改失败，请重试！";
+			}
+		}
+		Writer out;
+		try {
+			out = response.getWriter();
+			out.write(JSON.toJSONString(laydata));
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
