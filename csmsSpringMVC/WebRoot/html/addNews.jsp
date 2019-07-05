@@ -79,8 +79,9 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		},
 		success:function(data){
 		     if(data.code == 0){
-			     layer.alert('添加成功', {icon: 1})
-			     window.loaction.href="../html/newsManegement.jsp";
+			     layer.alert('添加成功', {icon: 1},function(){
+			     	window.loaction.href="../html/newsManegement.jsp";
+			     });
 		     }
 		     else{
 		         layer.confirm('出现错误,请重试！', {btn: ['确定']});

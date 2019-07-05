@@ -184,7 +184,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 		table.render({
 			elem : '#matchlist',
 			id:'satustable',
-			url : '../match/getmatch?sportid='+data.value,
+			url : '../match/getmatch?sportid='+$("#sport").val(),
 			title : '后台用户数据表',
 			height: "full-160",
 			skin : 'line',
@@ -323,6 +323,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        		url: "../match/addmatch",
 			        		dataType: 'json',
 			        		data:{ 
+			        			sportid:$("#addsport").val(),
 			        			start:$("#starttime").val(),
 			        			end:$("#endtime").val(),
 			        			name:$("#sportname").val(),

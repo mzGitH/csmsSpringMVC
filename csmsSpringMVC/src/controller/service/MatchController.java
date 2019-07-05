@@ -65,7 +65,7 @@ public class MatchController {
 
 	@RequestMapping(value = "addmatch")
 	public void addMatch(String start, String end, String name, Integer proid,
-			String addr, Integer leveltype, HttpServletRequest request,
+			Integer sportid,String addr, Integer leveltype, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException {
 		HttpSession session = request.getSession();
 		TConfig config = (TConfig) session.getAttribute("config");
@@ -82,6 +82,7 @@ public class MatchController {
 		arrange.setAddr(addr);
 		arrange.setLeveltype(leveltype);
 		arrange.setState(0);
+		arrange.setSportid(sportid);
 		
 		LayuiData data = new LayuiData();
 
