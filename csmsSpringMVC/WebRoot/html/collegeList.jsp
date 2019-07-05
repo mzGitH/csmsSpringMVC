@@ -307,6 +307,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 							                }
 							            });	
 										layer.closeAll();
+										$("#addcollegename").val("");
 									});          				 
 			        			}
 			        			else{
@@ -314,6 +315,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        					   icon: 7,
 										  btn: ['确定']
 									});
+									$("#addcollegename").val("");
 			        			}
 			        		},
 			        		error:function(){
@@ -321,6 +323,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        			 	  icon: 6,
 									  btn: ['确定']
 								});
+								$("#addcollegename").val("");
 			        		},
 			        	});  
   				},

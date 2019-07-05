@@ -191,7 +191,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
-										table.reload("collegelist", { //此处是上文提到的 初始化标识id
+										table.reload("classlist", { //此处是上文提到的 初始化标识id
 							                where: {
 							                	
 							                },page: {
@@ -366,7 +366,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 			        				icon: 1,
 									  btn: ['确定']
 									}, function(){
-										table.reload("majorlist", { //此处是上文提到的 初始化标识id
+										table.reload("classlist", { //此处是上文提到的 初始化标识id
 							                where: {
 							                	
 							                },page: {

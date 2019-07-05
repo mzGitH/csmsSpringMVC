@@ -176,32 +176,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
   						content: $('#div_editcollege'),
   						btn1: function(index, layero){
   							var matchid=$("#matchid").val();
-  							//var accumul = $("#accumul").val();
-  							//var scorenum = $('#scoreInput').val();
-  							//../score/addscore
-  							
-  							//var numArr = []; // 定义一个空数组
         					var txt = $('.box').find(':text'); // 获取所有文本框
-        					//for (var i = 0; i < txt.length; i++) {
-            					//numArr.push(txt.eq(i).val()); // 将文本框的值添加到数组中
-        					//}
-        					
-        					//var  params = [];
-						    //for(var i = 0; i < txt.length/2; i++){
-						       // var param = [];
-						        //if(i=0){
-							       // param.push(txt.eq(i).val());
-							      ///  param.push(txt.eq(i+1).val());
-							       // break;
-						       // }
-						       // else if(i>=1&&i<txt.length/2){
-						        	//param.push(txt.eq(i+1).val());
-							      //  param.push(txt.eq(i+2).val());
-							       // break;
-						       // }
-						       // params.push({"matchid":matchid,"param":param});
-						       // i++;
-						  //  }
 						    
 						    var data={}; //定义json对象
 							var resAccount=new Array();//定义数组对象
@@ -217,10 +192,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 							}
 							
 							data=resAccount;
-							alert(JSON.stringify(data));
-							//params['resAccount']=resAccount; //将数组存入json对象
-						 
-						    //var json = JSON.stringify(params);
+							//alert(JSON.stringify(data));
 						    
     						$.ajax({
 			        		type: 'Post',

@@ -331,6 +331,7 @@ body .demo-class .layui-layer-page .layui-layer-content {background-color: #e13e
 							                curr:1
 							                }
 							            });	
+							            $('#addmajorname').val("");
 										layer.closeAll();
 									});          				 
 			        			}
