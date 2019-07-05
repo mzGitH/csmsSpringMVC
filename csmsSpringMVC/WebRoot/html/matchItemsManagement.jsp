@@ -283,11 +283,14 @@ layui.use(['layer','upload','jquery','form','table'], function(){
 	
 	/* 添加按钮 */
 	$("#btn_add").click(function(){
+		/* 显示项目类型下拉框 */
+		$("#addprotype").show();
 		$("#addproname").val("");
 		$("#colllimit").val("");
 		$("#scenelimit").val("");
 		$("#prolimit").val("");
 		$("#addtype").val("");
+		form.render();
 		layer.open({
 			title:"文章信息编辑",
 			type: 1,
