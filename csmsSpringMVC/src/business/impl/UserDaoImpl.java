@@ -50,7 +50,6 @@ public class UserDaoImpl implements UserDAO {
 	@Log(isSaveLog = true, operationType = OperType.MODIFY, operationName = "ĞŞ¸ÄÓÃ»§ÃÜÂë")
 	@Override
 	public boolean updatePwd(String userid, String pwd) {
-
 		TUser user = (TUser) bdao.findById(TUser.class, userid);
 		user.setPwd(pwd);
 		return bdao.update(user);

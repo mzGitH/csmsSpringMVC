@@ -46,11 +46,8 @@
 					<cite>${loginuser.realname }</cite>
 			</a>
 				<dl class="layui-nav-child">
-					<dd>
-						<a lay-href="set/user/info.html">基本资料</a>
-					</dd>
-					<dd>
-						<a lay-href="set/user/password.html">修改密码</a>
+					<dd class="navacolor">
+						<a lay-href="../html/changePwd.jsp">修改密码</a>
 					</dd>
 					<hr>
 					<dd layadmin-event="logout" id="loginout" style="text-align: center;">
